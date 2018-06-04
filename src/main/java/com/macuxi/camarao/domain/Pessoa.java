@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -17,6 +18,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.Fetch;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.macuxi.camarao.domain.enums.Perfil;
@@ -45,16 +49,20 @@ public class Pessoa implements Serializable {
 
 	private String raca;
 
+	private String sexo;
+
 	@Column(unique = true)
 	private String email;
 
 	@JsonIgnore
 	private String senha;
 
+	@OneToOne(mappedBy = "pessoa")
 	private Endereco endereco;
 
-	@OneToMany(mappedBy = "pessoa")
-	private Set<Telefone> telefones = new HashSet<>();
+	@OneToMany(mappedBy = "pessoa", cascade = { CascadeType.ALL }, orphanRemoval = true, fetch = FetchType.LAZY)
+	@Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
+	private Set<Telefone> telefones = new HashSet<Telefone>();
 
 	@ManyToOne
 	@JoinColumn(name = "nacionalidade_id")
@@ -66,15 +74,15 @@ public class Pessoa implements Serializable {
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "PERFIS")
-	private Set<Integer> perfis = new HashSet<>();	
+	private Set<Integer> perfis = new HashSet<>();
 
 	public Pessoa() {
 		addPerfil(Perfil.USUARIO);
 	}
 
 	public Pessoa(Integer id, String nome, String cpf, String rg, Date dataNascimento, Date dataInclusao, String raca,
-			String email, String senha, Endereco endereco, Set<Telefone> telefones, Nacionalidade nacionalidade,
-			Naturalidade naturalidade) {
+			String sexo, String email, String senha, Endereco endereco, Set<Telefone> telefones,
+			Nacionalidade nacionalidade, Naturalidade naturalidade) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -83,6 +91,7 @@ public class Pessoa implements Serializable {
 		this.dataNascimento = dataNascimento;
 		this.dataInclusao = dataInclusao;
 		this.raca = raca;
+		this.sexo = sexo;
 		this.email = email;
 		this.senha = senha;
 		this.endereco = endereco;
@@ -148,12 +157,28 @@ public class Pessoa implements Serializable {
 		this.raca = raca;
 	}
 
+	public String getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
+
 	public String getEmail() {
 		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Set<Telefone> getTelefones() {
+		return telefones;
+	}
+
+	public void setTelefones(Set<Telefone> telefones) {
+		this.telefones = telefones;
 	}
 
 	public String getSenha() {
@@ -172,14 +197,6 @@ public class Pessoa implements Serializable {
 		this.endereco = endereco;
 	}
 
-	public Set<Telefone> getTelefones() {
-		return telefones;
-	}
-
-	public void setTelefones(Set<Telefone> telefones) {
-		this.telefones = telefones;
-	}
-
 	public Nacionalidade getNacionalidade() {
 		return nacionalidade;
 	}
@@ -195,7 +212,7 @@ public class Pessoa implements Serializable {
 	public void setNaturalidade(Naturalidade naturalidade) {
 		this.naturalidade = naturalidade;
 	}
-	
+
 	public Set<Perfil> getPerfis() {
 		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
 	}

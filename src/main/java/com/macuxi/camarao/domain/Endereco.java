@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,10 +26,7 @@ public class Endereco implements Serializable {
 
 	private String logradouro;
 
-	private String bairro;
-
-	@Column(name = "cidade_id")
-	private Cidade cidade;
+	private String bairro;	
 
 	private String cep;
 
@@ -38,6 +34,11 @@ public class Endereco implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "pessoa_id")
 	private Pessoa pessoa;
+	
+	
+	@ManyToOne
+	@JoinColumn(name = "cidade_id")
+	private Cidade cidade;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy="endereco")	

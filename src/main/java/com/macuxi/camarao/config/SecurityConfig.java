@@ -38,17 +38,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private JWTUtil jwtUtil;
 	
 	private static final String[] PUBLIC_MATCHERS = {
-			"/h2-console/**"
+			"/h2-console/**",
+			"/pessoas/**"
 	};
 
 	private static final String[] PUBLIC_MATCHERS_GET = {		
 			
-			"/estados/**"
+			"/cidades/**",
+			"/pessoas/**"
 	};
 
 	private static final String[] PUBLIC_MATCHERS_POST = {
-			"/clientes",	
-			"/temperaturas/**",	
+			"/pessoas/**",
+			"/pessoas",
 			"/auth/forgot/**"
 	};
 
@@ -64,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
 			.antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
 			.antMatchers(PUBLIC_MATCHERS).permitAll()
-			.anyRequest().authenticated();
+			.anyRequest().permitAll();
 		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
 		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
