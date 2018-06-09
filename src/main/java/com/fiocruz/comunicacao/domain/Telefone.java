@@ -85,8 +85,7 @@ public class Telefone implements Serializable {
 		this.pessoa = pessoa;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+	
+	
 
 }

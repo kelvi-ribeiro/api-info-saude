@@ -15,6 +15,7 @@ import com.fiocruz.comunicacao.repositories.CidadeRepository;
 import com.fiocruz.comunicacao.repositories.EnderecoRepository;
 import com.fiocruz.comunicacao.repositories.NaturalidadeRepository;
 import com.fiocruz.comunicacao.repositories.PessoaRepository;
+import com.fiocruz.comunicacao.repositories.TelefoneRepository;
 import com.fiocruz.comunicacao.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -39,6 +40,9 @@ public class PessoaService {
 	private EnderecoRepository enderecoRepository;
 	
 	@Autowired
+	private TelefoneRepository telefoneRepository;
+	
+	@Autowired
 	private NaturalidadeRepository naturalidadeRepository;  
 	
 
@@ -60,7 +64,8 @@ public class PessoaService {
 	public Pessoa insert(PessoaDTO obj) {
 		Pessoa pessoa = obj.returnEntity();
 		pessoa = repo.save(pessoa);
-		enderecoRepository.save(pessoa.getEndereco());		
+		enderecoRepository.save(pessoa.getEndereco());	
+		telefoneRepository.save(pessoa.getTelefones());
 		return pessoa;
 	}
 
