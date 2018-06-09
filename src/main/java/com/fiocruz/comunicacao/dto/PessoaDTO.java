@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fiocruz.comunicacao.domain.Cidade;
 import com.fiocruz.comunicacao.domain.Endereco;
 import com.fiocruz.comunicacao.domain.Naturalidade;
 import com.fiocruz.comunicacao.domain.Pessoa;
@@ -47,9 +48,25 @@ public class PessoaDTO implements Serializable {
 
 	private String senha;
 
+	private int naturalidadeId;
+
+	// Endereco
+
 	private int enderecoId;
 
-	private int naturalidadeId;
+	private int numeroEndereco;
+
+	private String logradouro;
+
+	private String bairro;	
+
+	private int cidadeId;
+
+	private String nomeCidade;
+
+	private String cep;
+
+	// Telefone
 
 	private Set<Telefone> telefones = new HashSet<Telefone>();
 
@@ -88,8 +105,11 @@ public class PessoaDTO implements Serializable {
 		this.sexo = Sexo.descricaoToEnum((pessoa.getSexo())).getCod();
 		this.email = pessoa.getEmail();
 		this.senha = pessoa.getSenha();
-		// this.enderecoId = pessoa.getEndereco().getId() != null ?
-		// pessoa.getEndereco().getId() : null;
+		//Endereco
+		this.enderecoId = pessoa.getEndereco() != null ? pessoa.getEndereco().getId():null;
+		this.bairro = pessoa.getEndereco() != null ? pessoa.getEndereco().getBairro():null;
+		this.cep = pessoa.getEndereco() != null ? pessoa.getEndereco().getCep():null;
+		this.nomeCidade = pessoa.getEndereco() != null && pessoa.getEndereco().getCidade() != null ? pessoa.getEndereco().getCidade().getNome():null;
 		this.naturalidadeId = pessoa.getNaturalidade() != null ? pessoa.getNaturalidade().getId() : null;
 		this.telefones = pessoa.getTelefones();
 
@@ -108,8 +128,7 @@ public class PessoaDTO implements Serializable {
 		Naturalidade naturalidade = new Naturalidade();
 		naturalidade.setId(this.naturalidadeId);
 
-		Endereco endereco = new Endereco();
-		endereco.setId(this.enderecoId);
+
 
 		Pessoa pessoa = new Pessoa();
 		pessoa.setId(this.id);
@@ -122,6 +141,18 @@ public class PessoaDTO implements Serializable {
 		pessoa.setEmail(this.email);
 		pessoa.setSenha(this.senha);
 		pessoa.setNaturalidade(naturalidade);
+		
+		Cidade cidade = new Cidade();
+		cidade.setId(this.cidadeId);
+
+		Endereco endereco = new Endereco();
+		endereco.setBairro(this.bairro);
+		endereco.setCep(this.cep);
+		endereco.setLogradouro(this.logradouro);
+		endereco.setNumero(this.numeroEndereco);
+		endereco.setCidade(cidade);
+		endereco.setPessoa(pessoa);
+		
 		pessoa.setEndereco(endereco);
 		if (this.codigoArea1 != null && this.tipo1 != null && this.numero1 != null) {
 			Telefone telefone = new Telefone();
@@ -236,6 +267,54 @@ public class PessoaDTO implements Serializable {
 
 	public void setNaturalidadeId(int naturalidadeId) {
 		this.naturalidadeId = naturalidadeId;
+	}
+
+	public int getNumeroEndereco() {
+		return numeroEndereco;
+	}
+
+	public void setNumeroEndereco(int numeroEndereco) {
+		this.numeroEndereco = numeroEndereco;
+	}
+
+	public String getLogradouro() {
+		return logradouro;
+	}
+
+	public void setLogradouro(String logradouro) {
+		this.logradouro = logradouro;
+	}
+
+	public String getBairro() {
+		return bairro;
+	}
+
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+
+	public int getCidadeId() {
+		return cidadeId;
+	}
+
+	public void setCidadeId(int cidadeId) {
+		this.cidadeId = cidadeId;
+	}
+
+	public String getNomeCidade() {
+		return nomeCidade;
+	}
+
+	public void setNomeCidade(String nomeCidade) {
+		this.nomeCidade = nomeCidade;
+	}
+
+	public String getCep() {
+		return cep;
+	}
+
+	public void setCep(String cep) {
+		this.cep = cep;
 	}
 
 	public Set<Telefone> getTelefones() {

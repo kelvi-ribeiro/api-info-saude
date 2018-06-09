@@ -66,6 +66,7 @@ public class PessoaService {
 		pessoa = repo.save(pessoa);
 		enderecoRepository.save(pessoa.getEndereco());	
 		telefoneRepository.save(pessoa.getTelefones());
+		
 		return pessoa;
 	}
 

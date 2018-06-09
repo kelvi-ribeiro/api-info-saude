@@ -57,7 +57,7 @@ public class Pessoa implements Serializable {
 	@JsonIgnore
 	private String senha;
 
-	@OneToOne(mappedBy = "pessoa")
+	@OneToOne(cascade=CascadeType.ALL, mappedBy="pessoa")
 	private Endereco endereco;
 
 	@OneToMany(mappedBy = "pessoa", cascade = { CascadeType.ALL }, orphanRemoval = true, fetch = FetchType.LAZY)
