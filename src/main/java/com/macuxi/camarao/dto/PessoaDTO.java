@@ -12,7 +12,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.macuxi.camarao.domain.Endereco;
-import com.macuxi.camarao.domain.Nacionalidade;
 import com.macuxi.camarao.domain.Naturalidade;
 import com.macuxi.camarao.domain.Pessoa;
 import com.macuxi.camarao.domain.Telefone;
@@ -49,9 +48,7 @@ public class PessoaDTO implements Serializable {
 
 	private String senha;
 
-	private int enderecoId;
-
-	private int nacionalidadeId;
+	private int enderecoId;	
 
 	private int naturalidadeId;
 
@@ -72,8 +69,7 @@ public class PessoaDTO implements Serializable {
 		this.sexo = pessoa.getSexo();
 		this.email = pessoa.getEmail();
 		this.sexo = pessoa.getSenha();
-		this.enderecoId = pessoa.getEndereco() != null ? pessoa.getEndereco().getId() : null;
-		this.nacionalidadeId = pessoa.getNacionalidade() != null ? pessoa.getNacionalidade().getId() : null;
+		this.enderecoId = pessoa.getEndereco() != null ? pessoa.getEndereco().getId() : null;		
 		this.naturalidadeId = pessoa.getNaturalidade().getId() != null ? pessoa.getNaturalidade().getId() : null;
 		this.telefones = pessoa.getTelefones();
 
@@ -90,13 +86,10 @@ public class PessoaDTO implements Serializable {
 	public Pessoa returnEntity() {
 
 		Naturalidade naturalidade = new Naturalidade();
-		naturalidade.setId(this.naturalidadeId);
-
-		Nacionalidade nacionalidade = new Nacionalidade();
-		nacionalidade.setId(this.nacionalidadeId);
+		naturalidade.setId(this.naturalidadeId);	
 
 		Endereco endereco = new Endereco();
-		endereco.setId(this.nacionalidadeId);
+		endereco.setId(this.enderecoId);
 
 		Pessoa pessoa = new Pessoa();
 		pessoa.setId(this.id);
@@ -108,8 +101,7 @@ public class PessoaDTO implements Serializable {
 		pessoa.setRaca(this.raca);
 		pessoa.setSexo(this.sexo);
 		pessoa.setEmail(this.email);
-		pessoa.setSenha(this.senha);
-		pessoa.setNacionalidade(nacionalidade);
+		pessoa.setSenha(this.senha);		
 		pessoa.setNaturalidade(naturalidade);
 		pessoa.setEndereco(endereco);
 		return pessoa;
@@ -201,15 +193,7 @@ public class PessoaDTO implements Serializable {
 
 	public void setEnderecoId(int enderecoId) {
 		this.enderecoId = enderecoId;
-	}
-
-	public int getNacionalidadeId() {
-		return nacionalidadeId;
-	}
-
-	public void setNacionalidadeId(int nacionalidadeId) {
-		this.nacionalidadeId = nacionalidadeId;
-	}
+	}	
 
 	public int getNaturalidadeId() {
 		return naturalidadeId;

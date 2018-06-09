@@ -10,15 +10,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.macuxi.camarao.domain.Pessoa;
-import com.macuxi.camarao.domain.enums.Perfil;
 import com.macuxi.camarao.dto.PessoaDTO;
 import com.macuxi.camarao.repositories.CidadeRepository;
 import com.macuxi.camarao.repositories.EnderecoRepository;
-import com.macuxi.camarao.repositories.NacionalidadeRepository;
 import com.macuxi.camarao.repositories.NaturalidadeRepository;
 import com.macuxi.camarao.repositories.PessoaRepository;
-import com.macuxi.camarao.security.UserSS;
-import com.macuxi.camarao.services.exceptions.AuthorizationException;
 import com.macuxi.camarao.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -41,9 +37,6 @@ public class PessoaService {
 
 	@Autowired
 	private EnderecoRepository enderecoRepository;
-	
-	@Autowired
-	private NacionalidadeRepository nacionalidadeRepository;
 	
 	@Autowired
 	private NaturalidadeRepository naturalidadeRepository;  

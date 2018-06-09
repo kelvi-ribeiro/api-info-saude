@@ -65,10 +65,6 @@ public class Pessoa implements Serializable {
 	private Set<Telefone> telefones = new HashSet<Telefone>();
 
 	@ManyToOne
-	@JoinColumn(name = "nacionalidade_id")
-	private Nacionalidade nacionalidade;
-
-	@ManyToOne
 	@JoinColumn(name = "naturalidade_id")
 	private Naturalidade naturalidade;
 
@@ -82,7 +78,7 @@ public class Pessoa implements Serializable {
 
 	public Pessoa(Integer id, String nome, String cpf, String rg, Date dataNascimento, Date dataInclusao, String raca,
 			String sexo, String email, String senha, Endereco endereco, Set<Telefone> telefones,
-			Nacionalidade nacionalidade, Naturalidade naturalidade) {
+			Naturalidade naturalidade) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -96,7 +92,6 @@ public class Pessoa implements Serializable {
 		this.senha = senha;
 		this.endereco = endereco;
 		this.telefones = telefones;
-		this.nacionalidade = nacionalidade;
 		this.naturalidade = naturalidade;
 		addPerfil(Perfil.USUARIO);
 	}
@@ -195,14 +190,6 @@ public class Pessoa implements Serializable {
 
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
-	}
-
-	public Nacionalidade getNacionalidade() {
-		return nacionalidade;
-	}
-
-	public void setNacionalidade(Nacionalidade nacionalidade) {
-		this.nacionalidade = nacionalidade;
 	}
 
 	public Naturalidade getNaturalidade() {
