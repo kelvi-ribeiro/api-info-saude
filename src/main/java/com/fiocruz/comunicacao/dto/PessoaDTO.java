@@ -65,6 +65,12 @@ public class PessoaDTO implements Serializable {
 
 	private String numero2;
 
+	private Integer codigoArea3;
+
+	private String tipo3;
+
+	private String numero3;
+
 	public PessoaDTO() {
 		super();
 	}
@@ -73,6 +79,7 @@ public class PessoaDTO implements Serializable {
 		super();
 		this.id = pessoa.getId();
 		this.cpf = pessoa.getCpf();
+		this.rg = pessoa.getRg();
 		this.nome = pessoa.getNome();
 		this.dataNascimento = pessoa.getDataNascimento() != null ? Utils.dateToString(pessoa.getDataNascimento())
 				: null;
@@ -109,7 +116,7 @@ public class PessoaDTO implements Serializable {
 		pessoa.setCpf(this.cpf);
 		pessoa.setRg(this.rg);
 		pessoa.setNome(this.nome);
-		pessoa.setDataNascimento(Utils.sqlDateToDate(this.dataNascimento));
+		pessoa.setDataNascimento(Utils.brazilianDateToDate(this.dataNascimento));
 		pessoa.setRaca(this.raca);
 		pessoa.setSexo(Sexo.toEnum(this.sexo).getDescricao());
 		pessoa.setEmail(this.email);
@@ -117,20 +124,28 @@ public class PessoaDTO implements Serializable {
 		pessoa.setNaturalidade(naturalidade);
 		pessoa.setEndereco(endereco);
 		if (this.codigoArea1 != null && this.tipo1 != null && this.numero1 != null) {
-			Telefone telefone1 = new Telefone();
-			telefone1.setPessoa(pessoa);
-			telefone1.setCodigoArea(this.codigoArea1);
-			telefone1.setNumero(this.numero1);
-			telefone1.setTipo(this.tipo1);
-			pessoa.getTelefones().add(telefone1);
+			Telefone telefone = new Telefone();
+			telefone.setPessoa(pessoa);
+			telefone.setCodigoArea(this.codigoArea1);
+			telefone.setNumero(this.numero1);
+			telefone.setTipo(this.tipo1);
+			pessoa.getTelefones().add(telefone);
 		}
 		if (this.codigoArea2 != null && this.tipo2 != null && this.numero2 != null) {
-			Telefone telefone2 = new Telefone();
-			telefone2.setPessoa(pessoa);
-			telefone2.setCodigoArea(this.codigoArea2);
-			telefone2.setNumero(this.numero2);
-			telefone2.setTipo(this.tipo2);
-			pessoa.getTelefones().add(telefone2);
+			Telefone telefone = new Telefone();
+			telefone.setPessoa(pessoa);
+			telefone.setCodigoArea(this.codigoArea2);
+			telefone.setNumero(this.numero2);
+			telefone.setTipo(this.tipo2);
+			pessoa.getTelefones().add(telefone);
+		}
+		if (this.codigoArea3 != null && this.tipo3 != null && this.numero3 != null) {
+			Telefone telefone = new Telefone();
+			telefone.setPessoa(pessoa);
+			telefone.setCodigoArea(this.codigoArea3);
+			telefone.setNumero(this.numero3);
+			telefone.setTipo(this.tipo3);
+			pessoa.getTelefones().add(telefone);
 		}
 		return pessoa;
 	}
@@ -231,8 +246,40 @@ public class PessoaDTO implements Serializable {
 		this.telefones = telefones;
 	}
 
+	public void setCodigoArea1(Integer codigoArea1) {
+		this.codigoArea1 = codigoArea1;
+	}
+
 	public void setTipo1(String tipo1) {
 		this.tipo1 = tipo1;
+	}
+
+	public void setNumero1(String numero1) {
+		this.numero1 = numero1;
+	}
+
+	public void setCodigoArea2(Integer codigoArea2) {
+		this.codigoArea2 = codigoArea2;
+	}
+
+	public void setTipo2(String tipo2) {
+		this.tipo2 = tipo2;
+	}
+
+	public void setNumero2(String numero2) {
+		this.numero2 = numero2;
+	}
+
+	public void setCodigoArea3(Integer codigoArea3) {
+		this.codigoArea3 = codigoArea3;
+	}
+
+	public void setTipo3(String tipo3) {
+		this.tipo3 = tipo3;
+	}
+
+	public void setNumero3(String numero3) {
+		this.numero3 = numero3;
 	}
 
 }
