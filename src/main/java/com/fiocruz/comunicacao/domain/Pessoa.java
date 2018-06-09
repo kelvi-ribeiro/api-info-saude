@@ -73,10 +73,11 @@ public class Pessoa implements Serializable {
 	private Set<Integer> perfis = new HashSet<>();
 
 	public Pessoa() {
+		this.dataInclusao = new Date(System.currentTimeMillis());
 		addPerfil(Perfil.USUARIO);
 	}
 
-	public Pessoa(Integer id, String nome, String cpf, String rg, Date dataNascimento, Date dataInclusao, String raca,
+	public Pessoa(Integer id, String nome, String cpf, String rg, Date dataNascimento, String raca,
 			String sexo, String email, String senha, Endereco endereco, Set<Telefone> telefones,
 			Naturalidade naturalidade) {
 		super();
@@ -85,7 +86,7 @@ public class Pessoa implements Serializable {
 		this.cpf = cpf;
 		this.rg = rg;
 		this.dataNascimento = dataNascimento;
-		this.dataInclusao = dataInclusao;
+		this.dataInclusao = new Date(System.currentTimeMillis());
 		this.raca = raca;
 		this.sexo = sexo;
 		this.email = email;
@@ -138,11 +139,7 @@ public class Pessoa implements Serializable {
 
 	public Date getDataInclusao() {
 		return dataInclusao;
-	}
-
-	public void setDataInclusao(Date dataInclusao) {
-		this.dataInclusao = dataInclusao;
-	}
+	}	
 
 	public String getRaca() {
 		return raca;
