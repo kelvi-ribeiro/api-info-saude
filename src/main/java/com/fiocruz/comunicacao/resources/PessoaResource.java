@@ -2,8 +2,6 @@ package com.fiocruz.comunicacao.resources;
 
 import java.net.URI;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,9 +24,10 @@ public class PessoaResource {
 	private PessoaService service;
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<Pessoa> find(@PathVariable Integer id) {
-		Pessoa obj = service.find(id);
-		return ResponseEntity.ok().body(obj);
+	public ResponseEntity<PessoaDTO> find(@PathVariable Integer id) {
+		Pessoa pessoa = service.find(id);
+		PessoaDTO pessoaDto = new PessoaDTO(pessoa);
+		return ResponseEntity.ok().body(pessoaDto);
 	}
 	
 	@RequestMapping(value="/email", method=RequestMethod.GET)
