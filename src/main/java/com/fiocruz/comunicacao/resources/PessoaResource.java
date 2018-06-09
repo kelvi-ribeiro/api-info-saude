@@ -31,9 +31,10 @@ public class PessoaResource {
 	}
 	
 	@RequestMapping(value="/email", method=RequestMethod.GET)
-	public ResponseEntity<Pessoa> find(@RequestParam(value="value") String email) {
-		Pessoa obj = service.findByEmail(email);
-		return ResponseEntity.ok().body(obj);
+	public ResponseEntity<PessoaDTO> find(@RequestParam(value="value") String email) {
+		Pessoa pessoa = service.findByEmail(email);
+		PessoaDTO pessoaDto = new PessoaDTO(pessoa);
+		return ResponseEntity.ok().body(pessoaDto);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
