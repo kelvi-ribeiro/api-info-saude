@@ -15,6 +15,7 @@ import com.fiocruz.comunicacao.domain.Endereco;
 import com.fiocruz.comunicacao.domain.Naturalidade;
 import com.fiocruz.comunicacao.domain.Pessoa;
 import com.fiocruz.comunicacao.domain.Telefone;
+import com.fiocruz.comunicacao.domain.enums.Sexo;
 import com.fiocruz.comunicacao.utils.Utils;
 
 
@@ -40,7 +41,7 @@ public class PessoaDTO implements Serializable {
 
 	private String raca;
 
-	private String sexo;
+	private Integer sexo;
 
 	@NotEmpty(message = "Preenchimento obrigatório")
 	@Email(message = "Email inválido")
@@ -66,9 +67,9 @@ public class PessoaDTO implements Serializable {
 		this.dataNascimento = Utils.dateToString(pessoa.getDataNascimento());
 		this.dataInclusao = Utils.dateTimeToString(pessoa.getDataInclusao());
 		this.raca = pessoa.getRaca();
-		this.sexo = pessoa.getSexo();
+		this.sexo = Sexo.toNumber(pessoa.getSexo());
 		this.email = pessoa.getEmail();
-		this.sexo = pessoa.getSenha();
+		this.senha = pessoa.getSenha();
 		this.enderecoId = pessoa.getEndereco() != null ? pessoa.getEndereco().getId() : null;		
 		this.naturalidadeId = pessoa.getNaturalidade().getId() != null ? pessoa.getNaturalidade().getId() : null;
 		this.telefones = pessoa.getTelefones();
@@ -99,7 +100,7 @@ public class PessoaDTO implements Serializable {
 		pessoa.setDataNascimento(Utils.sqlDateToDate(this.dataNascimento));
 		pessoa.setDataInclusao(Utils.sqlDateToDate(this.dataInclusao));
 		pessoa.setRaca(this.raca);
-		pessoa.setSexo(this.sexo);
+		pessoa.setSexo(Sexo.toEnum(this.sexo).getDescricao());
 		pessoa.setEmail(this.email);
 		pessoa.setSenha(this.senha);		
 		pessoa.setNaturalidade(naturalidade);
@@ -163,12 +164,12 @@ public class PessoaDTO implements Serializable {
 		this.raca = raca;
 	}
 
-	public String getSexo() {
-		return sexo;
+	public Sexo getSexo() {
+		return Sexo.toEnum(sexo);
 	}
 
-	public void setSexo(String sexo) {
-		this.sexo = sexo;
+	public void setSexo(Sexo sexo) {
+		this.sexo = sexo.getCod();
 	}
 
 	public String getEmail() {
