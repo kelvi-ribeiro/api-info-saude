@@ -67,7 +67,7 @@ public class PessoaDTO implements Serializable {
 		this.dataNascimento = Utils.dateToString(pessoa.getDataNascimento());
 		this.dataInclusao = Utils.dateTimeToString(pessoa.getDataInclusao());
 		this.raca = pessoa.getRaca();
-		this.sexo = Sexo.toNumber(pessoa.getSexo());
+		this.sexo = Sexo.descricaoToEnum((pessoa.getSexo())).getCod();
 		this.email = pessoa.getEmail();
 		this.senha = pessoa.getSenha();
 		this.enderecoId = pessoa.getEndereco() != null ? pessoa.getEndereco().getId() : null;		
@@ -160,14 +160,10 @@ public class PessoaDTO implements Serializable {
 		return raca;
 	}
 
-	public void setRaca(String raca) {
-		this.raca = raca;
-	}
-
+	
 	public Sexo getSexo() {
 		return Sexo.toEnum(sexo);
 	}
-
 	public void setSexo(Sexo sexo) {
 		this.sexo = sexo.getCod();
 	}

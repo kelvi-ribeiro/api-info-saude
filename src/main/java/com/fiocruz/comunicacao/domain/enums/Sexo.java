@@ -2,8 +2,8 @@ package com.fiocruz.comunicacao.domain.enums;
 
 public enum Sexo {
 	
-	MASCULINO(1, "Masculino"),
-	FEMININO(2, "Feminino");	
+	MASCULINO(0, "Masculino"), 
+	Feminino(1, "Feminino");
 	
 	private int cod;
 	private String descricao;
@@ -36,7 +36,7 @@ public enum Sexo {
 		throw new IllegalArgumentException("Id inválido: " + cod);
 	}
 	
-public static Integer toNumber(String descricao) {
+public static Sexo descricaoToEnum(String descricao) {
 		
 		if (descricao == null) {
 			return null;
@@ -44,7 +44,7 @@ public static Integer toNumber(String descricao) {
 		
 		for (Sexo x : Sexo.values()) {
 			if (descricao.equals(x.getDescricao())) {
-				return x.getCod();
+				return x;
 			}
 		}
 		

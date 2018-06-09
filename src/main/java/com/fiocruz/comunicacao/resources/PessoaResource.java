@@ -38,7 +38,7 @@ public class PessoaResource {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody PessoaDTO objDto) {
+	public ResponseEntity<Void> insert(@RequestBody PessoaDTO objDto) {
 		Pessoa obj = service.insert(objDto);		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(obj.getId()).toUri();
