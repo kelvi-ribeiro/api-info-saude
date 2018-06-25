@@ -58,7 +58,7 @@ public class PessoaDTO implements Serializable {
 
 	private String logradouro;
 
-	private String bairro;	
+	private String bairro;
 
 	private int cidadeId;
 
@@ -105,11 +105,13 @@ public class PessoaDTO implements Serializable {
 		this.sexo = Sexo.descricaoToEnum((pessoa.getSexo())).getCod();
 		this.email = pessoa.getEmail();
 		this.senha = pessoa.getSenha();
-		//Endereco
-		this.enderecoId = pessoa.getEndereco() != null ? pessoa.getEndereco().getId():null;
-		this.bairro = pessoa.getEndereco() != null ? pessoa.getEndereco().getBairro():null;
-		this.cep = pessoa.getEndereco() != null ? pessoa.getEndereco().getCep():null;
-		this.nomeCidade = pessoa.getEndereco() != null && pessoa.getEndereco().getCidade() != null ? pessoa.getEndereco().getCidade().getNome():null;
+		// Endereco
+		this.enderecoId = pessoa.getEndereco() != null ? pessoa.getEndereco().getId() : null;
+		this.bairro = pessoa.getEndereco() != null ? pessoa.getEndereco().getBairro() : null;
+		this.cep = pessoa.getEndereco() != null ? pessoa.getEndereco().getCep() : null;
+		this.nomeCidade = pessoa.getEndereco() != null && pessoa.getEndereco().getCidade() != null
+				? pessoa.getEndereco().getCidade().getNome()
+				: null;
 		this.naturalidadeId = pessoa.getNaturalidade() != null ? pessoa.getNaturalidade().getId() : null;
 		this.telefones = pessoa.getTelefones();
 
@@ -128,8 +130,6 @@ public class PessoaDTO implements Serializable {
 		Naturalidade naturalidade = new Naturalidade();
 		naturalidade.setId(this.naturalidadeId);
 
-
-
 		Pessoa pessoa = new Pessoa();
 		pessoa.setId(this.id);
 		pessoa.setCpf(this.cpf);
@@ -141,7 +141,7 @@ public class PessoaDTO implements Serializable {
 		pessoa.setEmail(this.email);
 		pessoa.setSenha(this.senha);
 		pessoa.setNaturalidade(naturalidade);
-		
+
 		Cidade cidade = new Cidade();
 		cidade.setId(this.cidadeId);
 
@@ -152,7 +152,7 @@ public class PessoaDTO implements Serializable {
 		endereco.setNumero(this.numeroEndereco);
 		endereco.setCidade(cidade);
 		endereco.setPessoa(pessoa);
-		
+
 		pessoa.setEndereco(endereco);
 		if (this.codigoArea1 != null && this.tipo1 != null && this.numero1 != null) {
 			Telefone telefone = new Telefone();

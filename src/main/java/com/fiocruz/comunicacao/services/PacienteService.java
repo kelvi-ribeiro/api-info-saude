@@ -3,23 +3,17 @@ package com.fiocruz.comunicacao.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.fiocruz.comunicacao.domain.Paciente;
 import com.fiocruz.comunicacao.domain.Pessoa;
-import com.fiocruz.comunicacao.dto.PessoaDTO;
-import com.fiocruz.comunicacao.repositories.CidadeRepository;
-import com.fiocruz.comunicacao.repositories.EnderecoRepository;
-import com.fiocruz.comunicacao.repositories.NaturalidadeRepository;
+import com.fiocruz.comunicacao.dto.PacienteDTO;
+import com.fiocruz.comunicacao.repositories.PacienteRepository;
 import com.fiocruz.comunicacao.repositories.PessoaRepository;
-import com.fiocruz.comunicacao.repositories.TelefoneRepository;
 import com.fiocruz.comunicacao.services.exceptions.ObjectNotFoundException;
 
 @Service
-public class PessoaService {
+public class PacienteService {
 
 //	@Value("${img.profile.size}")
 //	private int size;
@@ -27,33 +21,21 @@ public class PessoaService {
 //	@Value("${img.prefix.client.profile}")
 //	private String prefix;
 
-	@Autowired
-	private BCryptPasswordEncoder pe;
-
-	@Autowired
-	private PessoaRepository repo;
-
-	@Autowired
-	private CidadeRepository cidadeRepository;
-
-	@Autowired
-	private EnderecoRepository enderecoRepository;
+	
 	
 	@Autowired
-	private TelefoneRepository telefoneRepository;
-	
+	private PacienteRepository repo;
 	@Autowired
-	private NaturalidadeRepository naturalidadeRepository;  
-	
+	private PessoaRepository repoPessoa;
 
-	public Pessoa find(Integer id) {
-
+	public Paciente find(Integer id) {
+		
 //		UserSS user = UserService.authenticated();
 //		if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
 //			throw new AuthorizationException("Acesso negado");
 //		}
 
-		Pessoa obj = repo.findOne(id);
+		Paciente obj = repo.findOne(id);
 		if (obj == null) {
 			throw new ObjectNotFoundException(
 					"Objeto não encontrado! Id: " + id + ", Tipo: " + Pessoa.class.getName());
@@ -61,14 +43,10 @@ public class PessoaService {
 		return obj;
 	}
 
-	public Pessoa insert(PessoaDTO obj) {
-		obj.setSenha(pe.encode(obj.getSenha()));
-		Pessoa pessoa = obj.returnEntity();
-		pessoa = repo.save(pessoa);
-		enderecoRepository.save(pessoa.getEndereco());	
-		telefoneRepository.save(pessoa.getTelefones());
-		
-		return pessoa;
+	public Paciente insert(PacienteDTO obj) {
+		Paciente paciente = obj.returnEntity();
+		paciente = repo.save(paciente);		
+		return paciente;
 	}
 
 //	public Pessoa update(Pessoa obj) {
@@ -86,29 +64,44 @@ public class PessoaService {
 //		}
 //	}
 
-	public List<Pessoa> findAll() {
+	public List<Paciente> findAll() {
 		return repo.findAll();
 	}
 
-	public Pessoa findByEmail(String email) {
+	public Paciente findByPessoaId(Integer idPessoa) {
 
 //		UserSS user = UserService.authenticated();
 //		if (user == null || !user.hasRole(Perfil.ADMIN) && !email.equals(user.getUsername())) {
 //			throw new AuthorizationException("Acesso negado");
 //		}
 
-		Pessoa obj = repo.findByEmail(email);
+		Paciente obj = repo.findByPessoaId(idPessoa);
 		if (obj == null) {
 			throw new ObjectNotFoundException(
-					"Objeto não encontrado! Id: " + obj.getId() + ", Tipo: " + Pessoa.class.getName());
+					"Objeto não encontrado! Id: " + obj.getId() + ", Tipo: " + Paciente.class.getName());
+		}
+		return obj;
+	}
+	
+	public Paciente findByPessoaEmail(String email) {
+
+//		UserSS user = UserService.authenticated();
+//		if (user == null || !user.hasRole(Perfil.ADMIN) && !email.equals(user.getUsername())) {
+//			throw new AuthorizationException("Acesso negado");
+//		}
+
+		Paciente obj = repo.findByPessoaEmail(email);
+		if (obj == null) {
+			throw new ObjectNotFoundException(
+					"Objeto não encontrado! Id: " + obj.getId() + ", Tipo: " + Paciente.class.getName());
 		}
 		return obj;
 	}
 
-	public Page<Pessoa> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
-		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		return repo.findAll(pageRequest);
-	}
+//	public Page<Pessoa> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+//		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
+//		return repo.findAll(pageRequest);
+//	}
 	
 
 //	public Usuario fromDTO(UsuarioNewDTO objDto) {
