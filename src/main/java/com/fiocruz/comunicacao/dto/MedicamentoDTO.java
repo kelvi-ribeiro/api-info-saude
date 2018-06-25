@@ -72,8 +72,7 @@ public class MedicamentoDTO implements Serializable {
 		medicamento.setIntervaloTempo(this.intervaloTempo);
 		medicamento.setDataInicio(Utils.sqlDateToDate(this.dataInicio));
 		medicamento.setDataFim(Utils.sqlDateToDate(this.dataFim));
-		medicamento.setHoraInicial(Utils.sqlDateToTime(this.horaInicial));
-		medicamento.setAtivo(this.ativo);
+		medicamento.setHoraInicial(Utils.sqlDateToTime(this.horaInicial));		
 		medicamento.setPaciente(paciente);
 
 		return medicamento;
