@@ -30,10 +30,11 @@ public class MedicamentoDTO implements Serializable {
 
 	private boolean ativo;
 
-	private Integer pessoaId;
+	private Integer pacienteId;
 
-	public MedicamentoDTO() {
+	public MedicamentoDTO() {		
 		super();
+		
 	}
 
 	public MedicamentoDTO(Medicamento medicamento) {
@@ -46,8 +47,8 @@ public class MedicamentoDTO implements Serializable {
 		this.dataFim = medicamento.getDataFim() != null ? Utils.dateToString(medicamento.getDataFim()) : null;
 		this.horaInicial = medicamento.getHoraInicial() != null ? Utils.timeToString(medicamento.getHoraInicial())
 				: null;
+		this.pacienteId = medicamento.getPaciente().getId();
 		this.ativo = medicamento.isAtivo();
-		this.pessoaId = medicamento.getPaciente().getId();
 
 	}
 
@@ -62,15 +63,15 @@ public class MedicamentoDTO implements Serializable {
 	public Medicamento returnEntity() {
 
 		Paciente paciente = new Paciente();
-		paciente.setId(this.pessoaId);
+		paciente.setId(this.pacienteId);
 
 		Medicamento medicamento = new Medicamento();
 		medicamento.setId(this.id);
 		medicamento.setNome(this.nome);
 		medicamento.setDescricao(this.descricao);
 		medicamento.setIntervaloTempo(this.intervaloTempo);
-		medicamento.setDataInicio(Utils.brazilianDateToDate(this.dataInicio));
-		medicamento.setDataFim(Utils.brazilianDateToDate(this.dataFim));
+		medicamento.setDataInicio(Utils.sqlDateToDate(this.dataInicio));
+		medicamento.setDataFim(Utils.sqlDateToDate(this.dataFim));
 		medicamento.setHoraInicial(Utils.sqlDateToTime(this.horaInicial));
 		medicamento.setAtivo(this.ativo);
 		medicamento.setPaciente(paciente);
@@ -142,12 +143,12 @@ public class MedicamentoDTO implements Serializable {
 		this.ativo = ativo;
 	}
 
-	public Integer getPessoaId() {
-		return pessoaId;
+	public Integer getPacienteId() {
+		return pacienteId;
 	}
 
-	public void setPessoaId(Integer pessoaId) {
-		this.pessoaId = pessoaId;
+	public void setPacienteId(Integer pacienteId) {
+		this.pacienteId = pacienteId;
 	}
 
 }

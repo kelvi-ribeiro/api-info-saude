@@ -44,6 +44,7 @@ public class Medicamento implements Serializable {
 
 	public Medicamento() {
 		super();
+		this.setAtivo(true);
 	}
 
 	public Medicamento(Integer id, String nome, String descricao, int intervaloTempo, Date dataInicio, Date dataFim,
@@ -58,6 +59,7 @@ public class Medicamento implements Serializable {
 		this.horaInicial = horaInicial;
 		this.ativo = ativo;
 		this.paciente = paciente;
+		this.setAtivo(true);
 	}
 
 	public Integer getId() {
