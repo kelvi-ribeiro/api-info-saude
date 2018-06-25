@@ -44,11 +44,11 @@ public class MedicamentoService {
 
 
 
-//	public Paciente insert(PacienteDTO obj) {
-//		Paciente paciente = obj.returnEntity();
-//		paciente = repo.save(paciente);		
-//		return paciente;
-//	}
+	public Medicamento insert(MedicamentoDTO obj) {
+		Medicamento medicamento = obj.returnEntity();
+		medicamento = repo.save(medicamento);		
+		return medicamento;
+	}
 //
 //	public Pessoa update(Pessoa obj) {
 //		Pessoa newObj = find(obj.getId());

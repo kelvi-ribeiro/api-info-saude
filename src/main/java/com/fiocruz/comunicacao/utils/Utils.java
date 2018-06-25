@@ -100,7 +100,7 @@ public class Utils {
 	}
 
 	static public Date sqlDateToTime(String sqlTime) {
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 		try {
 			return sdf.parse(sqlTime);
 		} catch (ParseException e) {

@@ -2,10 +2,7 @@ package com.fiocruz.comunicacao.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import javax.persistence.Column;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fiocruz.comunicacao.domain.Medicamento;
@@ -46,7 +43,7 @@ public class MedicamentoDTO implements Serializable {
 		this.descricao = medicamento.getDescricao();
 		this.intervaloTempo = medicamento.getIntervaloTempo();
 		this.dataInicio = medicamento.getDataInicio() != null ? Utils.dateToString(medicamento.getDataInicio()) : null;
-		this.dataFim = medicamento.getDataFim() != null ? Utils.dateTimeToString(medicamento.getDataFim()) : null;
+		this.dataFim = medicamento.getDataFim() != null ? Utils.dateToString(medicamento.getDataFim()) : null;
 		this.horaInicial = medicamento.getHoraInicial() != null ? Utils.dateTimeToString(medicamento.getHoraInicial())
 				: null;
 		this.ativo = medicamento.isAtivo();
@@ -72,9 +69,9 @@ public class MedicamentoDTO implements Serializable {
 		medicamento.setNome(this.nome);
 		medicamento.setDescricao(this.descricao);
 		medicamento.setIntervaloTempo(this.intervaloTempo);
-		medicamento.setDataInicio(Utils.sqlDateToDate(this.dataInicio));
-		medicamento.setDataFim(Utils.sqlDateToDate(this.dataFim));
-		medicamento.setHoraInicial(Utils.sqlDateToDate(this.horaInicial));
+		medicamento.setDataInicio(Utils.brazilianDateToDate(this.dataInicio));
+		medicamento.setDataFim(Utils.brazilianDateToDate(this.dataFim));
+		medicamento.setHoraInicial(Utils.sqlDateToTime(this.horaInicial));
 		medicamento.setAtivo(this.ativo);
 		medicamento.setPaciente(paciente);
 
