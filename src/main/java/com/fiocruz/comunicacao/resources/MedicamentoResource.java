@@ -1,7 +1,6 @@
 package com.fiocruz.comunicacao.resources;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fiocruz.comunicacao.domain.Paciente;
 import com.fiocruz.comunicacao.dto.MedicamentoDTO;
 import com.fiocruz.comunicacao.services.MedicamentoService;
 
@@ -22,9 +20,15 @@ public class MedicamentoResource {
 	private MedicamentoService service;
 	
 
-	@RequestMapping(method=RequestMethod.GET)
-	public ResponseEntity<List<MedicamentoDTO>> findAll(@RequestParam(value="idPaciente") Integer idPaciente) {
-		List<MedicamentoDTO> listDto = service.findAll(idPaciente);		 
+	@RequestMapping(value="/ativos",method=RequestMethod.GET)
+	public ResponseEntity<List<MedicamentoDTO>> findAllAtivos(@RequestParam(value="idPaciente") Integer idPaciente) {
+		List<MedicamentoDTO> listDto = service.findAllAtivos(idPaciente);		 
+		return ResponseEntity.ok().body(listDto);
+	}
+	
+	@RequestMapping(value="/inativos",method=RequestMethod.GET)
+	public ResponseEntity<List<MedicamentoDTO>> findAllInativos(@RequestParam(value="idPaciente") Integer idPaciente) {
+		List<MedicamentoDTO> listDto = service.findAllInativos(idPaciente);		 
 		return ResponseEntity.ok().body(listDto);
 	}
 	

@@ -7,10 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.fiocruz.comunicacao.domain.Medicamento;
-import com.fiocruz.comunicacao.domain.Paciente;
-import com.fiocruz.comunicacao.domain.Pessoa;
 import com.fiocruz.comunicacao.dto.MedicamentoDTO;
-import com.fiocruz.comunicacao.dto.PacienteDTO;
 import com.fiocruz.comunicacao.repositories.MedicamentoRepository;
 import com.fiocruz.comunicacao.services.exceptions.DataIntegrityException;
 import com.fiocruz.comunicacao.services.exceptions.ObjectNotFoundException;
@@ -28,16 +25,24 @@ public class MedicamentoService {
 		Medicamento obj = repo.findOne(id);
 		if (obj == null) {
 			throw new ObjectNotFoundException(
-					"Objeto não encontrado! Id: " + id + ", Tipo: " + Pessoa.class.getName());
+					"Objeto não encontrado! Id: " + id + ", Tipo: " + Medicamento.class.getName());
 		}
 		return obj;
 	}
 	
-	public List<MedicamentoDTO> findAll(Integer idPaciente) {
-		List<Medicamento> list = repo.findMedicamentosByPacienteId(idPaciente);
+	public List<MedicamentoDTO> findAllAtivos(Integer idPaciente) {
+		List<Medicamento> list = repo.findMedicamentosAtivosByPacienteId(idPaciente);
 		List<MedicamentoDTO> listDto = MedicamentoDTO.returnListDto(list);
 		return listDto;
 	}
+	
+	public List<MedicamentoDTO> findAllInativos(Integer idPaciente) {
+		List<Medicamento> list = repo.findMedicamentosInativoByPacienteId(idPaciente);
+		List<MedicamentoDTO> listDto = MedicamentoDTO.returnListDto(list);
+		return listDto;
+	}
+
+
 
 //	public Paciente insert(PacienteDTO obj) {
 //		Paciente paciente = obj.returnEntity();
