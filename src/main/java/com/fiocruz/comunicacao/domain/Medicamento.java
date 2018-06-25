@@ -31,7 +31,8 @@ public class Medicamento implements Serializable {
 
 	@Column(name = "data_fim")
 	private Date dataFim;
-
+	
+	
 	@Column(name = "hora_inicial",columnDefinition="TIME",length=5)
 	private Date horaInicial;
 

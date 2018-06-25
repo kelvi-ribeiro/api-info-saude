@@ -44,7 +44,7 @@ public class MedicamentoDTO implements Serializable {
 		this.intervaloTempo = medicamento.getIntervaloTempo();
 		this.dataInicio = medicamento.getDataInicio() != null ? Utils.dateToString(medicamento.getDataInicio()) : null;
 		this.dataFim = medicamento.getDataFim() != null ? Utils.dateToString(medicamento.getDataFim()) : null;
-		this.horaInicial = medicamento.getHoraInicial() != null ? Utils.dateTimeToString(medicamento.getHoraInicial())
+		this.horaInicial = medicamento.getHoraInicial() != null ? Utils.timeToString(medicamento.getHoraInicial())
 				: null;
 		this.ativo = medicamento.isAtivo();
 		this.pessoaId = medicamento.getPaciente().getId();
