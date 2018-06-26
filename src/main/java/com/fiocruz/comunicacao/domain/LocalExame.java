@@ -1,49 +1,51 @@
 package com.fiocruz.comunicacao.domain;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Exame implements Serializable {
+@Table(name = "local_exame")
+public class LocalExame implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	private Date data;
-
 	private String nome;
 
-	private String descricao;
-
-	@ManyToOne
-	@JoinColumn(name = "local_exame_id")
-	private LocalExame localExame;
+	@OneToOne()
+	@JoinColumn(name = "endereco_id")
+	private Endereco endereco;
 
 	@ManyToOne
 	@JoinColumn(name = "paciente_id")
 	private Paciente paciente;
 
-	public Exame() {
-		super();
-	}
+	@OneToMany(mappedBy="localExame",cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<Exame> exames;
 
-	public Exame(Integer id, Date data, String nome, String descricao, LocalExame localExame, Paciente paciente) {
+	public LocalExame(Integer id, String nome, Endereco endereco, Paciente paciente, List<Exame> exames) {
 		super();
 		this.id = id;
-		this.data = data;
 		this.nome = nome;
-		this.descricao = descricao;
-		this.localExame = localExame;
+		this.endereco = endereco;
 		this.paciente = paciente;
+		this.exames = exames;
 	}
 
 	public Integer getId() {
@@ -54,14 +56,6 @@ public class Exame implements Serializable {
 		this.id = id;
 	}
 
-	public Date getData() {
-		return data;
-	}
-
-	public void setData(Date data) {
-		this.data = data;
-	}
-
 	public String getNome() {
 		return nome;
 	}
@@ -70,20 +64,12 @@ public class Exame implements Serializable {
 		this.nome = nome;
 	}
 
-	public String getDescricao() {
-		return descricao;
+	public Endereco getEndereco() {
+		return endereco;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
-	public LocalExame getLocalExame() {
-		return localExame;
-	}
-
-	public void setLocalExame(LocalExame localExame) {
-		this.localExame = localExame;
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 
 	public Paciente getPaciente() {
@@ -93,5 +79,15 @@ public class Exame implements Serializable {
 	public void setPaciente(Paciente paciente) {
 		this.paciente = paciente;
 	}
+
+	public List<Exame> getExames() {
+		return exames;
+	}
+
+	public void setExames(List<Exame> exames) {
+		this.exames = exames;
+	}
+	
+	
 
 }
