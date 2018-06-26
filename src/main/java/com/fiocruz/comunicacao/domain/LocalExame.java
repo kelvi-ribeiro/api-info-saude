@@ -35,9 +35,13 @@ public class LocalExame implements Serializable {
 	@JoinColumn(name = "paciente_id")
 	private Paciente paciente;
 
-	@OneToMany(mappedBy="localExame",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "localExame", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<Exame> exames;
+
+	public LocalExame() {
+		super();
+	}
 
 	public LocalExame(Integer id, String nome, Endereco endereco, Paciente paciente, List<Exame> exames) {
 		super();
@@ -87,7 +91,5 @@ public class LocalExame implements Serializable {
 	public void setExames(List<Exame> exames) {
 		this.exames = exames;
 	}
-	
-	
 
 }

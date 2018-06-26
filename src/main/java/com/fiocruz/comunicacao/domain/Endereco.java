@@ -2,7 +2,6 @@ package com.fiocruz.comunicacao.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Endereco implements Serializable {
@@ -27,6 +28,7 @@ public class Endereco implements Serializable {
 
 	private String cep;
 
+	@JsonIgnore
 	@OneToOne(mappedBy = "endereco")
 	private Pessoa pessoa;
 
@@ -34,13 +36,12 @@ public class Endereco implements Serializable {
 	@JoinColumn(name = "cidade_id")
 	private Cidade cidade;
 
-	
-
 	public Endereco() {
 		super();
 	}
 
-	public Endereco(Integer id, int numero, String logradouro, String bairro, String cep, Pessoa pessoa, Cidade cidade) {
+	public Endereco(Integer id, int numero, String logradouro, String bairro, String cep, Pessoa pessoa,
+			Cidade cidade) {
 		super();
 		this.id = id;
 		this.numero = numero;
@@ -48,7 +49,7 @@ public class Endereco implements Serializable {
 		this.bairro = bairro;
 		this.cep = cep;
 		this.pessoa = pessoa;
-		this.cidade = cidade;		
+		this.cidade = cidade;
 	}
 
 	public Integer getId() {
@@ -106,6 +107,5 @@ public class Endereco implements Serializable {
 	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
 	}
-
 
 }
