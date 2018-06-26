@@ -14,7 +14,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.fiocruz.comunicacao.domain.LocalExame;
 import com.fiocruz.comunicacao.dto.LocalExameDTO;
-import com.fiocruz.comunicacao.dto.MedicamentoDTO;
 import com.fiocruz.comunicacao.services.LocalExameService;
 
 @RestController

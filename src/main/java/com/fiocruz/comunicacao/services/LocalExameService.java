@@ -7,9 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.fiocruz.comunicacao.domain.LocalExame;
-import com.fiocruz.comunicacao.domain.Medicamento;
 import com.fiocruz.comunicacao.dto.LocalExameDTO;
-import com.fiocruz.comunicacao.dto.MedicamentoDTO;
 import com.fiocruz.comunicacao.repositories.EnderecoRepository;
 import com.fiocruz.comunicacao.repositories.LocalExameRepository;
 import com.fiocruz.comunicacao.services.exceptions.DataIntegrityException;

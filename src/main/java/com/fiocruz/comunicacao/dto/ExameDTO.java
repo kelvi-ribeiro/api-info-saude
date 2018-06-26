@@ -1,13 +1,8 @@
 package com.fiocruz.comunicacao.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fiocruz.comunicacao.domain.Medicamento;
-import com.fiocruz.comunicacao.domain.Paciente;
-import com.fiocruz.comunicacao.utils.Utils;
 
 //@UsuarioUpdate
 @JsonIgnoreProperties(ignoreUnknown = true)
