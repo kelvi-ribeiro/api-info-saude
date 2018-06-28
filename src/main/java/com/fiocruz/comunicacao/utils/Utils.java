@@ -61,7 +61,7 @@ public class Utils {
 	}
 
 	static public String dateToString(Date date) {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		return sdf.format(date);
 	}
 
@@ -91,6 +91,16 @@ public class Utils {
 
 	static public Date sqlDateToDate(String sqlDate) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			return sdf.parse(sqlDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	static public Date sqlDateTimeZoneToDate(String sqlDate) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		try {
 			return sdf.parse(sqlDate);
 		} catch (ParseException e) {
