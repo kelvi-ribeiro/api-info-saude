@@ -62,7 +62,10 @@ public class ExameDTO implements Serializable {
 		localExame.setId(this.localExameId);
 
 		Exame exame = new Exame();
-		exame.setData(Utils.sqlDateTimeZoneToDate(this.data));
+		if(this.data != null) {
+			exame.setData(Utils.sqlDateTimeZoneToDate(this.data));	
+		}
+		
 		exame.setNome(this.nome);
 		exame.setDescricao(this.descricao);
 		exame.setPaciente(paciente);

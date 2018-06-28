@@ -15,10 +15,8 @@ import com.fiocruz.comunicacao.services.exceptions.ObjectNotFoundException;
 @Service
 public class MedicamentoService {
 
-	
 	@Autowired
 	private MedicamentoRepository repo;
-
 
 	public Medicamento find(Integer id) {
 
@@ -29,32 +27,28 @@ public class MedicamentoService {
 		}
 		return obj;
 	}
-	
+
 	public List<MedicamentoDTO> findAllAtivos(Integer idPaciente) {
 		List<Medicamento> list = repo.findMedicamentosAtivosByPacienteId(idPaciente);
 		List<MedicamentoDTO> listDto = MedicamentoDTO.returnListDto(list);
 		return listDto;
 	}
-	
+
 	public List<MedicamentoDTO> findAllInativos(Integer idPaciente) {
 		List<Medicamento> list = repo.findMedicamentosInativoByPacienteId(idPaciente);
 		List<MedicamentoDTO> listDto = MedicamentoDTO.returnListDto(list);
 		return listDto;
 	}
 
-
-
 	public Medicamento insert(MedicamentoDTO obj) {
 		Medicamento medicamento = obj.returnEntity();
-		medicamento = repo.save(medicamento);		
+		medicamento = repo.save(medicamento);
 		return medicamento;
 	}
-//
-//	public Pessoa update(Pessoa obj) {
-//		Pessoa newObj = find(obj.getId());
-//		updateData(newObj, obj);
-//		return repo.save(newObj);
-//	}
+
+	public Medicamento update(Medicamento obj) {
+		return repo.save(obj);
+	}
 
 	public void delete(Integer id) {
 		find(id);
@@ -64,7 +58,5 @@ public class MedicamentoService {
 			throw new DataIntegrityException("Não é possível excluir porque há pedidos relacionados");
 		}
 	}
-
-	
 
 }

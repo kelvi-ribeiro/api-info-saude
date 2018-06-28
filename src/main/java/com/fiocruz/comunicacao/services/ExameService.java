@@ -35,12 +35,11 @@ public class ExameService {
 		exame = repo.save(exame);
 		return exame;
 	}
-	//
-	// public Pessoa update(Pessoa obj) {
-	// Pessoa newObj = find(obj.getId());
-	// updateData(newObj, obj);
-	// return repo.save(newObj);
-	// }
+	
+	public Exame update(Exame obj) {		
+		return repo.save(obj);
+	}
+
 
 	public void delete(Integer id) {
 		find(id);
