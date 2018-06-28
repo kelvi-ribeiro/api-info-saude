@@ -32,7 +32,6 @@ public class LocalExameService {
 		return obj;
 	}
 
-
 	public List<LocalExameDTO> findAllByPacienteId(Integer idPaciente) {
 		List<LocalExame> list = repo.findLocaisExameByPacienteId(idPaciente);
 		List<LocalExameDTO> listDto = LocalExameDTO.returnListDto(list);
@@ -45,10 +44,11 @@ public class LocalExameService {
 		localExame = repo.save(localExame);
 		return localExame;
 	}
-	
-	 public LocalExame update(LocalExame obj) {	 
-	 return repo.save(obj);
-	 }
+
+	public LocalExame update(LocalExame obj) {
+		endrecoRepo.save(obj.getEndereco());
+		return repo.save(obj);
+	}
 
 	public void delete(Integer id) {
 		find(id);
