@@ -3,15 +3,11 @@ package com.fiocruz.comunicacao.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.fiocruz.comunicacao.domain.Exame;
-import com.fiocruz.comunicacao.domain.LocalExame;
 import com.fiocruz.comunicacao.dto.ExameDTO;
-import com.fiocruz.comunicacao.dto.LocalExameDTO;
 import com.fiocruz.comunicacao.repositories.ExameRepository;
-import com.fiocruz.comunicacao.services.exceptions.DataIntegrityException;
 import com.fiocruz.comunicacao.services.exceptions.ObjectNotFoundException;
 
 @Service
