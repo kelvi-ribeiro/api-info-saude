@@ -53,4 +53,26 @@ public class MedicamentoResource {
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
 	}
+	
+	@RequestMapping(value="setAtivo/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> setAtivo(@PathVariable Integer id) {
+		Medicamento obj = service.find(id);
+		obj.setAtivo(true);
+		obj = service.update(obj);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(value="setInativo/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> setInativo(@PathVariable Integer id) {
+		Medicamento obj = service.find(id);
+		obj.setAtivo(false);
+		obj = service.update(obj);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
 }
