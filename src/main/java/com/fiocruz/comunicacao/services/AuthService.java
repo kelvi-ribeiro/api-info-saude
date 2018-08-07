@@ -21,11 +21,11 @@ public class AuthService {
 	
 	private Random rand = new Random();
 	
-	public void sendNewPassword(String email) {
+	public void sendNewPassword(String cpf) {
 		
-		Pessoa pessoa = pessoaRepository.findByEmail(email);
+		Pessoa pessoa = pessoaRepository.findByCpf(cpf);
 		if (pessoa == null) {
-			throw new ObjectNotFoundException("Email não encontrado");
+			throw new ObjectNotFoundException("cpf não encontrado");
 		}
 		
 		String newPass = newPassword();
