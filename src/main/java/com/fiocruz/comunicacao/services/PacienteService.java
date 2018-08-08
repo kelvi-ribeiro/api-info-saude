@@ -97,6 +97,21 @@ public class PacienteService {
 		}
 		return obj;
 	}
+	
+	public Paciente findByPessoaCpf(String cpf) {
+
+//		UserSS user = UserService.authenticated();
+//		if (user == null || !user.hasRole(Perfil.ADMIN) && !email.equals(user.getUsername())) {
+//			throw new AuthorizationException("Acesso negado");
+//		}
+
+		Paciente obj = repo.findByPessoaCpf(cpf);
+		if (obj == null) {
+			throw new ObjectNotFoundException(
+					"Objeto não encontrado! Id: " + obj.getId() + ", Tipo: " + Paciente.class.getName());
+		}
+		return obj;
+	}
 
 //	public Page<Pessoa> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 //		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);

@@ -58,6 +58,13 @@ public class PacienteResource {
 //		PessoaDTO pessoaDto = new PessoaDTO(pessoa);
 		return ResponseEntity.ok().body(paciente);
 	}
+	
+	@RequestMapping(value="/pessoaCpf", method=RequestMethod.GET)
+	public ResponseEntity<Paciente> findByPacienteCpf(@RequestParam(value="cpf") String cpf) {
+		Paciente paciente = service.findByPessoaCpf(cpf);
+//		PessoaDTO pessoaDto = new PessoaDTO(pessoa);
+		return ResponseEntity.ok().body(paciente);
+	}
 
 
 //	@RequestMapping(value="/{id}", method=RequestMethod.PUT)

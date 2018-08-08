@@ -16,6 +16,10 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
 	Paciente findByPessoaEmail(@Param("email") String email);
 	
 	@Transactional(readOnly=true)
+	@Query("SELECT obj FROM Paciente obj WHERE obj.pessoa.cpf=:cpf")
+	Paciente findByPessoaCpf(@Param("cpf") String cpf);
+	
+	@Transactional(readOnly=true)
 	@Query("SELECT obj FROM Paciente obj WHERE obj.pessoa.id=:idPessoa")
 	Paciente findByPessoaId(@Param("idPessoa") Integer idPessoa);
 }
