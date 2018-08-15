@@ -3,6 +3,7 @@ package com.fiocruz.comunicacao.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
@@ -16,6 +17,7 @@ import com.fiocruz.comunicacao.repositories.EnderecoRepository;
 import com.fiocruz.comunicacao.repositories.NaturalidadeRepository;
 import com.fiocruz.comunicacao.repositories.PessoaRepository;
 import com.fiocruz.comunicacao.repositories.TelefoneRepository;
+import com.fiocruz.comunicacao.services.exceptions.DataIntegrityException;
 import com.fiocruz.comunicacao.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -64,7 +66,11 @@ public class PessoaService {
 	public Pessoa insert(PessoaDTO obj) {
 		obj.setSenha(pe.encode(obj.getSenha()));
 		Pessoa pessoa = obj.returnEntity();
-		pessoa = repo.save(pessoa);
+		try {
+			pessoa = repo.save(pessoa);
+		} catch (DataIntegrityViolationException  e) {			
+			throw new DataIntegrityException("Email já Cadastrado");
+		}
 		enderecoRepository.save(pessoa.getEndereco());	
 		telefoneRepository.save(pessoa.getTelefones());
 		
