@@ -78,7 +78,7 @@ public class PacienteService {
 		Paciente obj = repo.findByPessoaId(idPessoa);
 		if (obj == null) {
 			throw new ObjectNotFoundException(
-					"Objeto não encontrado! Id: " + obj.getId() + ", Tipo: " + Paciente.class.getName());
+					"Objeto não encontrado! Id: " + idPessoa + ", Tipo: " + Paciente.class.getName());
 		}
 		return obj;
 	}
