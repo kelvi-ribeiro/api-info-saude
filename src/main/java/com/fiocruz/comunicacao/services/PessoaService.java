@@ -1,6 +1,9 @@
 package com.fiocruz.comunicacao.services;
 
+import java.awt.image.BufferedImage;
+import java.net.URI;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -9,7 +12,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.fiocruz.comunicacao.domain.Paciente;
 import com.fiocruz.comunicacao.domain.Pessoa;
 import com.fiocruz.comunicacao.dto.PessoaDTO;
 import com.fiocruz.comunicacao.repositories.CidadeRepository;
@@ -17,6 +22,8 @@ import com.fiocruz.comunicacao.repositories.EnderecoRepository;
 import com.fiocruz.comunicacao.repositories.NaturalidadeRepository;
 import com.fiocruz.comunicacao.repositories.PessoaRepository;
 import com.fiocruz.comunicacao.repositories.TelefoneRepository;
+import com.fiocruz.comunicacao.security.UserSS;
+import com.fiocruz.comunicacao.services.exceptions.AuthorizationException;
 import com.fiocruz.comunicacao.services.exceptions.DataIntegrityException;
 import com.fiocruz.comunicacao.services.exceptions.ObjectNotFoundException;
 
@@ -46,6 +53,14 @@ public class PessoaService {
 	
 	@Autowired
 	private NaturalidadeRepository naturalidadeRepository;  
+	
+	@Autowired
+	private ImageService imageService;
+
+	@Autowired
+	private S3Service s3Service;
+	
+	private Random rand = new Random();
 	
 
 	public Pessoa find(Integer id) {
@@ -106,7 +121,7 @@ public class PessoaService {
 		Pessoa obj = repo.findByEmail(email);
 		if (obj == null) {
 			throw new ObjectNotFoundException(
-					"Objeto não encontrado! Id: " + obj.getId() + ", Tipo: " + Pessoa.class.getName());
+					"Objeto não encontrado! email: " + email + ", Tipo: " + Pessoa.class.getName());
 		}
 		return obj;
 	}
@@ -115,45 +130,41 @@ public class PessoaService {
 		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
 	}
-	
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
 
-//	public Usuario fromDTO(UsuarioNewDTO objDto) {
-//		Usuario cli = new Usuario(null, objDto.getNome(), objDto.getEmail(), objDto.getCpf(),
-//				pe.encode(objDto.getSenha()));
-//		Cidade cid = cidadeRepository.findOne(objDto.getCidadeId());
-//		Endereco end = new Endereco(null, objDto.getLogradouro(), objDto.getNumero(), objDto.getComplemento(),
-//				objDto.getBairro(), objDto.getCep(), cli, cid);
-//		cli.getEnderecos().add(end);
-//		cli.getTelefones().add(objDto.getTelefone1());
-//		if (objDto.getTelefone2() != null) {
-//			cli.getTelefones().add(objDto.getTelefone2());
-//		}
-//		if (objDto.getTelefone3() != null) {
-//			cli.getTelefones().add(objDto.getTelefone3());
-//		}
-//		return cli;
-//	}
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
 
-	private void updateData(Pessoa newObj, Pessoa obj) {
-		newObj.setNome(obj.getNome());
-		newObj.setEmail(obj.getEmail());
+		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+		
+
+		Pessoa pessoa =  repo.findOne(user.getId());		
+		String fileName =  pessoa.getUrlFoto() != null ? pessoa.getUrlFoto() :"id="+ user.getId() + "&rand=" + this.newStringRandom() + ".jpg";
+		pessoa.setUrlFoto(fileName);
+		repo.save(pessoa);
+		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
 	}
 
-//	public URI uploadProfilePicture(MultipartFile multipartFile) {
-//
-//		UserSS user = UserService.authenticated();
-//		if (user == null) {
-//			throw new AuthorizationException("Acesso negado");
-//		}
-//
-//		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
-//		jpgImage = imageService.cropSquare(jpgImage);
-//		jpgImage = imageService.resize(jpgImage, size);
-//
-//		String fileName = prefix + user.getId() + ".jpg";
-//
-//		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
-//
-//	}
+	private char randomChar() {
+		int opt = rand.nextInt(3);
+		if (opt == 0) { // gera um digito
+			return (char) (rand.nextInt(10) + 48);
+		} else if (opt == 1) { // gera letra maiuscula
+			return (char) (rand.nextInt(26) + 65);
+		} else { // gera letra minuscula
+			return (char) (rand.nextInt(26) + 97);
+		}
 
+	}
+	private String newStringRandom() {
+		char[] vet = new char[10];
+		for (int i=0; i<10; i++) {
+			vet[i] = randomChar();
+		}
+		return new String(vet);
+	}
+	
+	
 }

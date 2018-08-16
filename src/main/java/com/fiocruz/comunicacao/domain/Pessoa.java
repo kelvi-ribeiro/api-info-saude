@@ -44,6 +44,9 @@ public class Pessoa implements Serializable {
 	@Column(name = "data_nascimento")
 	private Date dataNascimento;
 
+	@Column(name = "url_foto")
+	private String urlFoto;
+
 	@Column(name = "data_inclusao")
 	private Date dataInclusao;
 
@@ -56,7 +59,7 @@ public class Pessoa implements Serializable {
 
 	@JsonIgnore
 	private String senha;
-	
+
 	@OneToOne
 	@JoinColumn(name = "endereco_id")
 	private Endereco endereco;
@@ -78,7 +81,7 @@ public class Pessoa implements Serializable {
 		addPerfil(Perfil.USUARIO);
 	}
 
-	public Pessoa(Integer id, String nome, String cpf, String rg, Date dataNascimento, String raca,
+	public Pessoa(Integer id, String nome, String cpf, String rg, Date dataNascimento, String urlFoto, String raca,
 			String sexo, String email, String senha, Endereco endereco, Set<Telefone> telefones,
 			Naturalidade naturalidade) {
 		super();
@@ -87,6 +90,7 @@ public class Pessoa implements Serializable {
 		this.cpf = cpf;
 		this.rg = rg;
 		this.dataNascimento = dataNascimento;
+		this.urlFoto = urlFoto;
 		this.dataInclusao = new Date(System.currentTimeMillis());
 		this.raca = raca;
 		this.sexo = sexo;
@@ -138,9 +142,17 @@ public class Pessoa implements Serializable {
 		this.dataNascimento = dataNascimento;
 	}
 
+	public String getUrlFoto() {
+		return urlFoto;
+	}
+
+	public void setUrlFoto(String urlFoto) {
+		this.urlFoto = urlFoto;
+	}
+
 	public Date getDataInclusao() {
 		return dataInclusao;
-	}	
+	}
 
 	public String getRaca() {
 		return raca;
@@ -204,6 +216,10 @@ public class Pessoa implements Serializable {
 
 	public void addPerfil(Perfil perfil) {
 		perfis.add(perfil.getCod());
+	}
+
+	public void setDataInclusao(Date dataInclusao) {
+		this.dataInclusao = dataInclusao;
 	}
 
 }
