@@ -16,6 +16,7 @@ import com.fiocruz.comunicacao.services.exceptions.AuthorizationException;
 import com.fiocruz.comunicacao.services.exceptions.DataIntegrityException;
 import com.fiocruz.comunicacao.services.exceptions.FileException;
 import com.fiocruz.comunicacao.services.exceptions.ObjectNotFoundException;
+import com.fiocruz.comunicacao.services.exceptions.SenhaIncorretaException;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
@@ -33,6 +34,14 @@ public class ResourceExceptionHandler {
 		StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), "Integridade de dados", e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}
+	
+	@ExceptionHandler(SenhaIncorretaException.class)
+	public ResponseEntity<StandardError> senhaIncorreta(SenhaIncorretaException e, HttpServletRequest request) {
+		
+		StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.NOT_ACCEPTABLE.value(), "Senha Atual Incorreta", e.getMessage(), request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(err);
+	}
+	
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<StandardError> validation(MethodArgumentNotValidException e, HttpServletRequest request) {

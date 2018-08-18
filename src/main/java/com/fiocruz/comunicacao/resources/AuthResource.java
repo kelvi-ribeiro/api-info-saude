@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fiocruz.comunicacao.dto.EmailDTO;
 import com.fiocruz.comunicacao.security.JWTUtil;
 import com.fiocruz.comunicacao.security.UserSS;
 import com.fiocruz.comunicacao.services.AuthService;
@@ -34,9 +35,9 @@ public class AuthResource {
 		return ResponseEntity.noContent().build();
 	}
 
-//	@RequestMapping(value = "/forgot", method = RequestMethod.POST)
-//	public ResponseEntity<Void> forgot(@Valid @RequestBody EmailDTO objDto) {
-//		service.sendNewPassword(objDto.getEmail());
-//		return ResponseEntity.noContent().build();
-//	}
+	@RequestMapping(value = "/forgot", method = RequestMethod.POST)
+	public ResponseEntity<Void> forgot(@Valid @RequestBody EmailDTO objDto) {
+		service.sendNewPassword(objDto.getEmail());
+		return ResponseEntity.noContent().build();
+	}
 }
