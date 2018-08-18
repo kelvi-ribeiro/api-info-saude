@@ -56,7 +56,7 @@ public class PessoaResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
-	@RequestMapping(value = "/alterarSenha", method = RequestMethod.POST)
+	@RequestMapping(value = "/alterarSenha", method = RequestMethod.PUT)
 	public ResponseEntity<Void> alterarSenha(@RequestBody NovaSenhaDTO novaSenha) {
 		service.alterarSenha(novaSenha);
 		return ResponseEntity.noContent().build();
