@@ -28,6 +28,10 @@ public class Endereco implements Serializable {
 
 	private String cep;
 
+	private Double longitude;
+
+	private Double latitude;
+
 	@JsonIgnore
 	@OneToOne(mappedBy = "endereco")
 	private Pessoa pessoa;
@@ -40,14 +44,16 @@ public class Endereco implements Serializable {
 		super();
 	}
 
-	public Endereco(Integer id, int numero, String logradouro, String bairro, String cep, Pessoa pessoa,
-			Cidade cidade) {
+	public Endereco(Integer id, int numero, String logradouro, String bairro, Double longitude, Double latitudade,
+			String cep, Pessoa pessoa, Cidade cidade) {
 		super();
 		this.id = id;
 		this.numero = numero;
 		this.logradouro = logradouro;
 		this.bairro = bairro;
 		this.cep = cep;
+		this.longitude = longitude;
+		this.latitude = latitudade;
 		this.pessoa = pessoa;
 		this.cidade = cidade;
 	}
@@ -90,6 +96,22 @@ public class Endereco implements Serializable {
 
 	public void setCep(String cep) {
 		this.cep = cep;
+	}
+
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
 	}
 
 	public Pessoa getPessoa() {

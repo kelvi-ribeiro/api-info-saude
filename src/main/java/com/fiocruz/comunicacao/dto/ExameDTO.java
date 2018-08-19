@@ -26,6 +26,8 @@ public class ExameDTO implements Serializable {
 
 	private String localExameNome;
 
+	private String localExameCep;
+
 	private Integer pacienteId;
 
 	public ExameDTO() {
@@ -36,11 +38,14 @@ public class ExameDTO implements Serializable {
 	public ExameDTO(Exame exame) {
 		super();
 		this.id = exame.getId();
-		this.data = exame.getData()!= null ? Utils.dateToString(exame.getData()):null;
+		this.data = exame.getData() != null ? Utils.dateToString(exame.getData()) : null;
 		this.nome = exame.getNome();
 		this.descricao = exame.getDescricao();
 		this.localExameId = exame.getLocalExame().getId();
 		this.localExameNome = exame.getLocalExame().getNome();
+		this.localExameCep = (exame.getLocalExame() != null) && (exame.getLocalExame().getEndereco() != null)
+				? exame.getLocalExame().getEndereco().getCep()
+				: null;
 		this.pacienteId = exame.getPaciente().getId();
 
 	}
@@ -62,10 +67,10 @@ public class ExameDTO implements Serializable {
 		localExame.setId(this.localExameId);
 
 		Exame exame = new Exame();
-		if(this.data != null) {
-			exame.setData(Utils.sqlDateTimeZoneToDate(this.data));	
+		if (this.data != null) {
+			exame.setData(Utils.sqlDateTimeZoneToDate(this.data));
 		}
-		
+
 		exame.setNome(this.nome);
 		exame.setDescricao(this.descricao);
 		exame.setPaciente(paciente);
@@ -120,6 +125,14 @@ public class ExameDTO implements Serializable {
 
 	public void setLocalExameNome(String localExameNome) {
 		this.localExameNome = localExameNome;
+	}
+
+	public String getLocalExameCep() {
+		return localExameCep;
+	}
+
+	public void setLocalExameCep(String localExameCep) {
+		this.localExameCep = localExameCep;
 	}
 
 	public Integer getPacienteId() {

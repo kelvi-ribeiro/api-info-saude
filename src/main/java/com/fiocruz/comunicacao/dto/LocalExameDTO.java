@@ -28,6 +28,10 @@ public class LocalExameDTO implements Serializable {
 
 	private String enderecoCep;
 
+	private Double enderecoLatitude;
+
+	private Double enderecoLongitude;
+
 	private Integer cidadeId;
 
 	private String cidadeNome;
@@ -47,6 +51,8 @@ public class LocalExameDTO implements Serializable {
 		this.enderecoNumero = localExame.getEndereco().getNumero();
 		this.enderecoLogradouro = localExame.getEndereco().getLogradouro();
 		this.enderecoCep = localExame.getEndereco().getCep();
+		this.enderecoLongitude = localExame.getEndereco().getLongitude();
+		this.enderecoLatitude = localExame.getEndereco().getLatitude();
 		this.enderecoBairro = localExame.getEndereco().getBairro();
 		this.cidadeId = localExame.getEndereco().getCidade().getId();
 		this.cidadeNome = localExame.getEndereco().getCidade().getNome();
@@ -71,6 +77,8 @@ public class LocalExameDTO implements Serializable {
 		endereco.setId(this.enderecoId);
 		endereco.setBairro(this.enderecoBairro);
 		endereco.setCep(this.enderecoCep);
+		endereco.setLatitude(this.enderecoLatitude);
+		endereco.setLongitude(this.enderecoLongitude);
 		endereco.setNumero(this.enderecoNumero);
 		endereco.setLogradouro(this.enderecoLogradouro);
 		endereco.setCidade(cidade);
@@ -140,6 +148,22 @@ public class LocalExameDTO implements Serializable {
 
 	public void setEnderecoCep(String enderecoCep) {
 		this.enderecoCep = enderecoCep;
+	}
+
+	public Double getEnderecoLatitude() {
+		return enderecoLatitude;
+	}
+
+	public void setEnderecoLatitude(Double enderecoLatitude) {
+		this.enderecoLatitude = enderecoLatitude;
+	}
+
+	public Double getEnderecoLongitude() {
+		return enderecoLongitude;
+	}
+
+	public void setEnderecoLongitude(Double enderecoLongitude) {
+		this.enderecoLongitude = enderecoLongitude;
 	}
 
 	public Integer getCidadeId() {
