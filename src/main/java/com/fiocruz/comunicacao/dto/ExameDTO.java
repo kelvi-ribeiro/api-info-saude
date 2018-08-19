@@ -28,6 +28,10 @@ public class ExameDTO implements Serializable {
 
 	private String localExameCep;
 
+	private Double localExameLatitude;
+
+	private Double localExameLongitude;
+
 	private Integer pacienteId;
 
 	public ExameDTO() {
@@ -43,6 +47,12 @@ public class ExameDTO implements Serializable {
 		this.descricao = exame.getDescricao();
 		this.localExameId = exame.getLocalExame().getId();
 		this.localExameNome = exame.getLocalExame().getNome();
+		this.localExameLatitude = (exame.getLocalExame() != null) && (exame.getLocalExame().getEndereco() != null)
+				? exame.getLocalExame().getEndereco().getLatitude()
+				: null;
+		this.localExameLongitude = (exame.getLocalExame() != null) && (exame.getLocalExame().getEndereco() != null)
+				? exame.getLocalExame().getEndereco().getLongitude()
+				: null;
 		this.localExameCep = (exame.getLocalExame() != null) && (exame.getLocalExame().getEndereco() != null)
 				? exame.getLocalExame().getEndereco().getCep()
 				: null;
@@ -133,6 +143,22 @@ public class ExameDTO implements Serializable {
 
 	public void setLocalExameCep(String localExameCep) {
 		this.localExameCep = localExameCep;
+	}
+
+	public Double getLocalExameLatitude() {
+		return localExameLatitude;
+	}
+
+	public void setLocalExameLatitude(Double localExameLatitude) {
+		this.localExameLatitude = localExameLatitude;
+	}
+
+	public Double getLocalExameLongitude() {
+		return localExameLongitude;
+	}
+
+	public void setLocalExameLongitude(Double localExameLongitude) {
+		this.localExameLongitude = localExameLongitude;
 	}
 
 	public Integer getPacienteId() {
