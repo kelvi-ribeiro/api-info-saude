@@ -1,8 +1,10 @@
 package com.info.saude.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -63,6 +65,10 @@ public class Pessoa implements Serializable {
 	@OneToOne
 	@JoinColumn(name = "endereco_id")
 	private Endereco endereco;
+	
+	@OneToMany(mappedBy = "pessoa", cascade = { CascadeType.ALL }, orphanRemoval = true, fetch = FetchType.LAZY)
+	@Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
+	private List<PessoaSenhaEsquecida> pessoas = new ArrayList<PessoaSenhaEsquecida>();
 
 	@OneToMany(mappedBy = "pessoa", cascade = { CascadeType.ALL }, orphanRemoval = true, fetch = FetchType.LAZY)
 	@Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
