@@ -12,7 +12,7 @@ public class PessoaSenhaEsquecidaDTO implements Serializable {
 	
 	
 	private String novaSenha;
-	private Integer pessoaId;
+	private String pessoaEmail;
 
 	public PessoaSenhaEsquecidaDTO() {
 		super();
@@ -21,7 +21,7 @@ public class PessoaSenhaEsquecidaDTO implements Serializable {
 
 	public PessoaSenhaEsquecida returnEntity() {
 		Pessoa pessoa = new Pessoa();
-		pessoa.setId(this.pessoaId);
+		pessoa.setEmail(this.pessoaEmail);
 		
 		PessoaSenhaEsquecida pessoaSenhaEsquecida = new PessoaSenhaEsquecida();
 		pessoaSenhaEsquecida.setNovaSenha(this.novaSenha);
@@ -38,12 +38,14 @@ public class PessoaSenhaEsquecidaDTO implements Serializable {
 		this.novaSenha = novaSenha;
 	}
 
-	public Integer getPessoaId() {
-		return pessoaId;
+	public String getPessoaEmail() {
+		return pessoaEmail;
 	}
 
-	public void setPessoaId(Integer pessoaId) {
-		this.pessoaId = pessoaId;
+	public void setPessoaEmail(String pessoaEmail) {
+		this.pessoaEmail = pessoaEmail;
 	}
+
+	
 
 }

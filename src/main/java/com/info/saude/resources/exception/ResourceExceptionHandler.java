@@ -15,6 +15,7 @@ import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.info.saude.services.exceptions.AuthorizationException;
 import com.info.saude.services.exceptions.DataIntegrityException;
 import com.info.saude.services.exceptions.FileException;
+import com.info.saude.services.exceptions.LinkSenhaEsquecidaUsado;
 import com.info.saude.services.exceptions.ObjectNotFoundException;
 import com.info.saude.services.exceptions.SenhaIncorretaException;
 
@@ -40,6 +41,13 @@ public class ResourceExceptionHandler {
 		
 		StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.NOT_ACCEPTABLE.value(), "Senha Atual Incorreta", e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(err);
+	}
+	
+	@ExceptionHandler(LinkSenhaEsquecidaUsado.class)
+	public ResponseEntity<String> linkSenhaEsquecidaUsado(LinkSenhaEsquecidaUsado e, HttpServletRequest request) {
+		
+		StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.CONFLICT.value(), "Link para alterar a senha já foi usado", e.getMessage(), request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(err.getMessage());
 	}
 	
 	

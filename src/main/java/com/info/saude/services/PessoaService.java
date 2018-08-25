@@ -95,7 +95,7 @@ public class PessoaService {
 		Pessoa obj = repo.findByEmail(email);
 		if (obj == null) {
 			throw new ObjectNotFoundException(
-					"Objeto não encontrado! email: " + email + ", Tipo: " + Pessoa.class.getName());
+					"Nenhuma Pessoa Encontrada com esse email: " + email + ", Tipo: " + Pessoa.class.getName());
 		}
 		return obj;
 	}

@@ -11,50 +11,60 @@ import com.info.saude.domain.PessoaSenhaEsquecida;
 import com.info.saude.repositories.PessoaRepository;
 import com.info.saude.repositories.PessoaSenhaEsquecidaRepository;
 import com.info.saude.services.email.EmailService;
+import com.info.saude.services.exceptions.LinkSenhaEsquecidaUsado;
 
 @Service
 public class PessoaSenhaEsquecidaService {
 
 	@Autowired
 	private PessoaSenhaEsquecidaRepository repo;
-	
-	
+
 	@Autowired
 	private BCryptPasswordEncoder pe;
-	
+
 	@Autowired
 	EmailService emailService;
-	
 
 	@Autowired
 	private PessoaRepository pessoaRepository;
 
-	
-	private Random rand = new Random();
+	@Autowired
+	private PessoaService PessoaService;
 
+	private Random rand = new Random();
 
 	public PessoaSenhaEsquecida criarNovaSenha(PessoaSenhaEsquecida obj) {
 		obj.setId(null);
 		obj.setLink(this.newStringRandom());
 		obj.setNovaSenha(pe.encode(obj.getNovaSenha()));
-		obj.setLinkUsado(false);	
-		Pessoa pessoa = pessoaRepository.findOne(obj.getPessoa().getId());
-		obj.setPessoa(pessoa);	
+		obj.setLinkUsado(false);
+		Pessoa pessoa = PessoaService.findByEmail(obj.getPessoa().getEmail());
+		obj.setPessoa(pessoa);
 		obj = repo.save(obj);
 		emailService.sendOrderConfirmationEmail(obj);
-		return obj;		
+		return obj;
 	}
-	
-	public PessoaSenhaEsquecida confirmarNovaSenha(String link) {		
-		PessoaSenhaEsquecida pessoaSenhaEsquecida = repo.findByLink(link);
+
+	public PessoaSenhaEsquecida confirmarNovaSenha(String link) {
+		PessoaSenhaEsquecida pessoaSenhaEsquecida = this.findByLink(link);
 		pessoaSenhaEsquecida.setLinkUsado(true);
 		Pessoa pessoa = pessoaRepository.findOne(pessoaSenhaEsquecida.getPessoa().getId());
 		pessoa.setSenha(pessoaSenhaEsquecida.getNovaSenha());
 		repo.save(pessoaSenhaEsquecida);
 		pessoaRepository.save(pessoa);
-		return pessoaSenhaEsquecida;		
+		return pessoaSenhaEsquecida;
 	}
 	
+	public PessoaSenhaEsquecida findByLink(String link) {
+
+		PessoaSenhaEsquecida obj = repo.findByLink(link);
+		if (obj.isLinkUsado()) {
+			throw new LinkSenhaEsquecidaUsado(
+					"<script>alert('Link Para alterar a senha já foi usado!!!')</script>");
+		}
+		return obj;
+	}
+
 	private char randomChar() {
 		int opt = rand.nextInt(3);
 		if (opt == 0) { // gera um digito
