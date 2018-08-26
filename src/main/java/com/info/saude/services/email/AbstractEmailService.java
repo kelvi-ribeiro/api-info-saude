@@ -17,6 +17,9 @@ public abstract class AbstractEmailService implements EmailService {
 
 	@Value("${default.sender}")
 	private String sender;
+	
+	@Value("${base.url}")
+	private String baseUrl;
 
 	@Autowired
 	private EmbeddedWebApplicationContext appContext;
@@ -33,12 +36,8 @@ public abstract class AbstractEmailService implements EmailService {
 		sm.setFrom(sender);
 		sm.setSubject("Link para alterar a senha");
 		sm.setSentDate(new Date(System.currentTimeMillis()));
-		try {
-			sm.setText("Acesse esse Link para alterar sua senha, ignore se você não tem a mínima ideia do que é isso: "
-					+ this.getBaseUrl() +  "/esqueceuSenha/" +  obj.getLink());
-		} catch (UnknownHostException e) {		
-			e.printStackTrace();
-		}
+		sm.setText("Acesse esse Link para alterar sua senha, ignore se você não tem a mínima ideia do que é isso: "
+				+ this.baseUrl + "/esqueceuSenha/" + obj.getLink());
 		return sm;
 	}
 
