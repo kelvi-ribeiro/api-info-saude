@@ -2,7 +2,6 @@ package com.info.saude.services;
 
 import java.awt.image.BufferedImage;
 import java.net.URI;
-import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -24,6 +23,7 @@ import com.info.saude.services.exceptions.AuthorizationException;
 import com.info.saude.services.exceptions.DataIntegrityException;
 import com.info.saude.services.exceptions.ObjectNotFoundException;
 import com.info.saude.services.exceptions.SenhaIncorretaException;
+import com.info.saude.utils.Utils;
 
 @Service
 public class PessoaService {
@@ -45,8 +45,6 @@ public class PessoaService {
 
 	@Autowired
 	private S3Service s3Service;
-
-	private Random rand = new Random();
 
 	public Pessoa find(Integer id) {
 
@@ -116,30 +114,10 @@ public class PessoaService {
 
 		Pessoa pessoa = repo.findOne(user.getId());
 		String fileName = pessoa.getUrlFoto() != null ? pessoa.getUrlFoto()
-				: "id=" + user.getId() + "&rand=" + this.newStringRandom() + ".jpg";
+				: "id=" + user.getId() + "&rand=" + Utils.newStringRandom() + ".jpg";
 		pessoa.setUrlFoto(fileName);
 		repo.save(pessoa);
 		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
-	}
-
-	private char randomChar() {
-		int opt = rand.nextInt(3);
-		if (opt == 0) { // gera um digito
-			return (char) (rand.nextInt(10) + 48);
-		} else if (opt == 1) { // gera letra maiuscula
-			return (char) (rand.nextInt(26) + 65);
-		} else { // gera letra minuscula
-			return (char) (rand.nextInt(26) + 97);
-		}
-
-	}
-
-	private String newStringRandom() {
-		char[] vet = new char[10];
-		for (int i = 0; i < 10; i++) {
-			vet[i] = randomChar();
-		}
-		return new String(vet);
 	}
 
 }

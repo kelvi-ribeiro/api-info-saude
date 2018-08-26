@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Random;
 import java.util.TimeZone;
 
 import org.springframework.core.io.ClassPathResource;
@@ -26,6 +27,8 @@ import org.springframework.core.io.Resource;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Utils {
+	
+	public static Random rand = new Random();
 
 	static public Integer booleanToInt(Boolean bool) {
 		return bool ? 1 : 0;
@@ -501,5 +504,25 @@ public class Utils {
 		});
 
 		return sortedEntries;
+	}
+	
+	public static char randomChar() {
+		int opt = rand.nextInt(3);
+		if (opt == 0) { // gera um digito
+			return (char) (rand.nextInt(10) + 48);
+		} else if (opt == 1) { // gera letra maiuscula
+			return (char) (rand.nextInt(26) + 65);
+		} else { // gera letra minuscula
+			return (char) (rand.nextInt(26) + 97);
+		}
+
+	}
+
+	public static String newStringRandom() {
+		char[] vet = new char[10];
+		for (int i = 0; i < 10; i++) {
+			vet[i] = randomChar();
+		}
+		return new String(vet);
 	}
 }
