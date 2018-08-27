@@ -7,6 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.info.saude.domain.Medicamento;
 import com.info.saude.domain.Paciente;
+import com.info.saude.domain.TipoMedicamento;
 import com.info.saude.utils.Utils;
 
 //@UsuarioUpdate
@@ -32,9 +33,15 @@ public class MedicamentoDTO implements Serializable {
 
 	private Integer pacienteId;
 
-	public MedicamentoDTO() {		
+	private Integer tipoMedicamentoId;
+
+	private String tipoMedicamentoNome;
+
+	private String tipoMedicamentoCaminhoImagem;
+
+	public MedicamentoDTO() {
 		super();
-		
+
 	}
 
 	public MedicamentoDTO(Medicamento medicamento) {
@@ -45,11 +52,16 @@ public class MedicamentoDTO implements Serializable {
 		this.intervaloTempo = medicamento.getIntervaloTempo();
 		this.dataInicio = medicamento.getDataInicio() != null ? Utils.dateToString(medicamento.getDataInicio()) : null;
 		this.dataFim = medicamento.getDataFim() != null ? Utils.dateToString(medicamento.getDataFim()) : null;
+		this.ativo = medicamento.isAtivo();
 		this.horaInicial = medicamento.getHoraInicial() != null ? Utils.timeToString(medicamento.getHoraInicial())
 				: null;
 		this.pacienteId = medicamento.getPaciente().getId();
-		this.ativo = medicamento.isAtivo();
+		if (medicamento.getTipoMedicamento() != null) {
+			this.tipoMedicamentoId = medicamento.getTipoMedicamento().getId();
+			this.tipoMedicamentoNome = medicamento.getTipoMedicamento().getNome();
+			this.tipoMedicamentoCaminhoImagem = medicamento.getTipoMedicamento().getCaminhoImagem();
 
+		}
 	}
 
 	public static List<MedicamentoDTO> returnListDto(List<Medicamento> list) {
@@ -65,6 +77,9 @@ public class MedicamentoDTO implements Serializable {
 		Paciente paciente = new Paciente();
 		paciente.setId(this.pacienteId);
 
+		TipoMedicamento tipoMedicamento = new TipoMedicamento();
+		tipoMedicamento.setId(this.tipoMedicamentoId);
+
 		Medicamento medicamento = new Medicamento();
 		medicamento.setId(this.id);
 		medicamento.setNome(this.nome);
@@ -72,8 +87,9 @@ public class MedicamentoDTO implements Serializable {
 		medicamento.setIntervaloTempo(this.intervaloTempo);
 		medicamento.setDataInicio(Utils.sqlDateToDate(this.dataInicio));
 		medicamento.setDataFim(Utils.sqlDateToDate(this.dataFim));
-		medicamento.setHoraInicial(Utils.sqlDateToTime(this.horaInicial));		
+		medicamento.setHoraInicial(Utils.sqlDateToTime(this.horaInicial));
 		medicamento.setPaciente(paciente);
+		medicamento.setTipoMedicamento(tipoMedicamento);
 
 		return medicamento;
 	}
@@ -148,6 +164,30 @@ public class MedicamentoDTO implements Serializable {
 
 	public void setPacienteId(Integer pacienteId) {
 		this.pacienteId = pacienteId;
+	}
+
+	public Integer getTipoMedicamentoId() {
+		return tipoMedicamentoId;
+	}
+
+	public void setTipoMedicamentoId(Integer tipoMedicamentoId) {
+		this.tipoMedicamentoId = tipoMedicamentoId;
+	}
+
+	public String getTipoMedicamentoNome() {
+		return tipoMedicamentoNome;
+	}
+
+	public void setTipoMedicamentoNome(String tipoMedicamentoNome) {
+		this.tipoMedicamentoNome = tipoMedicamentoNome;
+	}
+
+	public String getTipoMedicamentoCaminhoImagem() {
+		return tipoMedicamentoCaminhoImagem;
+	}
+
+	public void setTipoMedicamentoCaminhoImagem(String tipoMedicamentoCaminhoImagem) {
+		this.tipoMedicamentoCaminhoImagem = tipoMedicamentoCaminhoImagem;
 	}
 
 }

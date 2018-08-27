@@ -41,6 +41,12 @@ public class Medicamento implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "paciente_id")
 	private Paciente paciente;
+	
+	@ManyToOne
+	@JoinColumn(name = "tipo_medicamento_id")
+	private TipoMedicamento tipoMedicamento;
+	
+	
 
 	public Medicamento() {
 		super();
@@ -48,7 +54,7 @@ public class Medicamento implements Serializable {
 	}
 
 	public Medicamento(Integer id, String nome, String descricao, int intervaloTempo, Date dataInicio, Date dataFim,
-			Date horaInicial, boolean ativo, Paciente paciente) {
+			Date horaInicial, boolean ativo, Paciente paciente,TipoMedicamento tipoMedicamento) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -59,6 +65,7 @@ public class Medicamento implements Serializable {
 		this.horaInicial = horaInicial;
 		this.ativo = ativo;
 		this.paciente = paciente;
+		this.tipoMedicamento = tipoMedicamento;
 		this.setAtivo(true);
 	}
 
@@ -134,4 +141,17 @@ public class Medicamento implements Serializable {
 		this.paciente = paciente;
 	}
 
+	public TipoMedicamento getTipoMedicamento() {
+		return tipoMedicamento;
+	}
+
+	public void setTipoMedicamento(TipoMedicamento tipoMedicamento) {
+		this.tipoMedicamento = tipoMedicamento;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	
 }
