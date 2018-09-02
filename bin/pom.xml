@@ -3,13 +3,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.macuxi.camarao.arduino</groupId>
-	<artifactId>arduino</artifactId>
+	<groupId>com.kelvi.api.info.saude</groupId>
+	<artifactId>kelvi-api-info-saude</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>camarao</name>
-	<description>Um projeto que visa monitorar a águua</description>
+	<name>Info Saúde</name>
+	<description>Um Projeto que visa fazer a comunicação de Agentes da saúde com os pacientes</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
