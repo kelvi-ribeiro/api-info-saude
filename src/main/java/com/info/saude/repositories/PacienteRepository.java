@@ -1,5 +1,7 @@
 package com.info.saude.repositories;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,4 +24,7 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
 	@Transactional(readOnly=true)
 	@Query("SELECT obj FROM Paciente obj WHERE obj.pessoa.id=:idPessoa")
 	Paciente findByPessoaId(@Param("idPessoa") Integer idPessoa);
+	
+	@Transactional(readOnly=true)
+	Page<Paciente> findByPessoaNomeContaining(@Param("nomePessoa") String nomePessoa,@Param("pageRequest") Pageable pageRequest);
 }

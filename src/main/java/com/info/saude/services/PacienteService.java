@@ -3,6 +3,9 @@ package com.info.saude.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.info.saude.domain.Paciente;
@@ -65,5 +68,12 @@ public class PacienteService {
 		}
 		return obj;
 	}
+	
+	
+	public Page<Paciente> findByNamePage(Integer page, Integer linesPerPage, String orderBy, String direction,String nomePessoa) {
+		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return repo.findByPessoaNomeContaining(nomePessoa,pageRequest);
+	}
+	
 
 }
