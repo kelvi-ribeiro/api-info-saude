@@ -70,9 +70,19 @@ public class PacienteService {
 	}
 	
 	
-	public Page<Paciente> findByNamePage(Integer page, Integer linesPerPage, String orderBy, String direction,String nomePessoa) {
+	public Page<Paciente> findByNamePage(
+			Integer page, 
+			Integer linesPerPage, 
+			String orderBy, 
+			String direction,
+			String pessoaNome,
+			Integer linhaCuidadoId) {
 		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		return repo.findByPessoaNomeContaining(nomePessoa,pageRequest);
+		if(linhaCuidadoId !=null) {
+			return repo.findByPessoaNomeContainingAndLinhaCuidadoId(pessoaNome,linhaCuidadoId,pageRequest);			
+		}else {
+			return repo.findByPessoaNomeContaining(pessoaNome,pageRequest);
+		}
 	}
 	
 

@@ -98,12 +98,13 @@ public class PacienteResource {
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value="/page", method=RequestMethod.GET)
 	public ResponseEntity<Page<Paciente>> findPage(
-			@RequestParam(value="nomePessoa", defaultValue="") String nomePessoa, 
+			@RequestParam(value="pessoaNome", defaultValue="") String pessoaNome,
+			@RequestParam(value="linhaCuidadoId", defaultValue="") Integer linhaCuidadoId, 
 			@RequestParam(value="page", defaultValue="0") Integer page, 
 			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, 
 			@RequestParam(value="orderBy", defaultValue="pessoa.nome") String orderBy, 
 			@RequestParam(value="direction", defaultValue="ASC") String direction) {
-		Page<Paciente> list = service.findByNamePage(page, linesPerPage, orderBy, direction,nomePessoa);
+		Page<Paciente> list = service.findByNamePage(page, linesPerPage, orderBy, direction,pessoaNome,linhaCuidadoId);
 		//Page<PacienteDTO> listDto = list.map(obj -> new PacienteDTO(obj));  		
 		return ResponseEntity.ok().body(list);
 	}

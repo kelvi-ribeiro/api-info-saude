@@ -26,5 +26,15 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
 	Paciente findByPessoaId(@Param("idPessoa") Integer idPessoa);
 	
 	@Transactional(readOnly=true)
-	Page<Paciente> findByPessoaNomeContaining(@Param("nomePessoa") String nomePessoa,@Param("pageRequest") Pageable pageRequest);
+	Page<Paciente> findByPessoaNomeContainingAndLinhaCuidadoId
+	(
+	@Param("pessoaNome") String pessoaNome, 
+	@Param("linhaCuidadoId") Integer linhaCuidadoId,
+	@Param("pageRequest") Pageable pageRequest);
+	
+	@Transactional(readOnly=true)
+	Page<Paciente> findByPessoaNomeContaining
+	(
+	@Param("pessoaNome") String pessoaNome,
+	@Param("pageRequest") Pageable pageRequest);
 }
