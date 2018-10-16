@@ -2,6 +2,7 @@ package com.info.saude.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,15 +22,19 @@ public class LinhaCuidado implements Serializable {
 
 	private String descricao;
 
+	@Column(name = "caminho_imagem")
+	private String caminhoImagem;
+
 	public LinhaCuidado() {
 		super();
 	}
 
-	public LinhaCuidado(Integer id, String nome, String descricao) {
-
+	public LinhaCuidado(Integer id, String nome, String descricao, String caminhoImagem) {
+		super();
 		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
+		this.caminhoImagem = caminhoImagem;
 	}
 
 	public Integer getId() {
@@ -54,6 +59,14 @@ public class LinhaCuidado implements Serializable {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public String getCaminhoImagem() {
+		return caminhoImagem;
+	}
+
+	public void setCaminhoImagem(String caminhoImagem) {
+		this.caminhoImagem = caminhoImagem;
 	}
 
 }
