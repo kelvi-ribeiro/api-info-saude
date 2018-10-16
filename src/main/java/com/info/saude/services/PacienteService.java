@@ -75,13 +75,25 @@ public class PacienteService {
 			Integer linesPerPage, 
 			String orderBy, 
 			String direction,
-			String pessoaNome,
+			String campoPesquisa,
 			Integer linhaCuidadoId) {
 		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		if(linhaCuidadoId !=null) {
-			return repo.findByPessoaNomeContainingAndLinhaCuidadoId(pessoaNome,linhaCuidadoId,pageRequest);			
+		if(linhaCuidadoId !=null) {			
+			if(repo.findByPessoaNomeContainingAndLinhaCuidadoId(campoPesquisa,linhaCuidadoId,pageRequest).hasContent()) {
+				return repo.findByPessoaNomeContainingAndLinhaCuidadoId(campoPesquisa,linhaCuidadoId,pageRequest);
+			}else if(repo.findByPessoaEmailContainingAndLinhaCuidadoId(campoPesquisa,linhaCuidadoId,pageRequest).hasContent()) {
+				return repo.findByPessoaEmailContainingAndLinhaCuidadoId(campoPesquisa,linhaCuidadoId,pageRequest);				
+			}else {
+				return repo.findByPessoaCpfContainingAndLinhaCuidadoId(campoPesquisa,linhaCuidadoId,pageRequest);
+			}			
 		}else {
-			return repo.findByPessoaNomeContaining(pessoaNome,pageRequest);
+			if(repo.findByPessoaNomeContaining(campoPesquisa,pageRequest).hasContent()) {
+				return repo.findByPessoaNomeContaining(campoPesquisa,pageRequest);				
+			} else if(repo.findByPessoaEmailContaining(campoPesquisa,pageRequest).hasContent()) {
+				return repo.findByPessoaEmailContaining(campoPesquisa,pageRequest);
+			}else {
+				return repo.findByPessoaCpfContaining(campoPesquisa,pageRequest);
+			}
 		}
 	}
 	

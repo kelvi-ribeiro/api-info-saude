@@ -28,13 +28,40 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
 	@Transactional(readOnly=true)
 	Page<Paciente> findByPessoaNomeContainingAndLinhaCuidadoId
 	(
-	@Param("pessoaNome") String pessoaNome, 
+	@Param("campoPesquisa") String campoPesquisa, 
 	@Param("linhaCuidadoId") Integer linhaCuidadoId,
 	@Param("pageRequest") Pageable pageRequest);
 	
 	@Transactional(readOnly=true)
+	Page<Paciente> findByPessoaEmailContainingAndLinhaCuidadoId
+	(
+	@Param("campoPesquisa") String campoPesquisa, 
+	@Param("linhaCuidadoId") Integer linhaCuidadoId,
+	@Param("pageRequest") Pageable pageRequest);
+	
+	@Transactional(readOnly=true)
+	Page<Paciente> findByPessoaCpfContainingAndLinhaCuidadoId
+	(
+	@Param("campoPesquisa") String campoPesquisa, 
+	@Param("linhaCuidadoId") Integer linhaCuidadoId,
+	@Param("pageRequest") Pageable pageRequest);
+	
+	
+	@Transactional(readOnly=true)
 	Page<Paciente> findByPessoaNomeContaining
 	(
-	@Param("pessoaNome") String pessoaNome,
+	@Param("campoPesquisa") String campoPesquisa,
+	@Param("pageRequest") Pageable pageRequest);
+	
+	@Transactional(readOnly=true)
+	Page<Paciente> findByPessoaEmailContaining
+	(
+	@Param("campoPesquisa") String campoPesquisa,
+	@Param("pageRequest") Pageable pageRequest);
+	
+	@Transactional(readOnly=true)
+	Page<Paciente> findByPessoaCpfContaining
+	(
+	@Param("campoPesquisa") String campoPesquisa,
 	@Param("pageRequest") Pageable pageRequest);
 }
