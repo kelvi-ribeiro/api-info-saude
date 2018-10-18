@@ -40,8 +40,8 @@ public class Pessoa implements Serializable {
 	@Column(unique = true)
 	private String cpf;
 
-	@Column(unique = true)
-	private String rg;
+	@Column(name = "ultimo_acesso")
+	private Date ultimoAcesso;
 
 	@Column(name = "data_nascimento")
 	private Date dataNascimento;
@@ -65,7 +65,7 @@ public class Pessoa implements Serializable {
 	@OneToOne
 	@JoinColumn(name = "endereco_id")
 	private Endereco endereco;
-	
+
 	@OneToMany(mappedBy = "pessoa", cascade = { CascadeType.ALL }, orphanRemoval = true, fetch = FetchType.LAZY)
 	@Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
 	private List<PessoaSenhaEsquecida> pessoas = new ArrayList<PessoaSenhaEsquecida>();
@@ -87,25 +87,36 @@ public class Pessoa implements Serializable {
 		addPerfil(Perfil.USUARIO);
 	}
 
-	public Pessoa(Integer id, String nome, String cpf, String rg, Date dataNascimento, String urlFoto, String raca,
-			String sexo, String email, String senha, Endereco endereco, Set<Telefone> telefones,
-			Naturalidade naturalidade) {
+	public Pessoa(Integer id, String nome, String cpf, Date ultimoAcesso, Date dataNascimento, String urlFoto,
+			Date dataInclusao, String raca, String sexo, String email, String senha, Endereco endereco,
+			List<PessoaSenhaEsquecida> pessoas, Set<Telefone> telefones, Naturalidade naturalidade,
+			Set<Integer> perfis) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
-		this.rg = rg;
+		this.ultimoAcesso = ultimoAcesso;
 		this.dataNascimento = dataNascimento;
 		this.urlFoto = urlFoto;
-		this.dataInclusao = new Date(System.currentTimeMillis());
+		this.dataInclusao = dataInclusao;
 		this.raca = raca;
 		this.sexo = sexo;
 		this.email = email;
 		this.senha = senha;
 		this.endereco = endereco;
+		this.pessoas = pessoas;
 		this.telefones = telefones;
 		this.naturalidade = naturalidade;
+		this.perfis = perfis;
 		addPerfil(Perfil.USUARIO);
+	}
+
+	public Date getUltimoAcesso() {
+		return ultimoAcesso;
+	}
+
+	public void setUltimoAcesso(Date ultimoAcesso) {
+		this.ultimoAcesso = ultimoAcesso;
 	}
 
 	public Integer getId() {
@@ -130,14 +141,6 @@ public class Pessoa implements Serializable {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
-	}
-
-	public String getRg() {
-		return rg;
-	}
-
-	public void setRg(String rg) {
-		this.rg = rg;
 	}
 
 	public Date getDataNascimento() {
