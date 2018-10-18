@@ -69,6 +69,10 @@ public class PacienteService {
 		return obj;
 	}
 	
+	public Integer showNumberOnlineUsers() {
+		return repo.showNumberOnlineUsers();
+	}
+	
 	
 	public Page<Paciente> findByNamePage(
 			Integer page, 

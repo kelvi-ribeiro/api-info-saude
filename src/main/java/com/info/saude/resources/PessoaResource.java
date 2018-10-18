@@ -57,5 +57,11 @@ public class PessoaResource {
 		service.alterarSenha(novaSenha);
 		return ResponseEntity.noContent().build();
 	}
+	
+	@RequestMapping(value = "/setUserOnline", method = RequestMethod.PUT)
+	public ResponseEntity<Void> alterarSenha(@RequestParam(value = "pessoaId") Integer pessoaId) {
+		service.setUserOnline(pessoaId);
+		return ResponseEntity.noContent().build();
+	}
 
 }

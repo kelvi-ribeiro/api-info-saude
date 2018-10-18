@@ -26,6 +26,12 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
 	Paciente findByPessoaId(@Param("idPessoa") Integer idPessoa);
 	
 	@Transactional(readOnly=true)
+	@Query("SELECT count(*) FROM Paciente pa\n" + 
+			"WHERE pa.pessoa.ultimoAcesso\n" + 
+			"BETWEEN CURRENT_TIMESTAMP()  - 80   AND CURRENT_TIMESTAMP()")
+	Integer showNumberOnlineUsers();
+	
+	@Transactional(readOnly=true)
 	Page<Paciente> findByPessoaNomeContainingAndLinhaCuidadoId
 	(
 	@Param("campoPesquisa") String campoPesquisa, 

@@ -13,5 +13,7 @@ public interface PessoaRepository extends JpaRepository<Pessoa, Integer> {
 	Pessoa findByEmail(String email);
 	
 	@Transactional(readOnly=true)
-	Pessoa findByCpf(String cpf);
+	Pessoa findByCpf(String cpf);	
+	
+	
 }
