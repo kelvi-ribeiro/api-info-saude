@@ -12,62 +12,56 @@ import com.info.saude.domain.Paciente;
 
 @Repository
 public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
-	
-	@Transactional(readOnly=true)
+
+	@Transactional(readOnly = true)
 	@Query("SELECT obj FROM Paciente obj WHERE obj.pessoa.email=:email")
 	Paciente findByPessoaEmail(@Param("email") String email);
-	
-	@Transactional(readOnly=true)
+
+	@Transactional(readOnly = true)
 	@Query("SELECT obj FROM Paciente obj WHERE obj.pessoa.cpf=:cpf")
 	Paciente findByPessoaCpf(@Param("cpf") String cpf);
-	
-	@Transactional(readOnly=true)
+
+	@Transactional(readOnly = true)
 	@Query("SELECT obj FROM Paciente obj WHERE obj.pessoa.id=:idPessoa")
 	Paciente findByPessoaId(@Param("idPessoa") Integer idPessoa);
+
+//	@Transactional(readOnly = true)
+//	@Query("SELECT count(*) FROM Paciente pa, Pessoa pe "
+//			+ "where pa.pessoa.id=pe.id "   
+//			 +"AND pa.pessoa.ultimoAcesso"   
+//			 + "BETWEEN NOW() - INTERVAL \'80\' second  AND NOW()")	
+//	Integer showNumberOnlineUsers();
 	
-	@Transactional(readOnly=true)
-	@Query("SELECT count(*) FROM Paciente pa\n" + 
-			"WHERE pa.pessoa.ultimoAcesso\n" + 
-			"BETWEEN CURRENT_TIMESTAMP()  - 80   AND CURRENT_TIMESTAMP()")
+	@Transactional(readOnly = true)
+	@Query(value="SELECT count(*)\n" + 
+			"FROM paciente\n" + 
+			"   ,pessoa\n" + 
+			"WHERE paciente.pessoa_id = pessoa.id\n" + 
+			"AND pessoa.ultimo_acesso between NOW() - INTERVAL '80' second AND NOW()",			
+			nativeQuery=true)	
 	Integer showNumberOnlineUsers();
-	
-	@Transactional(readOnly=true)
-	Page<Paciente> findByPessoaNomeContainingAndLinhaCuidadoId
-	(
-	@Param("campoPesquisa") String campoPesquisa, 
-	@Param("linhaCuidadoId") Integer linhaCuidadoId,
-	@Param("pageRequest") Pageable pageRequest);
-	
-	@Transactional(readOnly=true)
-	Page<Paciente> findByPessoaEmailContainingAndLinhaCuidadoId
-	(
-	@Param("campoPesquisa") String campoPesquisa, 
-	@Param("linhaCuidadoId") Integer linhaCuidadoId,
-	@Param("pageRequest") Pageable pageRequest);
-	
-	@Transactional(readOnly=true)
-	Page<Paciente> findByPessoaCpfContainingAndLinhaCuidadoId
-	(
-	@Param("campoPesquisa") String campoPesquisa, 
-	@Param("linhaCuidadoId") Integer linhaCuidadoId,
-	@Param("pageRequest") Pageable pageRequest);
-	
-	
-	@Transactional(readOnly=true)
-	Page<Paciente> findByPessoaNomeContaining
-	(
-	@Param("campoPesquisa") String campoPesquisa,
-	@Param("pageRequest") Pageable pageRequest);
-	
-	@Transactional(readOnly=true)
-	Page<Paciente> findByPessoaEmailContaining
-	(
-	@Param("campoPesquisa") String campoPesquisa,
-	@Param("pageRequest") Pageable pageRequest);
-	
-	@Transactional(readOnly=true)
-	Page<Paciente> findByPessoaCpfContaining
-	(
-	@Param("campoPesquisa") String campoPesquisa,
-	@Param("pageRequest") Pageable pageRequest);
+
+	@Transactional(readOnly = true)
+	Page<Paciente> findByPessoaNomeContainingAndLinhaCuidadoId(@Param("campoPesquisa") String campoPesquisa,
+			@Param("linhaCuidadoId") Integer linhaCuidadoId, @Param("pageRequest") Pageable pageRequest);
+
+	@Transactional(readOnly = true)
+	Page<Paciente> findByPessoaEmailContainingAndLinhaCuidadoId(@Param("campoPesquisa") String campoPesquisa,
+			@Param("linhaCuidadoId") Integer linhaCuidadoId, @Param("pageRequest") Pageable pageRequest);
+
+	@Transactional(readOnly = true)
+	Page<Paciente> findByPessoaCpfContainingAndLinhaCuidadoId(@Param("campoPesquisa") String campoPesquisa,
+			@Param("linhaCuidadoId") Integer linhaCuidadoId, @Param("pageRequest") Pageable pageRequest);
+
+	@Transactional(readOnly = true)
+	Page<Paciente> findByPessoaNomeContaining(@Param("campoPesquisa") String campoPesquisa,
+			@Param("pageRequest") Pageable pageRequest);
+
+	@Transactional(readOnly = true)
+	Page<Paciente> findByPessoaEmailContaining(@Param("campoPesquisa") String campoPesquisa,
+			@Param("pageRequest") Pageable pageRequest);
+
+	@Transactional(readOnly = true)
+	Page<Paciente> findByPessoaCpfContaining(@Param("campoPesquisa") String campoPesquisa,
+			@Param("pageRequest") Pageable pageRequest);
 }
