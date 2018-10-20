@@ -27,10 +27,9 @@ public class PacienteResource {
 	private PacienteService service;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<PacienteDTO> find(@PathVariable Integer id) {
-		Paciente paciente = service.find(id);
-		PacienteDTO pacienteDto = new PacienteDTO(paciente);
-		return ResponseEntity.ok().body(pacienteDto);
+	public ResponseEntity<Paciente> find(@PathVariable Integer id) {
+		Paciente paciente = service.find(id);		
+		return ResponseEntity.ok().body(paciente);
 	}
 
 //	@RequestMapping(value="/email", method=RequestMethod.GET)
@@ -68,14 +67,13 @@ public class PacienteResource {
 		return ResponseEntity.ok().body(paciente);
 	}
 
-//	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-//	public ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO objDto, @PathVariable Integer id) {
-//		Cliente obj = service.fromDTO(objDto);
-//		obj.setId(id);
-//		obj = service.update(obj);
-//		return ResponseEntity.noContent().build();
-//	}
-//	
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody Paciente obj, @PathVariable Integer id) {
+		obj.setId(id);
+		obj = service.update(obj);
+		return ResponseEntity.noContent().build();
+	}
+	
 //	@PreAuthorize("hasAnyRole('ADMIN')")
 //	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 //	public ResponseEntity<Void> delete(@PathVariable Integer id) {

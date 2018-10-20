@@ -12,6 +12,7 @@ import com.info.saude.domain.Paciente;
 import com.info.saude.domain.Pessoa;
 import com.info.saude.dto.PacienteDTO;
 import com.info.saude.repositories.PacienteRepository;
+import com.info.saude.repositories.PessoaRepository;
 import com.info.saude.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -19,6 +20,9 @@ public class PacienteService {
 
 	@Autowired
 	private PacienteRepository repo;
+	
+	@Autowired
+	private PessoaRepository pessoaRepository;
 
 	public Paciente find(Integer id) {
 
@@ -34,6 +38,11 @@ public class PacienteService {
 		paciente = repo.save(paciente);
 		return paciente;
 	}
+	
+	public Paciente update(Paciente obj) {
+		obj.setPessoa(pessoaRepository.save(obj.getPessoa()));
+		return repo.save(obj);
+	} 
 
 	public List<Paciente> findAll() {
 		return repo.findAll();
