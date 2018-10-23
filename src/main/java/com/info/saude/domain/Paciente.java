@@ -24,10 +24,6 @@ public class Paciente implements Serializable {
 	private Integer id;
 
 	@ManyToOne()
-	@JoinColumn(name = "tipo_sanguineo_id")
-	private TipoSanguineo tipoSanguineo;
-
-	@ManyToOne()
 	@JoinColumn(name = "pessoa_id")
 	private Pessoa pessoa;
 
@@ -55,9 +51,8 @@ public class Paciente implements Serializable {
 		super();
 	}
 
-	public Paciente(Integer id, TipoSanguineo tipoSanguineo, Pessoa pessoa, LinhaCuidado linhaCuidado) {
+	public Paciente(Integer id, Pessoa pessoa, LinhaCuidado linhaCuidado) {
 		this.id = id;
-		this.tipoSanguineo = tipoSanguineo;
 		this.pessoa = pessoa;
 		this.linhaCuidado = linhaCuidado;
 	}
@@ -76,14 +71,6 @@ public class Paciente implements Serializable {
 
 	public void setPessoa(Pessoa pessoa) {
 		this.pessoa = pessoa;
-	}
-
-	public LinhaCuidado getLinhaCuidado() {
-		return linhaCuidado;
-	}
-
-	public void setLinhaCuidado(LinhaCuidado linhaCuidado) {
-		this.linhaCuidado = linhaCuidado;
 	}
 
 }
