@@ -47,16 +47,19 @@ public class Paciente implements Serializable {
 	@OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)
 	private List<Medicamento> medicamentos = new ArrayList<>();
 
-	public Paciente(Integer id, TipoSanguineo tipoSanguineo, Pessoa pessoa, LinhaCuidado linhaCuidado) {
+	@JsonIgnore
+	@OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)
+	private List<PacienteLinhaCuidado> pacienteLinhaCuidados = new ArrayList<>();
+
+	public Paciente() {
 		super();
+	}
+
+	public Paciente(Integer id, TipoSanguineo tipoSanguineo, Pessoa pessoa, LinhaCuidado linhaCuidado) {
 		this.id = id;
 		this.tipoSanguineo = tipoSanguineo;
 		this.pessoa = pessoa;
 		this.linhaCuidado = linhaCuidado;
-	}
-
-	public Paciente() {
-		super();
 	}
 
 	public Integer getId() {
@@ -65,14 +68,6 @@ public class Paciente implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public TipoSanguineo getTipoSanguineo() {
-		return tipoSanguineo;
-	}
-
-	public void setTipoSanguineo(TipoSanguineo tipoSanguineo) {
-		this.tipoSanguineo = tipoSanguineo;
 	}
 
 	public Pessoa getPessoa() {
@@ -89,30 +84,6 @@ public class Paciente implements Serializable {
 
 	public void setLinhaCuidado(LinhaCuidado linhaCuidado) {
 		this.linhaCuidado = linhaCuidado;
-	}
-
-	public List<Exame> getExames() {
-		return exames;
-	}
-
-	public void setExames(List<Exame> exames) {
-		this.exames = exames;
-	}
-
-	public List<LocalExame> getLocaisExame() {
-		return locaisExame;
-	}
-
-	public void setLocaisExame(List<LocalExame> locaisExame) {
-		this.locaisExame = locaisExame;
-	}
-
-	public List<Medicamento> getMedicamentos() {
-		return medicamentos;
-	}
-
-	public void setMedicamentos(List<Medicamento> medicamentos) {
-		this.medicamentos = medicamentos;
 	}
 
 }

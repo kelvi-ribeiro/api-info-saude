@@ -1,13 +1,19 @@
 package com.info.saude.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "linha_cuidado")
@@ -24,6 +30,10 @@ public class LinhaCuidado implements Serializable {
 
 	@Column(name = "caminho_imagem")
 	private String caminhoImagem;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "linhaCuidado", cascade = CascadeType.ALL)
+	private List<PacienteLinhaCuidado> pacienteLinhaCuidados = new ArrayList<>();
 
 	public LinhaCuidado() {
 		super();
