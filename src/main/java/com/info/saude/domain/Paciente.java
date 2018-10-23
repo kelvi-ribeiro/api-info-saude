@@ -28,8 +28,8 @@ public class Paciente implements Serializable {
 	private Pessoa pessoa;
 
 	@ManyToOne()
-	@JoinColumn(name = "linha_cuidado_id")
-	private LinhaCuidado linhaCuidado;
+	@JoinColumn(name = "tipo_sanguineo_id")
+	private TipoSanguineo tipoSanguineo;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)
@@ -51,10 +51,11 @@ public class Paciente implements Serializable {
 		super();
 	}
 
-	public Paciente(Integer id, Pessoa pessoa, LinhaCuidado linhaCuidado) {
+	public Paciente(Integer id, Pessoa pessoa, TipoSanguineo tipoSanguineo) {
+		super();
 		this.id = id;
 		this.pessoa = pessoa;
-		this.linhaCuidado = linhaCuidado;
+		this.tipoSanguineo = tipoSanguineo;
 	}
 
 	public Integer getId() {
@@ -71,6 +72,14 @@ public class Paciente implements Serializable {
 
 	public void setPessoa(Pessoa pessoa) {
 		this.pessoa = pessoa;
+	}
+
+	public TipoSanguineo getTipoSanguineo() {
+		return tipoSanguineo;
+	}
+
+	public void setTipoSanguineo(TipoSanguineo tipoSanguineo) {
+		this.tipoSanguineo = tipoSanguineo;
 	}
 
 }

@@ -9,9 +9,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "paciente_linha_cuidado")
+@Table(name = "paciente_linha_cuidado",uniqueConstraints= {@UniqueConstraint
+		(columnNames= {"paciente_id","linha_cuidado_id"},name="IDX_Paciente_Linha_Cuidado"
+		)})
+
 public class PacienteLinhaCuidado implements Serializable {
 	private static final long serialVersionUID = 1L;
 

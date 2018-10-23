@@ -52,8 +52,6 @@ public class Pessoa implements Serializable {
 	@Column(name = "data_inclusao")
 	private Date dataInclusao;
 
-	private String raca;
-
 	private String sexo;
 
 	@Column(unique = true)
@@ -63,7 +61,7 @@ public class Pessoa implements Serializable {
 	private String senha;
 
 	@OneToOne
-	@JoinColumn(name = "endereco_id")
+	@JoinColumn(name = "endereco_id", unique = true)
 	private Endereco endereco;
 
 	@OneToMany(mappedBy = "pessoa", cascade = { CascadeType.ALL }, orphanRemoval = true, fetch = FetchType.LAZY)
@@ -88,7 +86,7 @@ public class Pessoa implements Serializable {
 	}
 
 	public Pessoa(Integer id, String nome, String cpf, Date ultimoAcesso, Date dataNascimento, String urlFoto,
-			Date dataInclusao, String raca, String sexo, String email, String senha, Endereco endereco,
+			Date dataInclusao, String sexo, String email, String senha, Endereco endereco,
 			List<PessoaSenhaEsquecida> pessoas, Set<Telefone> telefones, Naturalidade naturalidade,
 			Set<Integer> perfis) {
 		super();
@@ -99,7 +97,6 @@ public class Pessoa implements Serializable {
 		this.dataNascimento = dataNascimento;
 		this.urlFoto = urlFoto;
 		this.dataInclusao = dataInclusao;
-		this.raca = raca;
 		this.sexo = sexo;
 		this.email = email;
 		this.senha = senha;
@@ -161,14 +158,6 @@ public class Pessoa implements Serializable {
 
 	public Date getDataInclusao() {
 		return dataInclusao;
-	}
-
-	public String getRaca() {
-		return raca;
-	}
-
-	public void setRaca(String raca) {
-		this.raca = raca;
 	}
 
 	public String getSexo() {
