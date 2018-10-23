@@ -26,7 +26,7 @@ public class PessoaDTO implements Serializable {
 
 	private Integer id;
 
-	private String cpf;	
+	private String cpf;
 
 	@NotEmpty(message = "Preenchimento obrigatório")
 	@Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres")
@@ -35,8 +35,6 @@ public class PessoaDTO implements Serializable {
 	private String dataNascimento;
 
 	private String dataInclusao;
-
-	private String raca;
 
 	private Integer sexo;
 
@@ -98,7 +96,6 @@ public class PessoaDTO implements Serializable {
 		this.dataNascimento = pessoa.getDataNascimento() != null ? Utils.dateToString(pessoa.getDataNascimento())
 				: null;
 		this.dataInclusao = pessoa.getDataInclusao() != null ? Utils.dateTimeToString(pessoa.getDataInclusao()) : null;
-		this.raca = pessoa.getRaca();
 		this.sexo = Sexo.descricaoToEnum((pessoa.getSexo())).getCod();
 		this.email = pessoa.getEmail();
 		this.senha = pessoa.getSenha();
@@ -132,7 +129,6 @@ public class PessoaDTO implements Serializable {
 		pessoa.setCpf(this.cpf);
 		pessoa.setNome(this.nome);
 		pessoa.setDataNascimento(Utils.brazilianDateToDate(this.dataNascimento));
-		pessoa.setRaca(this.raca);
 		pessoa.setSexo(Sexo.toEnum(this.sexo).getDescricao());
 		pessoa.setEmail(this.email);
 		pessoa.setSenha(this.senha);
@@ -211,10 +207,6 @@ public class PessoaDTO implements Serializable {
 
 	public String getDataInclusao() {
 		return dataInclusao;
-	}
-
-	public String getRaca() {
-		return raca;
 	}
 
 	public Sexo getSexo() {
