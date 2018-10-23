@@ -31,37 +31,72 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
 //			 +"AND pa.pessoa.ultimoAcesso"   
 //			 + "BETWEEN NOW() - INTERVAL \'80\' second  AND NOW()")	
 //	Integer showNumberOnlineUsers();
+
+	@Transactional(readOnly = true)
+	@Query(value = "SELECT count(*)\n" + "FROM paciente\n" + "   ,pessoa\n" + "WHERE paciente.pessoa_id = pessoa.id\n"
+			+ "AND pessoa.ultimo_acesso between NOW() - INTERVAL '80' second AND NOW()", nativeQuery = true)
+	Integer showNumberOnlineUsers();
+	
+	
+
+	@Transactional(readOnly = true)
+	@Query(value = "SELECT  pa FROM Paciente  pa,Pessoa pe, PacienteLinhaCuidado plc\n"
+			+ "WHERE pa.id = plc.paciente.id \n" 
+			+ "	AND  pa.pessoa.id = pe.id"
+			+ " AND (plc.linhaCuidado.id = :linhaCuidadoId  or :linhaCuidadoId = 0) "
+			+ " AND pe.nome LIKE CONCAT('%',:campoPesquisa,'%')"			
+			+ " ORDER by pa.pessoa.nome")
+	Page<Paciente> findPacienteByPessoaNomeOrLinhaCuidadoId(
+			@Param("campoPesquisa") String campoPesquisa,			
+			@Param("linhaCuidadoId") Integer linhaCuidadoId,
+			@Param("pageRequest") Pageable pageRequest);
 	
 	@Transactional(readOnly = true)
-	@Query(value="SELECT count(*)\n" + 
-			"FROM paciente\n" + 
-			"   ,pessoa\n" + 
-			"WHERE paciente.pessoa_id = pessoa.id\n" + 
-			"AND pessoa.ultimo_acesso between NOW() - INTERVAL '80' second AND NOW()",			
-			nativeQuery=true)	
-	Integer showNumberOnlineUsers();
-
-	@Transactional(readOnly = true)
-	Page<Paciente> findByPessoaNomeContainingAndLinhaCuidadoId(@Param("campoPesquisa") String campoPesquisa,
-			@Param("linhaCuidadoId") Integer linhaCuidadoId, @Param("pageRequest") Pageable pageRequest);
-
-	@Transactional(readOnly = true)
-	Page<Paciente> findByPessoaEmailContainingAndLinhaCuidadoId(@Param("campoPesquisa") String campoPesquisa,
-			@Param("linhaCuidadoId") Integer linhaCuidadoId, @Param("pageRequest") Pageable pageRequest);
-
-	@Transactional(readOnly = true)
-	Page<Paciente> findByPessoaCpfContainingAndLinhaCuidadoId(@Param("campoPesquisa") String campoPesquisa,
-			@Param("linhaCuidadoId") Integer linhaCuidadoId, @Param("pageRequest") Pageable pageRequest);
-
-	@Transactional(readOnly = true)
-	Page<Paciente> findByPessoaNomeContaining(@Param("campoPesquisa") String campoPesquisa,
+	@Query(value = "SELECT  pa FROM Paciente  pa,Pessoa pe, PacienteLinhaCuidado plc\n"
+			+ "WHERE pa.id = plc.paciente.id \n" 
+			+ "	AND  pa.pessoa.id = pe.id"
+			+ " AND (plc.linhaCuidado.id = :linhaCuidadoId  or :linhaCuidadoId = 0) "
+			+ " AND pe.email LIKE CONCAT('%',:campoPesquisa,'%')"			
+			+ " ORDER by pa.pessoa.nome")
+	Page<Paciente> findPacienteByPessoaEmailOrLinhaCuidadoId(
+			@Param("campoPesquisa") String campoPesquisa,			
+			@Param("linhaCuidadoId") Integer linhaCuidadoId,
 			@Param("pageRequest") Pageable pageRequest);
-
+	
 	@Transactional(readOnly = true)
-	Page<Paciente> findByPessoaEmailContaining(@Param("campoPesquisa") String campoPesquisa,
-			@Param("pageRequest") Pageable pageRequest);
+	@Query(value = "SELECT  pa FROM Paciente  pa,Pessoa pe, PacienteLinhaCuidado plc\n"
+			+ "WHERE pa.id = plc.paciente.id \n" 
+			+ "	AND  pa.pessoa.id = pe.id"
+			+ " AND (plc.linhaCuidado.id = :linhaCuidadoId  or :linhaCuidadoId = 0) "
+			+ " AND pe.cpf LIKE CONCAT('%',:campoPesquisa,'%')"			
+			+ " ORDER by pa.pessoa.nome")
+	Page<Paciente> findPacienteByPessoaCpflOrLinhaCuidadoId(
+			@Param("campoPesquisa") String campoPesquisa,			
+			@Param("linhaCuidadoId") Integer linhaCuidadoId,
+			@Param("pageRequest") Pageable pageRequest);	
+	
 
-	@Transactional(readOnly = true)
-	Page<Paciente> findByPessoaCpfContaining(@Param("campoPesquisa") String campoPesquisa,
-			@Param("pageRequest") Pageable pageRequest);
+//	@Transactional(readOnly = true)
+//	Page<Paciente> findByPessoaNomeContainingAndLinhaCuidadoId(@Param("campoPesquisa") String campoPesquisa,
+//			@Param("linhaCuidadoId") Integer linhaCuidadoId, @Param("pageRequest") Pageable pageRequest);
+//
+//	@Transactional(readOnly = true)
+//	Page<Paciente> findByPessoaEmailContainingAndLinhaCuidadoId(@Param("campoPesquisa") String campoPesquisa,
+//			@Param("linhaCuidadoId") Integer linhaCuidadoId, @Param("pageRequest") Pageable pageRequest);
+//
+//	@Transactional(readOnly = true)
+//	Page<Paciente> findByPessoaCpfContainingAndLinhaCuidadoId(@Param("campoPesquisa") String campoPesquisa,
+//			@Param("linhaCuidadoId") Integer linhaCuidadoId, @Param("pageRequest") Pageable pageRequest);
+//
+//	@Transactional(readOnly = true)
+//	Page<Paciente> findByPessoaNomeContaining(@Param("campoPesquisa") String campoPesquisa,
+//			@Param("pageRequest") Pageable pageRequest);
+//
+//	@Transactional(readOnly = true)
+//	Page<Paciente> findByPessoaEmailContaining(@Param("campoPesquisa") String campoPesquisa,
+//			@Param("pageRequest") Pageable pageRequest);
+//
+//	@Transactional(readOnly = true)
+//	Page<Paciente> findByPessoaCpfContaining(@Param("campoPesquisa") String campoPesquisa,
+//			@Param("pageRequest") Pageable pageRequest);
 }

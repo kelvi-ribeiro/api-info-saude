@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.info.saude.domain.Paciente;
@@ -83,32 +82,49 @@ public class PacienteService {
 	}
 	
 	
-	public Page<Paciente> findByNamePage(
-			Integer page, 
-			Integer linesPerPage, 
-			String orderBy, 
-			String direction,
-			String campoPesquisa,
-			Integer linhaCuidadoId) {
-		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		if(linhaCuidadoId !=null) {			
-			if(repo.findByPessoaNomeContainingAndLinhaCuidadoId(campoPesquisa,linhaCuidadoId,pageRequest).hasContent()) {
-				return repo.findByPessoaNomeContainingAndLinhaCuidadoId(campoPesquisa,linhaCuidadoId,pageRequest);
-			}else if(repo.findByPessoaEmailContainingAndLinhaCuidadoId(campoPesquisa,linhaCuidadoId,pageRequest).hasContent()) {
-				return repo.findByPessoaEmailContainingAndLinhaCuidadoId(campoPesquisa,linhaCuidadoId,pageRequest);				
-			}else {
-				return repo.findByPessoaCpfContainingAndLinhaCuidadoId(campoPesquisa,linhaCuidadoId,pageRequest);
-			}			
-		}else {
-			if(repo.findByPessoaNomeContaining(campoPesquisa,pageRequest).hasContent()) {
-				return repo.findByPessoaNomeContaining(campoPesquisa,pageRequest);				
-			} else if(repo.findByPessoaEmailContaining(campoPesquisa,pageRequest).hasContent()) {
-				return repo.findByPessoaEmailContaining(campoPesquisa,pageRequest);
-			}else {
-				return repo.findByPessoaCpfContaining(campoPesquisa,pageRequest);
-			}
-		}
+//	public Page<Paciente> findByNamePage(
+//			Integer page, 
+//			Integer linesPerPage, 
+//			String orderBy, 
+//			String direction,
+//			String campoPesquisa,
+//			Integer linhaCuidadoId) {
+//		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
+//		if(linhaCuidadoId !=null) {			
+//			if(repo.findByPessoaNomeContainingAndLinhaCuidadoId(campoPesquisa,linhaCuidadoId,pageRequest).hasContent()) {
+//				return repo.findByPessoaNomeContainingAndLinhaCuidadoId(campoPesquisa,linhaCuidadoId,pageRequest);
+//			}else if(repo.findByPessoaEmailContainingAndLinhaCuidadoId(campoPesquisa,linhaCuidadoId,pageRequest).hasContent()) {
+//				return repo.findByPessoaEmailContainingAndLinhaCuidadoId(campoPesquisa,linhaCuidadoId,pageRequest);				
+//			}else {
+//				return repo.findByPessoaCpfContainingAndLinhaCuidadoId(campoPesquisa,linhaCuidadoId,pageRequest);
+//			}			
+//		}else {
+//			if(repo.findByPessoaNomeContaining(campoPesquisa,pageRequest).hasContent()) {
+//				return repo.findByPessoaNomeContaining(campoPesquisa,pageRequest);				
+//			} else if(repo.findByPessoaEmailContaining(campoPesquisa,pageRequest).hasContent()) {
+//				return repo.findByPessoaEmailContaining(campoPesquisa,pageRequest);
+//			}else {
+//				return repo.findByPessoaCpfContaining(campoPesquisa,pageRequest);
+//			}
+//		}
+//	}
+	
+	
+	public Page<Paciente> findPacinteByPessoaNomeOrPessoaEmailOrPessoaCPfOrLinhaCuidadoId(
+	Integer page, 
+	Integer linesPerPage,	
+	Integer linhaCuidadoId,
+	String campoPesquisa	
+	) {
+PageRequest pageRequest = new PageRequest(page, linesPerPage);
+	if(repo.findPacienteByPessoaNomeOrLinhaCuidadoId(campoPesquisa, linhaCuidadoId, pageRequest).hasContent()){
+		return repo.findPacienteByPessoaNomeOrLinhaCuidadoId(campoPesquisa, linhaCuidadoId, pageRequest);
+	}else if(repo.findPacienteByPessoaEmailOrLinhaCuidadoId(campoPesquisa, linhaCuidadoId, pageRequest).hasContent()){
+		return repo.findPacienteByPessoaEmailOrLinhaCuidadoId(campoPesquisa, linhaCuidadoId, pageRequest);
+	}else {
+		return repo.findPacienteByPessoaCpflOrLinhaCuidadoId(campoPesquisa, linhaCuidadoId, pageRequest);
 	}
 	
 
+	}
 }
