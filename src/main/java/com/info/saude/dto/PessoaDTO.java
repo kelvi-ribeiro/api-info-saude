@@ -52,7 +52,7 @@ public class PessoaDTO implements Serializable {
 
 	private int numeroEndereco;
 
-	private String logradouro;
+	private String rua;
 
 	private String bairro;
 
@@ -140,7 +140,7 @@ public class PessoaDTO implements Serializable {
 		Endereco endereco = new Endereco();
 		endereco.setBairro(this.bairro);
 		endereco.setCep(this.cep);
-		endereco.setLogradouro(this.logradouro);
+		endereco.setRua(this.rua);
 		endereco.setNumero(this.numeroEndereco);
 		endereco.setCidade(cidade);
 		endereco.setPessoa(pessoa);
@@ -257,12 +257,12 @@ public class PessoaDTO implements Serializable {
 		this.numeroEndereco = numeroEndereco;
 	}
 
-	public String getLogradouro() {
-		return logradouro;
+	public String getRua() {
+		return rua;
 	}
 
-	public void setLogradouro(String logradouro) {
-		this.logradouro = logradouro;
+	public void setRua(String rua) {
+		this.rua = rua;
 	}
 
 	public String getBairro() {
