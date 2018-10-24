@@ -32,5 +32,10 @@ public class PacienteLinhaCuidadoResource {
 		PacienteLinhaCuidado obj = service.insertByPacienteIdAndLinhaCuidadoId(objDto.returnEntity());
 		return ResponseEntity.ok().body(obj);
 	}
-
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
 }
