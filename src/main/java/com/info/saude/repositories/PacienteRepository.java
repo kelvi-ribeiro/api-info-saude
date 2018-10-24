@@ -40,7 +40,7 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
 	
 
 	@Transactional(readOnly = true)
-	@Query(value = "SELECT  pa FROM Paciente  pa,Pessoa pe, PacienteLinhaCuidado plc\n"
+	@Query(value = "SELECT DISTINCT pa FROM Paciente  pa,Pessoa pe, PacienteLinhaCuidado plc\n"
 			+ "WHERE pa.id = plc.paciente.id \n" 
 			+ "	AND  pa.pessoa.id = pe.id"
 			+ " AND (plc.linhaCuidado.id = :linhaCuidadoId  or :linhaCuidadoId = 0) "
@@ -52,7 +52,7 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
 			@Param("pageRequest") Pageable pageRequest);
 	
 	@Transactional(readOnly = true)
-	@Query(value = "SELECT  pa FROM Paciente  pa,Pessoa pe, PacienteLinhaCuidado plc\n"
+	@Query(value = "SELECT DISTINCT pa FROM Paciente  pa,Pessoa pe, PacienteLinhaCuidado plc\n"
 			+ "WHERE pa.id = plc.paciente.id \n" 
 			+ "	AND  pa.pessoa.id = pe.id"
 			+ " AND (plc.linhaCuidado.id = :linhaCuidadoId  or :linhaCuidadoId = 0) "
@@ -64,7 +64,7 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
 			@Param("pageRequest") Pageable pageRequest);
 	
 	@Transactional(readOnly = true)
-	@Query(value = "SELECT  pa FROM Paciente  pa,Pessoa pe, PacienteLinhaCuidado plc\n"
+	@Query(value = "SELECT DISTINCT pa FROM Paciente  pa,Pessoa pe, PacienteLinhaCuidado plc\n"
 			+ "WHERE pa.id = plc.paciente.id \n" 
 			+ "	AND  pa.pessoa.id = pe.id"
 			+ " AND (plc.linhaCuidado.id = :linhaCuidadoId  or :linhaCuidadoId = 0) "
