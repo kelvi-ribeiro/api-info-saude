@@ -18,5 +18,10 @@ public class PacienteLinhaCuidadoService {
 		List<PacienteLinhaCuidado> list = repo.findByPacienteId(pacienteId);
 		return list;
 	}
+	
+	public PacienteLinhaCuidado insertByPacienteIdAndLinhaCuidadoId(PacienteLinhaCuidado pacienteLinhaCuidado) {
+		return repo.save(pacienteLinhaCuidado);		
+		
+	}
 
 }
