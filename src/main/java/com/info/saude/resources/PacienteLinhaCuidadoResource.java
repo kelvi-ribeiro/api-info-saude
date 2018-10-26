@@ -38,4 +38,12 @@ public class PacienteLinhaCuidadoResource {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody PacienteLinhaCuidadoDTO objDto, @PathVariable Integer id) {
+		PacienteLinhaCuidado obj = objDto.returnEntity();
+		obj.setId(id);
+		obj = service.update(obj);
+		return ResponseEntity.noContent().build();
+	}
+	
 }

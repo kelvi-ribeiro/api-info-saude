@@ -32,6 +32,10 @@ public class PacienteLinhaCuidadoService {
 	public PacienteLinhaCuidado insertByPacienteIdAndLinhaCuidadoId(PacienteLinhaCuidado pacienteLinhaCuidado) {
 		return repo.save(pacienteLinhaCuidado);
 	}
+	
+	public PacienteLinhaCuidado update(PacienteLinhaCuidado obj) {
+		return repo.save(obj);
+	}
 
 	public void delete(Integer id) {
 		if(find(id) != null) {
