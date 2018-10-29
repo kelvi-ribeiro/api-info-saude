@@ -68,19 +68,13 @@ public class PessoaDTO implements Serializable {
 
 	private Integer codigoArea1;
 
-	private String tipo1;
-
 	private String numero1;
 
 	private Integer codigoArea2;
 
-	private String tipo2;
-
 	private String numero2;
 
 	private Integer codigoArea3;
-
-	private String tipo3;
 
 	private String numero3;
 
@@ -146,28 +140,25 @@ public class PessoaDTO implements Serializable {
 		endereco.setPessoa(pessoa);
 
 		pessoa.setEndereco(endereco);
-		if (this.codigoArea1 != null && this.tipo1 != null && this.numero1 != null) {
+		if (this.codigoArea1 != null && this.numero1 != null) {
 			Telefone telefone = new Telefone();
 			telefone.setPessoa(pessoa);
 			telefone.setCodigoArea(this.codigoArea1);
 			telefone.setNumero(this.numero1);
-			telefone.setTipo(this.tipo1);
 			pessoa.getTelefones().add(telefone);
 		}
-		if (this.codigoArea2 != null && this.tipo2 != null && this.numero2 != null) {
+		if (this.codigoArea2 != null && this.numero2 != null) {
 			Telefone telefone = new Telefone();
 			telefone.setPessoa(pessoa);
 			telefone.setCodigoArea(this.codigoArea2);
 			telefone.setNumero(this.numero2);
-			telefone.setTipo(this.tipo2);
 			pessoa.getTelefones().add(telefone);
 		}
-		if (this.codigoArea3 != null && this.tipo3 != null && this.numero3 != null) {
+		if (this.codigoArea3 != null && this.numero3 != null) {
 			Telefone telefone = new Telefone();
 			telefone.setPessoa(pessoa);
 			telefone.setCodigoArea(this.codigoArea3);
 			telefone.setNumero(this.numero3);
-			telefone.setTipo(this.tipo3);
 			pessoa.getTelefones().add(telefone);
 		}
 		return pessoa;
@@ -309,10 +300,6 @@ public class PessoaDTO implements Serializable {
 		this.codigoArea1 = codigoArea1;
 	}
 
-	public void setTipo1(String tipo1) {
-		this.tipo1 = tipo1;
-	}
-
 	public void setNumero1(String numero1) {
 		this.numero1 = numero1;
 	}
@@ -321,20 +308,12 @@ public class PessoaDTO implements Serializable {
 		this.codigoArea2 = codigoArea2;
 	}
 
-	public void setTipo2(String tipo2) {
-		this.tipo2 = tipo2;
-	}
-
 	public void setNumero2(String numero2) {
 		this.numero2 = numero2;
 	}
 
 	public void setCodigoArea3(Integer codigoArea3) {
 		this.codigoArea3 = codigoArea3;
-	}
-
-	public void setTipo3(String tipo3) {
-		this.tipo3 = tipo3;
 	}
 
 	public void setNumero3(String numero3) {

@@ -67,7 +67,8 @@ public class Pessoa implements Serializable {
 	@OneToMany(mappedBy = "pessoa", cascade = { CascadeType.ALL }, orphanRemoval = true, fetch = FetchType.LAZY)
 	@Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
 	private List<PessoaSenhaEsquecida> pessoas = new ArrayList<PessoaSenhaEsquecida>();
-
+	
+	@JsonIgnore
 	@OneToMany(mappedBy = "pessoa", cascade = { CascadeType.ALL }, orphanRemoval = true, fetch = FetchType.LAZY)
 	@Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
 	private Set<Telefone> telefones = new HashSet<Telefone>();

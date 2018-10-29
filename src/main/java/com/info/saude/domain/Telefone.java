@@ -23,10 +23,8 @@ public class Telefone implements Serializable {
 	@Column(name = "codigo_area")
 	private int codigoArea;
 
-	private String tipo;
-
 	private String numero;
-	
+
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "pessoa_id")
@@ -36,11 +34,10 @@ public class Telefone implements Serializable {
 		super();
 	}
 
-	public Telefone(Integer id, int codigoArea, String tipo, String numero, Pessoa pessoa) {
+	public Telefone(Integer id, int codigoArea, String numero, Pessoa pessoa) {
 		super();
 		this.id = id;
 		this.codigoArea = codigoArea;
-		this.tipo = tipo;
 		this.numero = numero;
 		this.pessoa = pessoa;
 	}
@@ -61,14 +58,6 @@ public class Telefone implements Serializable {
 		this.codigoArea = codigoArea;
 	}
 
-	public String getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-
 	public String getNumero() {
 		return numero;
 	}
@@ -84,8 +73,5 @@ public class Telefone implements Serializable {
 	public void setPessoa(Pessoa pessoa) {
 		this.pessoa = pessoa;
 	}
-
-	
-	
 
 }
