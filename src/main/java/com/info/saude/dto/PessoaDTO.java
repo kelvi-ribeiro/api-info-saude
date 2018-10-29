@@ -66,15 +66,9 @@ public class PessoaDTO implements Serializable {
 
 	private Set<Telefone> telefones = new HashSet<Telefone>();
 
-	private Integer codigoArea1;
-
 	private String numero1;
 
-	private Integer codigoArea2;
-
 	private String numero2;
-
-	private Integer codigoArea3;
 
 	private String numero3;
 
@@ -140,24 +134,21 @@ public class PessoaDTO implements Serializable {
 		endereco.setPessoa(pessoa);
 
 		pessoa.setEndereco(endereco);
-		if (this.codigoArea1 != null && this.numero1 != null) {
+		if (this.numero1 != null) {
 			Telefone telefone = new Telefone();
 			telefone.setPessoa(pessoa);
-			telefone.setCodigoArea(this.codigoArea1);
 			telefone.setNumero(this.numero1);
 			pessoa.getTelefones().add(telefone);
 		}
-		if (this.codigoArea2 != null && this.numero2 != null) {
+		if (this.numero2 != null) {
 			Telefone telefone = new Telefone();
 			telefone.setPessoa(pessoa);
-			telefone.setCodigoArea(this.codigoArea2);
 			telefone.setNumero(this.numero2);
 			pessoa.getTelefones().add(telefone);
 		}
-		if (this.codigoArea3 != null && this.numero3 != null) {
+		if (this.numero3 != null) {
 			Telefone telefone = new Telefone();
 			telefone.setPessoa(pessoa);
-			telefone.setCodigoArea(this.codigoArea3);
 			telefone.setNumero(this.numero3);
 			pessoa.getTelefones().add(telefone);
 		}
@@ -200,12 +191,16 @@ public class PessoaDTO implements Serializable {
 		return dataInclusao;
 	}
 
-	public Sexo getSexo() {
-		return Sexo.toEnum(sexo);
+	public void setDataInclusao(String dataInclusao) {
+		this.dataInclusao = dataInclusao;
 	}
 
-	public void setSexo(Sexo sexo) {
-		this.sexo = sexo.getCod();
+	public Integer getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(Integer sexo) {
+		this.sexo = sexo;
 	}
 
 	public String getEmail() {
@@ -224,20 +219,20 @@ public class PessoaDTO implements Serializable {
 		this.senha = senha;
 	}
 
-	public int getEnderecoId() {
-		return enderecoId;
-	}
-
-	public void setEnderecoId(int enderecoId) {
-		this.enderecoId = enderecoId;
-	}
-
 	public int getNaturalidadeId() {
 		return naturalidadeId;
 	}
 
 	public void setNaturalidadeId(int naturalidadeId) {
 		this.naturalidadeId = naturalidadeId;
+	}
+
+	public int getEnderecoId() {
+		return enderecoId;
+	}
+
+	public void setEnderecoId(int enderecoId) {
+		this.enderecoId = enderecoId;
 	}
 
 	public int getNumeroEndereco() {
@@ -296,24 +291,24 @@ public class PessoaDTO implements Serializable {
 		this.telefones = telefones;
 	}
 
-	public void setCodigoArea1(Integer codigoArea1) {
-		this.codigoArea1 = codigoArea1;
+	public String getNumero1() {
+		return numero1;
 	}
 
 	public void setNumero1(String numero1) {
 		this.numero1 = numero1;
 	}
 
-	public void setCodigoArea2(Integer codigoArea2) {
-		this.codigoArea2 = codigoArea2;
+	public String getNumero2() {
+		return numero2;
 	}
 
 	public void setNumero2(String numero2) {
 		this.numero2 = numero2;
 	}
 
-	public void setCodigoArea3(Integer codigoArea3) {
-		this.codigoArea3 = codigoArea3;
+	public String getNumero3() {
+		return numero3;
 	}
 
 	public void setNumero3(String numero3) {
