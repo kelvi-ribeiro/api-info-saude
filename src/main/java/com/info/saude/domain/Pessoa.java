@@ -60,7 +60,7 @@ public class Pessoa implements Serializable {
 	@JsonIgnore
 	private String senha;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "endereco_id", unique = true)
 	private Endereco endereco;
 
@@ -73,7 +73,7 @@ public class Pessoa implements Serializable {
 	@Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
 	private Set<Telefone> telefones = new HashSet<Telefone>();
 
-	@ManyToOne
+	@ManyToOne()
 	@JoinColumn(name = "naturalidade_id")
 	private Naturalidade naturalidade;
 

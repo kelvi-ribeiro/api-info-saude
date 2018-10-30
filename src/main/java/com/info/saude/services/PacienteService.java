@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.info.saude.domain.Paciente;
 import com.info.saude.domain.Pessoa;
-import com.info.saude.dto.PacienteDTO;
 import com.info.saude.repositories.PacienteRepository;
 import com.info.saude.repositories.PessoaRepository;
 import com.info.saude.services.exceptions.ObjectNotFoundException;
@@ -19,7 +18,7 @@ public class PacienteService {
 
 	@Autowired
 	private PacienteRepository repo;
-	
+
 	@Autowired
 	private PessoaRepository pessoaRepository;
 
@@ -32,16 +31,15 @@ public class PacienteService {
 		return obj;
 	}
 
-	public Paciente insert(PacienteDTO obj) {
-		Paciente paciente = obj.returnEntity();
-		paciente = repo.save(paciente);
-		return paciente;
+	public Paciente insert(Paciente obj) {
+		return repo.save(obj);
+
 	}
-	
+
 	public Paciente update(Paciente obj) {
 		obj.setPessoa(pessoaRepository.save(obj.getPessoa()));
 		return repo.save(obj);
-	} 
+	}
 
 	public List<Paciente> findAll() {
 		return repo.findAll();
@@ -76,12 +74,11 @@ public class PacienteService {
 		}
 		return obj;
 	}
-	
+
 	public Integer showNumberOnlineUsers() {
 		return repo.showNumberOnlineUsers();
 	}
-	
-	
+
 //	public Page<Paciente> findByNamePage(
 //			Integer page, 
 //			Integer linesPerPage, 
@@ -108,23 +105,18 @@ public class PacienteService {
 //			}
 //		}
 //	}
-	
-	
-	public Page<Paciente> findPacinteByPessoaNomeOrPessoaEmailOrPessoaCPfOrLinhaCuidadoId(
-	Integer page, 
-	Integer linesPerPage,	
-	Integer linhaCuidadoId,
-	String campoPesquisa	
-	) {
-PageRequest pageRequest = new PageRequest(page, linesPerPage);
-	if(repo.findPacienteByPessoaNomeOrLinhaCuidadoId(campoPesquisa, linhaCuidadoId, pageRequest).hasContent()){
-		return repo.findPacienteByPessoaNomeOrLinhaCuidadoId(campoPesquisa, linhaCuidadoId, pageRequest);
-	}else if(repo.findPacienteByPessoaEmailOrLinhaCuidadoId(campoPesquisa, linhaCuidadoId, pageRequest).hasContent()){
-		return repo.findPacienteByPessoaEmailOrLinhaCuidadoId(campoPesquisa, linhaCuidadoId, pageRequest);
-	}else {
-		return repo.findPacienteByPessoaCpflOrLinhaCuidadoId(campoPesquisa, linhaCuidadoId, pageRequest);
-	}
-	
+
+	public Page<Paciente> findPacinteByPessoaNomeOrPessoaEmailOrPessoaCPfOrLinhaCuidadoId(Integer page,
+			Integer linesPerPage, Integer linhaCuidadoId, String campoPesquisa) {
+		PageRequest pageRequest = new PageRequest(page, linesPerPage);
+		if (repo.findPacienteByPessoaNomeOrLinhaCuidadoId(campoPesquisa, linhaCuidadoId, pageRequest).hasContent()) {
+			return repo.findPacienteByPessoaNomeOrLinhaCuidadoId(campoPesquisa, linhaCuidadoId, pageRequest);
+		} else if (repo.findPacienteByPessoaEmailOrLinhaCuidadoId(campoPesquisa, linhaCuidadoId, pageRequest)
+				.hasContent()) {
+			return repo.findPacienteByPessoaEmailOrLinhaCuidadoId(campoPesquisa, linhaCuidadoId, pageRequest);
+		} else {
+			return repo.findPacienteByPessoaCpflOrLinhaCuidadoId(campoPesquisa, linhaCuidadoId, pageRequest);
+		}
 
 	}
 }

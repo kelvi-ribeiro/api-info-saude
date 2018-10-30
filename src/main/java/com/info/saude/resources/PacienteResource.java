@@ -32,19 +32,20 @@ public class PacienteResource {
 		return ResponseEntity.ok().body(paciente);
 	}
 
-//	@RequestMapping(value="/email", method=RequestMethod.GET)
-//	public ResponseEntity<PessoaDTO> find(@RequestParam(value="value") String email) {
-//		Pessoa pessoa = service.findByEmail(email);
-//		PessoaDTO pessoaDto = new PessoaDTO(pessoa);
-//		return ResponseEntity.ok().body(pessoaDto);
-//	}
-
-	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody PacienteDTO objDto) {
-		Paciente obj = service.insert(objDto);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+	@RequestMapping(method=RequestMethod.POST)
+	public ResponseEntity<Void> insert(@RequestBody Paciente obj) {
+		obj = service.insert(obj);		
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+				.path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
+//
+//	@RequestMapping(method = RequestMethod.POST)
+//	public ResponseEntity<Void> insert(@RequestBody PacienteDTO objDto) {
+//		Paciente obj = service.insert(objDto);
+//		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+//		return ResponseEntity.created(uri).build();
+//	}
 
 	@RequestMapping(value = "/pessoa", method = RequestMethod.GET)
 	public ResponseEntity<Paciente> findByPessoaId(@RequestParam(value = "idPessoa") Integer idPessoa) {
