@@ -106,7 +106,7 @@ public class Pessoa implements Serializable {
 		this.telefones = telefones;
 		this.naturalidade = naturalidade;
 		this.perfis = perfis;
-		addPerfil(Perfil.USUARIO);
+		addPerfil(Perfil.USUARIO);		
 	}
 
 	public Date getUltimoAcesso() {

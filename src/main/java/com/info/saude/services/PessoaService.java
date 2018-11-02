@@ -88,21 +88,28 @@ public class PessoaService {
 		}
 
 	}
-	
+
 	public void setUserOnline(Integer pessoaId) {
 		Pessoa pessoa = repo.findOne(pessoaId);
 		pessoa.setUltimoAcesso(new Date());
-		repo.save(pessoa);		
+		repo.save(pessoa);
 	}
-	
-	
 
 	public Pessoa findByEmail(String email) {
-
 		Pessoa obj = repo.findByEmail(email);
 		if (obj == null) {
 			throw new ObjectNotFoundException(
 					"Nenhuma Pessoa Encontrada com esse email: " + email + ", Tipo: " + Pessoa.class.getName());
+		}		
+		return obj;
+	}
+	
+	public Pessoa findByCpf(String cpf) {
+
+		Pessoa obj = repo.findByCpf(cpf);
+		if (obj == null) {
+			throw new ObjectNotFoundException(
+					"Nenhuma Pessoa Encontrada com esse cpf: " + cpf + ", Tipo: " + Pessoa.class.getName());
 		}
 		return obj;
 	}

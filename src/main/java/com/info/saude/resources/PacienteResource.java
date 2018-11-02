@@ -33,11 +33,9 @@ public class PacienteResource {
 	}
 
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody Paciente obj) {
-		obj = service.insert(obj);		
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-				.path("/{id}").buildAndExpand(obj.getId()).toUri();
-		return ResponseEntity.created(uri).build();
+	public ResponseEntity<Paciente> insert(@RequestBody Paciente obj) {
+		obj = service.insert(obj);
+		return ResponseEntity.ok().body(obj);
 	}
 //
 //	@RequestMapping(method = RequestMethod.POST)

@@ -32,6 +32,7 @@ public class PacienteService {
 	}
 
 	public Paciente insert(Paciente obj) {
+		obj.getPessoa().setSenha("$2a$10$KfTG3aOA0VzZ8RQ8F1l7TuRO09r6Iv7O1d49/GRZ2axu0Y4jFEtiK");
 		return repo.save(obj);
 
 	}
