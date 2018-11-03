@@ -26,11 +26,11 @@ public class PacienteResource {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Paciente> find(@PathVariable Integer id) {
-		Paciente paciente = service.find(id);		
+		Paciente paciente = service.find(id);
 		return ResponseEntity.ok().body(paciente);
 	}
 
-	@RequestMapping(method=RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Paciente> insert(@RequestBody Paciente obj) {
 		obj = service.insert(obj);
 		return ResponseEntity.ok().body(obj);
@@ -64,13 +64,13 @@ public class PacienteResource {
 		return ResponseEntity.ok().body(paciente);
 	}
 
-	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@RequestBody Paciente obj, @PathVariable Integer id) {
 		obj.setId(id);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 //	@PreAuthorize("hasAnyRole('ADMIN')")
 //	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 //	public ResponseEntity<Void> delete(@PathVariable Integer id) {
@@ -93,17 +93,22 @@ public class PacienteResource {
 			@RequestParam(value = "campoPesquisa", defaultValue = "") String campoPesquisa,
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage) {
-		Page<Paciente> list = service.findPacinteByPessoaNomeOrPessoaEmailOrPessoaCPfOrLinhaCuidadoId(
-				page, linesPerPage,linhaCuidadoId,campoPesquisa
-				);
+		Page<Paciente> list = service.findPacinteByPessoaNomeOrPessoaEmailOrPessoaCPfOrLinhaCuidadoId(page,
+				linesPerPage, linhaCuidadoId, campoPesquisa);
 		// Page<PacienteDTO> listDto = list.map(obj -> new PacienteDTO(obj));
 		return ResponseEntity.ok().body(list);
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/number-online-users", method = RequestMethod.GET)
-	public ResponseEntity<Integer> showNumberOnlineUsers() {		
+	public ResponseEntity<Integer> showNumberOnlineUsers() {
 		return ResponseEntity.ok().body(service.showNumberOnlineUsers());
+	}
 
+	@PreAuthorize("hasAnyRole('ADMIN')")
+	@RequestMapping(value = "/numbers-paciente-by-linha-cuidado", method = RequestMethod.GET)
+	public ResponseEntity<Integer> showNumbersPacienteByLinhaCuidado(
+			@RequestParam(value = "linhaCuidadoId", defaultValue = "0") Integer linhaCuidadoId) {
+		return ResponseEntity.ok().body(service.showNumbersPacienteByLinhaCuidado(linhaCuidadoId));
 	}
 }

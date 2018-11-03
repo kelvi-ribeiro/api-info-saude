@@ -105,7 +105,7 @@ public class PacienteService {
 //				return repo.findByPessoaCpfContaining(campoPesquisa,pageRequest);
 //			}
 //		}
-//	}
+//	}showNumbersPacienteByLinhaCuidado
 
 	public Page<Paciente> findPacinteByPessoaNomeOrPessoaEmailOrPessoaCPfOrLinhaCuidadoId(Integer page,
 			Integer linesPerPage, Integer linhaCuidadoId, String campoPesquisa) {
@@ -118,6 +118,8 @@ public class PacienteService {
 		} else {
 			return repo.findPacienteByPessoaCpflOrLinhaCuidadoId(campoPesquisa, linhaCuidadoId, pageRequest);
 		}
-
+	}
+	public Integer showNumbersPacienteByLinhaCuidado(Integer linhaCuidadoId) {
+		return repo.showNumbersPacienteByLinhaCuidado(linhaCuidadoId);
 	}
 }

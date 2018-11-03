@@ -74,7 +74,14 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
 			@Param("campoPesquisa") String campoPesquisa,			
 			@Param("linhaCuidadoId") Integer linhaCuidadoId,
 			@Param("pageRequest") Pageable pageRequest);	
-	
+	@Transactional(readOnly = true)
+	@Query(value = "SELECT COUNT(*) "
+			+ "FROM Paciente p, "
+			+ "PacienteLinhaCuidado plc "
+			+ "WHERE p.id = plc.paciente.id "
+			+ "AND (plc.linhaCuidado.id = :linhaCuidadoId or :linhaCuidadoId = 0)")
+	Integer showNumbersPacienteByLinhaCuidado(						
+			@Param("linhaCuidadoId") Integer linhaCuidadoId);
 
 //	@Transactional(readOnly = true)
 //	Page<Paciente> findByPessoaNomeContainingAndLinhaCuidadoId(@Param("campoPesquisa") String campoPesquisa,
