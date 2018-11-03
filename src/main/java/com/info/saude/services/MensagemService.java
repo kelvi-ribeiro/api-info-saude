@@ -3,6 +3,7 @@ package com.info.saude.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.info.saude.domain.Mensagem;
@@ -26,8 +27,14 @@ public class MensagemService {
 	}
 
 	public Page<Mensagem> findAllPageable(Integer page, Integer linesPerPage) {
-		PageRequest pageRequest = new PageRequest(page, linesPerPage);
+		PageRequest pageRequest = new PageRequest(page, linesPerPage,Direction.ASC,"id");
 		return repo.findAll(pageRequest);
+
+	}
+	
+	public Page<Mensagem> findAllByPacientePageable(Integer page, Integer linesPerPage,Integer idPaciente) {
+		PageRequest pageRequest = new PageRequest(page, linesPerPage,Direction.ASC,"id");
+		return repo.findAllByPaciente(idPaciente, pageRequest);
 
 	}
 

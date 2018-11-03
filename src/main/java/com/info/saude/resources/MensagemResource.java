@@ -33,6 +33,15 @@ public class MensagemResource {
 		return ResponseEntity.ok().body(obj);
 	}	
 	
+	@RequestMapping(value="/paciente/page",method=RequestMethod.GET)
+	public ResponseEntity<Page<Mensagem>>  findAllByPaciente(
+			@RequestParam(value = "idPaciente") Integer idPaciente,
+			@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "linesPerPage", defaultValue = "30") Integer linesPerPage) {
+		Page<Mensagem> obj = service.findAllByPacientePageable(page, linesPerPage, idPaciente);		 
+		return ResponseEntity.ok().body(obj);
+	}	
+	
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@RequestBody MensagemDTO objDto) {
 		Mensagem obj = service.insert(objDto.returnEntity());		
