@@ -39,4 +39,11 @@ public class InteracaoResource {
 						service.findByPacienteIdAndMensagemId(idPaciente, idMensagem));
 		return ResponseEntity.ok().body(objDto);
 	}	
+	
+	@RequestMapping(value="/show-number-message-red",method=RequestMethod.GET)
+	public ResponseEntity<Integer> showNumberOfMessageRead(			
+			@RequestParam(value = "idMensagem") Integer idMensagem) {
+		Integer numberOfMessageRead = service.showNumberOfMessageRead(idMensagem);
+		return ResponseEntity.ok().body(numberOfMessageRead);
+	}	
 }

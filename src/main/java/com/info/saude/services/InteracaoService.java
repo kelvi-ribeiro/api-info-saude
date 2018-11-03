@@ -52,4 +52,9 @@ public class InteracaoService {
 
 	}
 
+	public Integer showNumberOfMessageRead(Integer idMensagem) {
+		return repo.showNumberOfMessageRead(idMensagem);
+
+	}
+
 }
