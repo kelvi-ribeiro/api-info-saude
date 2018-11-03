@@ -27,13 +27,13 @@ public class MensagemService {
 	}
 
 	public Page<Mensagem> findAllPageable(Integer page, Integer linesPerPage) {
-		PageRequest pageRequest = new PageRequest(page, linesPerPage,Direction.ASC,"id");
+		PageRequest pageRequest = new PageRequest(page, linesPerPage,Direction.DESC,"id");
 		return repo.findAll(pageRequest);
 
 	}
 	
 	public Page<Mensagem> findAllByPacientePageable(Integer page, Integer linesPerPage,Integer idPaciente) {
-		PageRequest pageRequest = new PageRequest(page, linesPerPage,Direction.ASC,"id");
+		PageRequest pageRequest = new PageRequest(page, linesPerPage);
 		return repo.findAllByPaciente(idPaciente, pageRequest);
 
 	}
