@@ -26,11 +26,11 @@ public class MensagemResource {
 	
 
 	@RequestMapping(value="/page",method=RequestMethod.GET)
-	public ResponseEntity<Page<Mensagem>>  findAllPageable(
+	public ResponseEntity<Page<MensagemDTO>>  findAllPageable(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage) {
-		Page<Mensagem> obj = service.findAllPageable(page, linesPerPage);		 
-		return ResponseEntity.ok().body(obj);
+		Page<MensagemDTO> objDto = service.findAllPageable(page, linesPerPage);		 
+		return ResponseEntity.ok().body(objDto);
 	}	
 	
 	@RequestMapping(value="/paciente/page",method=RequestMethod.GET)

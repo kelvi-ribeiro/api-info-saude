@@ -10,6 +10,7 @@ import com.info.saude.domain.Mensagem;
 import com.info.saude.dto.MensagemDTO;
 import com.info.saude.repositories.InteracaoRepository;
 import com.info.saude.repositories.MensagemRepository;
+import com.info.saude.repositories.PacienteRepository;
 import com.info.saude.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -20,6 +21,9 @@ public class MensagemService {
 
 	@Autowired
 	private InteracaoRepository interacaoRepository;
+	
+	@Autowired
+	private PacienteRepository pacienteRepository;
 
 	public Mensagem find(Integer id) {
 
@@ -31,9 +35,18 @@ public class MensagemService {
 		return obj;
 	}
 
-	public Page<Mensagem> findAllPageable(Integer page, Integer linesPerPage) {
+	public Page<MensagemDTO> findAllPageable(Integer page, Integer linesPerPage) {
 		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.DESC, "id");
-		return repo.findAll(pageRequest);
+		final Page<Mensagem> pageMensagem = repo.findAll(pageRequest);
+		final Page<MensagemDTO> mensagemDtoPage = pageMensagem.map(el -> {
+			MensagemDTO mensagemDto = new MensagemDTO(el);
+			mensagemDto
+			.setNumberOfMessageRead(interacaoRepository.showNumberOfMessageRead(el.getId())); 
+			mensagemDto.setTotalPacienteMensagemEnviado(pacienteRepository
+			.showNumbersPacienteByLinhaCuidado(mensagemDto.getLinhaCuidadoId()));			
+			return mensagemDto;
+		});
+		return mensagemDtoPage;
 
 	}
 
@@ -42,8 +55,7 @@ public class MensagemService {
 		final Page<Mensagem> pageMensagem = repo.findAllByPaciente(idPaciente, pageRequest);
 		final Page<MensagemDTO> mensagemDtoPage = pageMensagem.map(el -> {
 			MensagemDTO mensagemDto = new MensagemDTO(el);
-			if (interacaoRepository.findByPacienteIdAndMensagemId(idPaciente,
-					mensagemDto.getId()) != null) {
+			if (interacaoRepository.findByPacienteIdAndMensagemId(idPaciente, mensagemDto.getId()) != null) {
 				mensagemDto.setMensagemLida(true);
 			}
 			return mensagemDto;
