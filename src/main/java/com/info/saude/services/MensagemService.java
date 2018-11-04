@@ -7,6 +7,8 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.info.saude.domain.Mensagem;
+import com.info.saude.dto.MensagemDTO;
+import com.info.saude.repositories.InteracaoRepository;
 import com.info.saude.repositories.MensagemRepository;
 import com.info.saude.services.exceptions.ObjectNotFoundException;
 
@@ -15,6 +17,9 @@ public class MensagemService {
 
 	@Autowired
 	private MensagemRepository repo;
+
+	@Autowired
+	private InteracaoRepository interacaoRepository;
 
 	public Mensagem find(Integer id) {
 
@@ -27,15 +32,23 @@ public class MensagemService {
 	}
 
 	public Page<Mensagem> findAllPageable(Integer page, Integer linesPerPage) {
-		PageRequest pageRequest = new PageRequest(page, linesPerPage,Direction.DESC,"id");
+		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.DESC, "id");
 		return repo.findAll(pageRequest);
 
 	}
-	
-	public Page<Mensagem> findAllByPacientePageable(Integer page, Integer linesPerPage,Integer idPaciente) {
-		PageRequest pageRequest = new PageRequest(page, linesPerPage);
-		return repo.findAllByPaciente(idPaciente, pageRequest);
 
+	public Page<MensagemDTO> findAllByPacientePageable(Integer page, Integer linesPerPage, Integer idPaciente) {
+		PageRequest pageRequest = new PageRequest(page, linesPerPage);
+		final Page<Mensagem> pageMensagem = repo.findAllByPaciente(idPaciente, pageRequest);
+		final Page<MensagemDTO> mensagemDtoPage = pageMensagem.map(el -> {
+			MensagemDTO mensagemDto = new MensagemDTO(el);
+			if (interacaoRepository.findByPacienteIdAndMensagemId(idPaciente,
+					mensagemDto.getId()) != null) {
+				mensagemDto.setMensagemLida(true);
+			}
+			return mensagemDto;
+		});
+		return mensagemDtoPage;
 	}
 
 	public Mensagem insert(Mensagem obj) {

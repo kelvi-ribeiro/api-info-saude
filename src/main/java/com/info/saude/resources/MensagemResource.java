@@ -34,12 +34,12 @@ public class MensagemResource {
 	}	
 	
 	@RequestMapping(value="/paciente/page",method=RequestMethod.GET)
-	public ResponseEntity<Page<Mensagem>>  findAllByPaciente(
+	public ResponseEntity<Page<MensagemDTO>>  findAllByPaciente(
 			@RequestParam(value = "idPaciente") Integer idPaciente,
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "30") Integer linesPerPage) {
-		Page<Mensagem> obj = service.findAllByPacientePageable(page, linesPerPage, idPaciente);		 
-		return ResponseEntity.ok().body(obj);
+		Page<MensagemDTO> objDtoPage = service.findAllByPacientePageable(page, linesPerPage, idPaciente);		 
+		return ResponseEntity.ok().body(objDtoPage);
 	}	
 	
 	@RequestMapping(method=RequestMethod.POST)
