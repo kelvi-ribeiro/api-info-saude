@@ -24,4 +24,40 @@ public interface MensagemRepository extends JpaRepository<Mensagem, Integer> {
 	Page<Mensagem> findAllByPaciente(
 			@Param("idPaciente") Integer idPaciente,
 			@Param("pageRequest") Pageable pageRequest);
+	
+	@Transactional(readOnly = true)
+	@Query("SELECT COUNT(*) FROM "
+			+ "Mensagem m,"
+			+ "PacienteLinhaCuidado plc "
+			+ "WHERE m.linhaCuidado.id = plc.linhaCuidado.id "
+			+ "AND plc.paciente.id= :idPaciente "			
+			+ "AND NOT EXISTS ( "
+			+ "SELECT 1 FROM "
+			+ "Interacao i "
+			+ "WHERE i.mensagem.id = m.id)")
+	Integer showNumberNotReadMessageByPacienteLinhaCuidado(
+			@Param("idPaciente") Integer idPaciente);
+	
+	
+	@Transactional(readOnly = true)
+	@Query("SELECT COUNT(*) FROM "
+			+ "Mensagem m "			
+			+ "WHERE m.geral = true "						
+			+ "AND NOT EXISTS ( "
+			+ "SELECT 1 FROM "
+			+ "Interacao i "
+			+ "WHERE i.mensagem.id = m.id)")
+	Integer showNumberNotReadMessageByPacienteGeral();
+	
+
+	@Transactional(readOnly = true)
+	@Query("SELECT COUNT(*) FROM "
+			+ "Mensagem m "			
+			+ "WHERE m.paciente.id = :idPaciente "						
+			+ "AND NOT EXISTS ( "
+			+ "SELECT 1 FROM "
+			+ "Interacao i "
+			+ "WHERE i.mensagem.id = m.id)")
+	Integer showNumberNotReadMessageByPacienteSpecificPaciente(
+			@Param("idPaciente") Integer idPaciente);
 }

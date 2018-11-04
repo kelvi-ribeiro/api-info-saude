@@ -18,49 +18,52 @@ import com.info.saude.dto.MensagemDTO;
 import com.info.saude.services.MensagemService;
 
 @RestController
-@RequestMapping(value="/mensagens")
+@RequestMapping(value = "/mensagens")
 public class MensagemResource {
-	
+
 	@Autowired
 	private MensagemService service;
-	
 
-	@RequestMapping(value="/page",method=RequestMethod.GET)
-	public ResponseEntity<Page<MensagemDTO>>  findAllPageable(
+	@RequestMapping(value = "/page", method = RequestMethod.GET)
+	public ResponseEntity<Page<MensagemDTO>> findAllPageable(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage) {
-		Page<MensagemDTO> objDto = service.findAllPageable(page, linesPerPage);		 
+		Page<MensagemDTO> objDto = service.findAllPageable(page, linesPerPage);
 		return ResponseEntity.ok().body(objDto);
-	}	
-	
-	@RequestMapping(value="/paciente/page",method=RequestMethod.GET)
-	public ResponseEntity<Page<MensagemDTO>>  findAllByPaciente(
-			@RequestParam(value = "idPaciente") Integer idPaciente,
+	}
+
+	@RequestMapping(value = "/paciente/page", method = RequestMethod.GET)
+	public ResponseEntity<Page<MensagemDTO>> findAllByPaciente(@RequestParam(value = "idPaciente") Integer idPaciente,
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "30") Integer linesPerPage) {
-		Page<MensagemDTO> objDtoPage = service.findAllByPacientePageable(page, linesPerPage, idPaciente);		 
+		Page<MensagemDTO> objDtoPage = service.findAllByPacientePageable(page, linesPerPage, idPaciente);
 		return ResponseEntity.ok().body(objDtoPage);
-	}	
-	
-	@RequestMapping(method=RequestMethod.POST)
+	}
+
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@RequestBody MensagemDTO objDto) {
-		Mensagem obj = service.insert(objDto.returnEntity());		
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-				.path("/{id}").buildAndExpand(obj.getId()).toUri();
+		Mensagem obj = service.insert(objDto.returnEntity());
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-	
-	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@RequestBody MensagemDTO objDto, @PathVariable Integer id) {
 		Mensagem obj = objDto.returnEntity();
 		obj.setId(id);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
 	}
-	
-	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
+
+	@RequestMapping(value = "/show-numbers-not-read-message", method = RequestMethod.GET)
+	public ResponseEntity<Integer> showNumberNotReadMessageByPaciente(@RequestParam Integer idPaciente) {
+		return ResponseEntity.ok().body(service.showNumberNotReadMessageByPaciente(idPaciente));
+	}
+
 }

@@ -66,6 +66,13 @@ public class MensagemService {
 		});
 		return mensagemDtoPage;
 	}
+	
+	public Integer showNumberNotReadMessageByPaciente(Integer idPaciente){
+		Integer numberNotMessageByPaciente = repo.showNumberNotReadMessageByPacienteLinhaCuidado(idPaciente);
+		numberNotMessageByPaciente += repo.showNumberNotReadMessageByPacienteGeral();
+		numberNotMessageByPaciente += repo.showNumberNotReadMessageByPacienteSpecificPaciente(idPaciente);
+		return numberNotMessageByPaciente;
+	}
 
 	public Mensagem insert(Mensagem obj) {
 		obj = repo.save(obj);
