@@ -40,6 +40,10 @@ public class MensagemDTO implements Serializable {
 
 	private boolean mensagemLida;
 
+	private Integer numberOfMessageRead;
+
+	private Integer totalPacienteMensagemEnviado;
+
 	public MensagemDTO() {
 		super();
 		this.mensagemLida = false;
@@ -65,6 +69,8 @@ public class MensagemDTO implements Serializable {
 		this.linhaCuidadoId = mensagem.getLinhaCuidado() != null ? mensagem.getLinhaCuidado().getId() : null;
 		this.nomeLinhaCuidado = mensagem.getLinhaCuidado() != null ? mensagem.getLinhaCuidado().getNome() : null;
 		this.mensagemLida = false;
+		this.numberOfMessageRead = 0;
+		this.totalPacienteMensagemEnviado = 0;
 
 	}
 
@@ -198,6 +204,22 @@ public class MensagemDTO implements Serializable {
 
 	public void setMensagemLida(boolean mensagemLida) {
 		this.mensagemLida = mensagemLida;
+	}
+
+	public Integer getNumberOfMessageRead() {
+		return numberOfMessageRead;
+	}
+
+	public void setNumberOfMessageRead(Integer numberOfMessageRead) {
+		this.numberOfMessageRead = numberOfMessageRead;
+	}
+
+	public Integer getTotalPacienteMensagemEnviado() {
+		return totalPacienteMensagemEnviado;
+	}
+
+	public void setTotalPacienteMensagemEnviado(Integer totalPacienteMensagemEnviado) {
+		this.totalPacienteMensagemEnviado = totalPacienteMensagemEnviado;
 	}
 
 }
