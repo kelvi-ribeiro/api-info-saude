@@ -38,8 +38,11 @@ public class MensagemDTO implements Serializable {
 
 	private String nomePaciente;
 
+	private boolean mensagemLida;
+
 	public MensagemDTO() {
 		super();
+		this.mensagemLida = false;
 
 	}
 
@@ -61,6 +64,8 @@ public class MensagemDTO implements Serializable {
 				: null;
 		this.linhaCuidadoId = mensagem.getLinhaCuidado() != null ? mensagem.getLinhaCuidado().getId() : null;
 		this.nomeLinhaCuidado = mensagem.getLinhaCuidado() != null ? mensagem.getLinhaCuidado().getNome() : null;
+		this.mensagemLida = false;
+
 	}
 
 	public static List<MensagemDTO> returnListDto(List<Mensagem> list) {
@@ -86,9 +91,9 @@ public class MensagemDTO implements Serializable {
 
 		mensagem.setAssunto(this.assunto);
 		mensagem.setMensagem(this.mensagem);
-		mensagem.setGeral(this.geral);				
+		mensagem.setGeral(this.geral);
 		mensagem.setProfissionalSaude(profissionalSaude);
-		
+
 		if (paciente.getId() != null) {
 			mensagem.setPaciente(paciente);
 		}
@@ -185,6 +190,14 @@ public class MensagemDTO implements Serializable {
 
 	public void setNomePaciente(String nomePaciente) {
 		this.nomePaciente = nomePaciente;
+	}
+
+	public boolean isMensagemLida() {
+		return mensagemLida;
+	}
+
+	public void setMensagemLida(boolean mensagemLida) {
+		this.mensagemLida = mensagemLida;
 	}
 
 }
