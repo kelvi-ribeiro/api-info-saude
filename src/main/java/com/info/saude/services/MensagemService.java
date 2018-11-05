@@ -69,7 +69,7 @@ public class MensagemService {
 	
 	public Integer showNumberNotReadMessageByPaciente(Integer idPaciente){
 		Integer numberNotMessageByPaciente = repo.showNumberNotReadMessageByPacienteLinhaCuidado(idPaciente);
-		numberNotMessageByPaciente += repo.showNumberNotReadMessageByPacienteGeral();
+		numberNotMessageByPaciente += repo.showNumberNotReadMessageByPacienteGeral(idPaciente);
 		numberNotMessageByPaciente += repo.showNumberNotReadMessageByPacienteSpecificPaciente(idPaciente);
 		return numberNotMessageByPaciente;
 	}

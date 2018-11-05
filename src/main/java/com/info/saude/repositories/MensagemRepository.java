@@ -34,7 +34,8 @@ public interface MensagemRepository extends JpaRepository<Mensagem, Integer> {
 			+ "AND NOT EXISTS ( "
 			+ "SELECT 1 FROM "
 			+ "Interacao i "
-			+ "WHERE i.mensagem.id = m.id)")
+			+ "WHERE i.mensagem.id = m.id "
+			+ "AND i.paciente.id = 97)")
 	Integer showNumberNotReadMessageByPacienteLinhaCuidado(
 			@Param("idPaciente") Integer idPaciente);
 	
@@ -46,8 +47,9 @@ public interface MensagemRepository extends JpaRepository<Mensagem, Integer> {
 			+ "AND NOT EXISTS ( "
 			+ "SELECT 1 FROM "
 			+ "Interacao i "
-			+ "WHERE i.mensagem.id = m.id)")
-	Integer showNumberNotReadMessageByPacienteGeral();
+			+ "WHERE i.mensagem.id = m.id "
+			+ "AND i.paciente.id = :idPaciente)")
+	Integer showNumberNotReadMessageByPacienteGeral(@Param("idPaciente") Integer idPaciente);
 	
 
 	@Transactional(readOnly = true)
