@@ -34,6 +34,8 @@ public class MensagemDTO implements Serializable {
 
 	private String nomeLinhaCuidado;
 
+	private String caminhoImagemLinhaCuidado;
+
 	private Integer pacienteId;
 
 	private String nomePaciente;
@@ -68,6 +70,9 @@ public class MensagemDTO implements Serializable {
 				: null;
 		this.linhaCuidadoId = mensagem.getLinhaCuidado() != null ? mensagem.getLinhaCuidado().getId() : null;
 		this.nomeLinhaCuidado = mensagem.getLinhaCuidado() != null ? mensagem.getLinhaCuidado().getNome() : null;
+		this.caminhoImagemLinhaCuidado = mensagem.getLinhaCuidado() != null
+				? mensagem.getLinhaCuidado().getCaminhoImagem()
+				: null;
 		this.mensagemLida = false;
 		this.numberOfMessageRead = 0;
 		this.totalPacienteMensagemEnviado = 0;
@@ -180,6 +185,14 @@ public class MensagemDTO implements Serializable {
 
 	public void setNomeLinhaCuidado(String nomeLinhaCuidado) {
 		this.nomeLinhaCuidado = nomeLinhaCuidado;
+	}
+
+	public String getCaminhoImagemLinhaCuidado() {
+		return caminhoImagemLinhaCuidado;
+	}
+
+	public void setCaminhoImagemLinhaCuidado(String caminhoImagemLinhaCuidado) {
+		this.caminhoImagemLinhaCuidado = caminhoImagemLinhaCuidado;
 	}
 
 	public Integer getPacienteId() {
