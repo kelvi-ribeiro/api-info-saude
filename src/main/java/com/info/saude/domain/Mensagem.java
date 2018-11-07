@@ -20,7 +20,8 @@ public class Mensagem implements Serializable {
 	private Integer id;
 
 	private String assunto;
-
+	
+	@Column(length=600)
 	private String mensagem;
 
 	private boolean geral;
