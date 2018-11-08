@@ -35,7 +35,7 @@ public interface MensagemRepository extends JpaRepository<Mensagem, Integer> {
 			+ "SELECT 1 FROM "
 			+ "Interacao i "
 			+ "WHERE i.mensagem.id = m.id "
-			+ "AND i.paciente.id = 97)")
+			+ "AND i.paciente.id = :idPaciente )")
 	Integer showNumberNotReadMessageByPacienteLinhaCuidado(
 			@Param("idPaciente") Integer idPaciente);
 	
