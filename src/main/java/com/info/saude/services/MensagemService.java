@@ -87,7 +87,7 @@ public class MensagemService {
 		return numberNotMessageByPaciente;
 	}
 
-	public Mensagem insert(Mensagem obj) {
+	public Mensagem insert(Mensagem obj) throws InterruptedException {
 		obj = repo.save(obj);
 		obj.setProfissionalSaude(profissionalSaudeRepository.findOne(obj.getProfissionalSaude().getId()));
 		MensagemDTO objDto = null;
@@ -96,7 +96,7 @@ public class MensagemService {
 			obj.setPaciente(pacienteRepository.findOne(obj.getPaciente().getId()));
 			objDto = new MensagemDTO(obj);
 			emailTemplateDto = new EmailTemplateDTO("Nova Mensagem", obj.getPaciente().getPessoa().getEmail(),
-					"email/nova-mensagem", "mensagem");
+					"email/nova-mensagem/nova-mensagem", "mensagem");
 			try {
 				abstractEmailService.sendEmail(emailTemplateDto, objDto);
 			} catch (MessagingException e) {
@@ -107,8 +107,10 @@ public class MensagemService {
 			List<Paciente> pacientes = pacienteRepository.findAll();
 			for (Paciente paciente : pacientes) {
 				emailTemplateDto = new EmailTemplateDTO("Nova Mensagem", paciente.getPessoa().getEmail(),
-						"email/confirmacaoInscricao", "mensagem");
-				try {
+						"email/nova-mensagem/nova-mensagem", "mensagem");
+				obj.setPaciente(paciente);
+				objDto = new MensagemDTO(obj);
+				try {					
 					abstractEmailService.sendEmail(emailTemplateDto, objDto);
 				} catch (MessagingException e) {
 					// TODO Auto-generated catch block

@@ -1,15 +1,20 @@
 package com.info.saude.services;
 
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.info.saude.domain.Pessoa;
 import com.info.saude.domain.PessoaSenhaEsquecida;
+import com.info.saude.dto.EmailTemplateDTO;
+import com.info.saude.dto.PessoaSenhaEsquecidaDTO;
 import com.info.saude.repositories.PessoaRepository;
 import com.info.saude.repositories.PessoaSenhaEsquecidaRepository;
-import com.info.saude.services.email.EmailService;
 import com.info.saude.services.exceptions.LinkSenhaEsquecidaUsado;
+import com.info.saude.utils.AbstractEmailService;
 import com.info.saude.utils.Utils;
 
 @Service
@@ -22,15 +27,18 @@ public class PessoaSenhaEsquecidaService {
 	private BCryptPasswordEncoder pe;
 
 	@Autowired
-	EmailService emailService;
+	AbstractEmailService<PessoaSenhaEsquecidaDTO> abstractEmailService; 
 
 	@Autowired
 	private PessoaRepository pessoaRepository;
 
 	@Autowired
-	private PessoaService PessoaService;
+	private PessoaService PessoaService;	
+	
+	@Value("${base.url}")
+	private String baseUrl;
 
-	public PessoaSenhaEsquecida criarNovaSenha(PessoaSenhaEsquecida obj) {
+	public PessoaSenhaEsquecida criarNovaSenha(PessoaSenhaEsquecida obj) throws MessagingException, InterruptedException {
 		obj.setId(null);
 		obj.setLink(Utils.newStringRandom());
 		obj.setNovaSenha(pe.encode(obj.getNovaSenha()));
@@ -38,7 +46,11 @@ public class PessoaSenhaEsquecidaService {
 		Pessoa pessoa = PessoaService.findByEmail(obj.getPessoa().getEmail());
 		obj.setPessoa(pessoa);
 		obj = repo.save(obj);
-		emailService.sendOrderConfirmationEmail(obj);
+		EmailTemplateDTO emailTemplateDto = new EmailTemplateDTO("Link para alterar a senha", obj.getPessoa().getEmail(),
+		"email/esqueceu-senha/esqueceu-senha", "pessoaSenhaEsquecida");
+		PessoaSenhaEsquecidaDTO objDto = new PessoaSenhaEsquecidaDTO(obj);		
+		objDto.setBaseUrl(this.baseUrl);
+		abstractEmailService.sendEmail(emailTemplateDto, objDto);
 		return obj;
 	}
 

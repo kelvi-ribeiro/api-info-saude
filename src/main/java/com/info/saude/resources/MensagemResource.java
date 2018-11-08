@@ -41,7 +41,7 @@ public class MensagemResource {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody MensagemDTO objDto) {
+	public ResponseEntity<Void> insert(@RequestBody MensagemDTO objDto) throws InterruptedException {
 		Mensagem obj = service.insert(objDto.returnEntity());
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();

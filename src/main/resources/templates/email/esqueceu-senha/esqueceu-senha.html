@@ -17,7 +17,10 @@
                                                 <td class="wrapper">
                                                         <table border="0" cellpadding="0" cellspacing="0"> 
                                                             <tr>
-                                                                    <p class="ola">Prezado(a) <span th:text="${mensagem.nomePaciente}"></span>,<br/></p> 				                       
+                                                                    <p class="ola">Prezado(a) <span th:text="${pessoaSenhaEsquecida.pessoaNome}"></span>,<br/>
+                                                                    Clique no link abaixo para alterar sua senha.
+                                                                    </p>
+                                                                 <a th:href="@{${pessoaSenhaEsquecida.baseUrl} + '/esqueceuSenha/' + ${pessoaSenhaEsquecida.link}}">Clique aqui para altera sua senha.</a> 				                       
                                                             </tr>
                                                         </table>
                                                 </td>
@@ -31,8 +34,8 @@
                                     <table border="0" cellpadding="0" cellspacing="0"> 
                                       <tr> 
                                         <td class="content-block"> 
-                                          <span class="apple-link">Unigranrio<br/> Rua Professor José de Souza Herdy, 1160 - <br/>Jardim Vinte e Cinco de Agosto, Duque de Caxias - RJ, 25071-202</span> 
-                                          <br/> (21) 3219-4040. 
+                                          <span class="apple-link">Equipe Info Saúde</span>
+                                          
                                         </td> 
                                       </tr> 
                                     </table> 
