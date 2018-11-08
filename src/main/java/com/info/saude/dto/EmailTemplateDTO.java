@@ -4,7 +4,7 @@ public class EmailTemplateDTO {
 
 	private String subject;
 
-	private String to;
+	private StringBuffer to;
 
 	private String templatePath;
 
@@ -14,8 +14,7 @@ public class EmailTemplateDTO {
 		super();
 	}
 
-	public EmailTemplateDTO(String subject, String to, String templatePath, String templateObjectName) {
-		super();
+	public EmailTemplateDTO(String subject, StringBuffer to, String templatePath, String templateObjectName) {
 		this.subject = subject;
 		this.to = to;
 		this.templatePath = templatePath;
@@ -30,11 +29,11 @@ public class EmailTemplateDTO {
 		this.subject = subject;
 	}
 
-	public String getTo() {
+	public StringBuffer getTo() {
 		return to;
 	}
 
-	public void setTo(String to) {
+	public void setTo(StringBuffer to) {
 		this.to = to;
 	}
 

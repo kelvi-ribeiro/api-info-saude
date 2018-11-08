@@ -92,10 +92,13 @@ public class MensagemService {
 		obj.setProfissionalSaude(profissionalSaudeRepository.findOne(obj.getProfissionalSaude().getId()));
 		MensagemDTO objDto = null;
 		EmailTemplateDTO emailTemplateDto = null;
+		StringBuffer emails = new StringBuffer();
 		if (obj.getPaciente() != null) {
 			obj.setPaciente(pacienteRepository.findOne(obj.getPaciente().getId()));
 			objDto = new MensagemDTO(obj);
-			emailTemplateDto = new EmailTemplateDTO("Nova Mensagem", obj.getPaciente().getPessoa().getEmail(),
+			emails.append(obj.getPaciente().getPessoa().getEmail());
+			
+			emailTemplateDto = new EmailTemplateDTO("Nova Mensagem", emails,
 					"email/nova-mensagem/nova-mensagem", "mensagem");
 			try {
 				abstractEmailService.sendEmail(emailTemplateDto, objDto);
@@ -105,17 +108,18 @@ public class MensagemService {
 			}
 		} else if (obj.isGeral()) {
 			List<Paciente> pacientes = pacienteRepository.findAll();
-			for (Paciente paciente : pacientes) {
-				emailTemplateDto = new EmailTemplateDTO("Nova Mensagem", paciente.getPessoa().getEmail(),
-						"email/nova-mensagem/nova-mensagem", "mensagem");
+			for (Paciente paciente : pacientes) {				
 				obj.setPaciente(paciente);
-				objDto = new MensagemDTO(obj);
-				try {					
-					abstractEmailService.sendEmail(emailTemplateDto, objDto);
-				} catch (MessagingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				objDto = new MensagemDTO(obj);				
+				emails.append(obj.getPaciente().getPessoa().getEmail() + "/");
+			}
+			emailTemplateDto = new EmailTemplateDTO("Nova Mensagem", emails,
+					"email/nova-mensagem/nova-mensagem", "mensagem");
+			try { 					
+				abstractEmailService.sendEmail(emailTemplateDto, objDto);
+			} catch (MessagingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 

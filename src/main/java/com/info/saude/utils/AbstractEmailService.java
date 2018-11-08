@@ -27,7 +27,7 @@ public class AbstractEmailService<T> {
 	private MimeMessage prepareMimeMessage(EmailTemplateDTO emailTemplateDto, T object) throws MessagingException {
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 		MimeMessageHelper mmh = new MimeMessageHelper(mimeMessage, true);
-		mmh.setTo(emailTemplateDto.getTo());		
+		mmh.setTo(emailTemplateDto.getTo().toString().split("/"));		
 		mmh.setSubject(emailTemplateDto.getSubject());
 		mmh.setSentDate(new Date(System.currentTimeMillis()));
 		mmh.setText(htmlFromTemplate(emailTemplateDto, object), true);

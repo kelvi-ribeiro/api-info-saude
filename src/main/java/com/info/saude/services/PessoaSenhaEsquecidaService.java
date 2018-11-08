@@ -46,7 +46,9 @@ public class PessoaSenhaEsquecidaService {
 		Pessoa pessoa = PessoaService.findByEmail(obj.getPessoa().getEmail());
 		obj.setPessoa(pessoa);
 		obj = repo.save(obj);
-		EmailTemplateDTO emailTemplateDto = new EmailTemplateDTO("Link para alterar a senha", obj.getPessoa().getEmail(),
+		StringBuffer emails = new StringBuffer();
+		emails.append(obj.getPessoa().getEmail());
+		EmailTemplateDTO emailTemplateDto = new EmailTemplateDTO("Link para alterar a senha", emails,
 		"email/esqueceu-senha/esqueceu-senha", "pessoaSenhaEsquecida");
 		PessoaSenhaEsquecidaDTO objDto = new PessoaSenhaEsquecidaDTO(obj);		
 		objDto.setBaseUrl(this.baseUrl);
