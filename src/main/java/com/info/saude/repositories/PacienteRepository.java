@@ -24,6 +24,17 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
 	@Transactional(readOnly = true)
 	@Query("SELECT obj FROM Paciente obj WHERE obj.pessoa.id=:idPessoa")
 	Paciente findByPessoaId(@Param("idPessoa") Integer idPessoa);
+	
+	@Transactional(readOnly = true)
+	@Query(value = "SELECT DISTINCT pa FROM Paciente  pa,Pessoa pe, PacienteLinhaCuidado plc\n"
+			+ "WHERE pa.id = plc.paciente.id \n" + 
+			"AND  pa.pessoa.id = pe.id "
+			+ " AND plc.linhaCuidado.id = :linhaCuidadoId")
+	Page<Paciente> findByAllByLinhaCuidadoId(
+			@Param("linhaCuidadoId") Integer linhaCuidadoId,
+			@Param("pageRequest") Pageable pageRequest
+			);
+
 
 //	@Transactional(readOnly = true)
 //	@Query("SELECT count(*) FROM Paciente pa, Pessoa pe "
@@ -36,52 +47,37 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
 	@Query(value = "SELECT count(*)\n" + "FROM paciente\n" + "   ,pessoa\n" + "WHERE paciente.pessoa_id = pessoa.id\n"
 			+ "AND pessoa.ultimo_acesso between NOW() - INTERVAL '80' second AND NOW()", nativeQuery = true)
 	Integer showNumberOnlineUsers();
-	
+
 	
 
 	@Transactional(readOnly = true)
 	@Query(value = "SELECT DISTINCT pa FROM Paciente  pa,Pessoa pe, PacienteLinhaCuidado plc\n"
-			+ "WHERE pa.id = plc.paciente.id \n" 
-			+ "	AND  pa.pessoa.id = pe.id"
+			+ "WHERE pa.id = plc.paciente.id \n" + "	AND  pa.pessoa.id = pe.id"
 			+ " AND (plc.linhaCuidado.id = :linhaCuidadoId  or :linhaCuidadoId = 0) "
-			+ " AND pe.nome LIKE CONCAT('%',:campoPesquisa,'%')"			
-			+ " ORDER by pa.pessoa.nome")
-	Page<Paciente> findPacienteByPessoaNomeOrLinhaCuidadoId(
-			@Param("campoPesquisa") String campoPesquisa,			
-			@Param("linhaCuidadoId") Integer linhaCuidadoId,
-			@Param("pageRequest") Pageable pageRequest);
-	
+			+ " AND pe.nome LIKE CONCAT('%',:campoPesquisa,'%')" + " ORDER by pa.pessoa.nome")
+	Page<Paciente> findPacienteByPessoaNomeOrLinhaCuidadoId(@Param("campoPesquisa") String campoPesquisa,
+			@Param("linhaCuidadoId") Integer linhaCuidadoId, @Param("pageRequest") Pageable pageRequest);
+
 	@Transactional(readOnly = true)
 	@Query(value = "SELECT DISTINCT pa FROM Paciente  pa,Pessoa pe, PacienteLinhaCuidado plc\n"
-			+ "WHERE pa.id = plc.paciente.id \n" 
-			+ "	AND  pa.pessoa.id = pe.id"
+			+ "WHERE pa.id = plc.paciente.id \n" + "	AND  pa.pessoa.id = pe.id"
 			+ " AND (plc.linhaCuidado.id = :linhaCuidadoId  or :linhaCuidadoId = 0) "
-			+ " AND pe.email LIKE CONCAT('%',:campoPesquisa,'%')"			
-			+ " ORDER by pa.pessoa.nome")
-	Page<Paciente> findPacienteByPessoaEmailOrLinhaCuidadoId(
-			@Param("campoPesquisa") String campoPesquisa,			
-			@Param("linhaCuidadoId") Integer linhaCuidadoId,
-			@Param("pageRequest") Pageable pageRequest);
-	
+			+ " AND pe.email LIKE CONCAT('%',:campoPesquisa,'%')" + " ORDER by pa.pessoa.nome")
+	Page<Paciente> findPacienteByPessoaEmailOrLinhaCuidadoId(@Param("campoPesquisa") String campoPesquisa,
+			@Param("linhaCuidadoId") Integer linhaCuidadoId, @Param("pageRequest") Pageable pageRequest);
+
 	@Transactional(readOnly = true)
 	@Query(value = "SELECT DISTINCT pa FROM Paciente  pa,Pessoa pe, PacienteLinhaCuidado plc\n"
-			+ "WHERE pa.id = plc.paciente.id \n" 
-			+ "	AND  pa.pessoa.id = pe.id"
+			+ "WHERE pa.id = plc.paciente.id \n" + "	AND  pa.pessoa.id = pe.id"
 			+ " AND (plc.linhaCuidado.id = :linhaCuidadoId  or :linhaCuidadoId = 0) "
-			+ " AND pe.cpf LIKE CONCAT('%',:campoPesquisa,'%')"			
-			+ " ORDER by pa.pessoa.nome")
-	Page<Paciente> findPacienteByPessoaCpflOrLinhaCuidadoId(
-			@Param("campoPesquisa") String campoPesquisa,			
-			@Param("linhaCuidadoId") Integer linhaCuidadoId,
-			@Param("pageRequest") Pageable pageRequest);	
+			+ " AND pe.cpf LIKE CONCAT('%',:campoPesquisa,'%')" + " ORDER by pa.pessoa.nome")
+	Page<Paciente> findPacienteByPessoaCpflOrLinhaCuidadoId(@Param("campoPesquisa") String campoPesquisa,
+			@Param("linhaCuidadoId") Integer linhaCuidadoId, @Param("pageRequest") Pageable pageRequest);
+
 	@Transactional(readOnly = true)
-	@Query(value = "SELECT COUNT(*) "
-			+ "FROM Paciente p, "
-			+ "PacienteLinhaCuidado plc "
-			+ "WHERE p.id = plc.paciente.id "
-			+ "AND (plc.linhaCuidado.id = :linhaCuidadoId or :linhaCuidadoId = 0)")
-	Integer showNumbersPacienteByLinhaCuidado(						
-			@Param("linhaCuidadoId") Integer linhaCuidadoId);
+	@Query(value = "SELECT COUNT(*) " + "FROM Paciente p, " + "PacienteLinhaCuidado plc "
+			+ "WHERE p.id = plc.paciente.id " + "AND (plc.linhaCuidado.id = :linhaCuidadoId or :linhaCuidadoId = 0)")
+	Integer showNumbersPacienteByLinhaCuidado(@Param("linhaCuidadoId") Integer linhaCuidadoId);
 
 //	@Transactional(readOnly = true)
 //	Page<Paciente> findByPessoaNomeContainingAndLinhaCuidadoId(@Param("campoPesquisa") String campoPesquisa,

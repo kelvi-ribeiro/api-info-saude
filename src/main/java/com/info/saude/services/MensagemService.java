@@ -1,7 +1,5 @@
 package com.info.saude.services;
 
-import java.util.List;
-
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,9 +95,9 @@ public class MensagemService {
 			obj.setPaciente(pacienteRepository.findOne(obj.getPaciente().getId()));
 			objDto = new MensagemDTO(obj);
 			emails.append(obj.getPaciente().getPessoa().getEmail());
-			
+
 			emailTemplateDto = new EmailTemplateDTO("Nova Mensagem", emails,
-					"email/nova-mensagem/nova-mensagem", "mensagem");
+					"email/nova-mensagem/nova-mensagem-individual", "mensagem");
 			try {
 				abstractEmailService.sendEmail(emailTemplateDto, objDto);
 			} catch (MessagingException e) {
@@ -107,19 +105,56 @@ public class MensagemService {
 				e.printStackTrace();
 			}
 		} else if (obj.isGeral()) {
-			List<Paciente> pacientes = pacienteRepository.findAll();
-			for (Paciente paciente : pacientes) {				
-				obj.setPaciente(paciente);
-				objDto = new MensagemDTO(obj);				
-				emails.append(obj.getPaciente().getPessoa().getEmail() + "/");
+			Integer numberPage = 0;
+			PageRequest pageRequest = new PageRequest(numberPage, 50);
+			Page<Paciente> pacientes = pacienteRepository.findAll(pageRequest);
+			while (pacientes.getTotalPages() > numberPage) {
+				emails.delete(0, emails.length());
+				for (Paciente paciente : pacientes.getContent()) {
+					obj.setPaciente(paciente);
+					objDto = new MensagemDTO(obj);
+					emails.append(obj.getPaciente().getPessoa().getEmail() + "/");
+
+				}
+				emailTemplateDto = new EmailTemplateDTO("Nova Mensagem", emails,
+						"email/nova-mensagem/nova-mensagem-geral", "mensagem");
+				try {
+					abstractEmailService.sendEmail(emailTemplateDto, objDto);
+				} catch (MessagingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				++numberPage;
+				pageRequest = new PageRequest(numberPage, 50);
+				pacientes = pacienteRepository.findAll(pageRequest);
+
 			}
-			emailTemplateDto = new EmailTemplateDTO("Nova Mensagem", emails,
-					"email/nova-mensagem/nova-mensagem", "mensagem");
-			try { 					
-				abstractEmailService.sendEmail(emailTemplateDto, objDto);
-			} catch (MessagingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		} else {
+			Integer numberPage = 0;
+			PageRequest pageRequest = new PageRequest(numberPage, 50);
+			Page<Paciente> pacientes = pacienteRepository.findByAllByLinhaCuidadoId(obj.getLinhaCuidado().getId(), pageRequest);
+			while (pacientes.getTotalPages() > numberPage) {
+				emails.delete(0, emails.length());
+				for (Paciente paciente : pacientes.getContent()) {
+					obj.setPaciente(paciente);
+					objDto = new MensagemDTO(obj);
+					emails.append(obj.getPaciente().getPessoa().getEmail() + "/");
+
+				}
+				emailTemplateDto = new EmailTemplateDTO("Nova Mensagem", emails,
+						"email/nova-mensagem/nova-mensagem-geral", "mensagem");
+				try {
+					abstractEmailService.sendEmail(emailTemplateDto, objDto);
+				} catch (MessagingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				++numberPage;
+				pageRequest = new PageRequest(numberPage, 50);
+				pacientes = pacienteRepository.findAll(pageRequest);
+
 			}
 		}
 

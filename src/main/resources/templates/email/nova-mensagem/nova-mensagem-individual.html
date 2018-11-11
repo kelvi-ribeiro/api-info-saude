@@ -1,7 +1,6 @@
 <!doctype html> 
 				<html> 
-				  <head> 
-                    <link rel="stylesheet" type="text/css" href="nova-mensagem.css"/>  
+				  <head>
 				    <meta name="viewport" content="width=device-width" /> 
 				    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
 				    <title>Simple Transactional Email</title> 
@@ -17,10 +16,14 @@
                                                 <td class="wrapper">
                                                         <table border="0" cellpadding="0" cellspacing="0"> 
                                                             <tr>
-                                                                    <p class="ola">Prezado(a) <span th:text="${pessoaSenhaEsquecida.pessoaNome}"></span>,<br/>
-                                                                    Clique no link abaixo para alterar sua senha.
-                                                                    </p>
-                                                                 <a th:href="@{${pessoaSenhaEsquecida.baseUrl} + '/esqueceuSenha/' + ${pessoaSenhaEsquecida.link}}">Clique aqui para altera sua senha.</a> 				                       
+                                                                    <p class="ola">Mensagem Individual enviada por  
+                                                                    <span th:text="${mensagem.nomeProfissionalSaude}"></span>
+                                                                    ás
+                                                                    <span th:text="${mensagem.dataEnvio}"></span>
+                                                                    <br/><br/>
+                                                                    Assunto: <span th:text="${mensagem.assunto}"></span> <br/>
+                                                                    Mensagem:<span  th:text="${mensagem.mensagem}"></span>
+                                                                    </p> 				                       
                                                             </tr>
                                                         </table>
                                                 </td>

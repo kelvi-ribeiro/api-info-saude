@@ -1,7 +1,6 @@
 <!doctype html> 
 				<html> 
-				  <head> 
-                    <link rel="stylesheet" type="text/css" href="nova-mensagem.css"/>  
+				  <head>
 				    <meta name="viewport" content="width=device-width" /> 
 				    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
 				    <title>Simple Transactional Email</title> 
@@ -17,8 +16,13 @@
                                                 <td class="wrapper">
                                                         <table border="0" cellpadding="0" cellspacing="0"> 
                                                             <tr>
-                                                                    <p class="ola">Prezado <span th:text="${mensagem.nomePaciente}"></span>, Você possui uma nova mensagem<br/>
-                                                                    <span th:text="${mensagem.mensagem}"></span>
+                                                                    <p class="ola">Mensagem Global enviada por  
+                                                                    <span th:text="${mensagem.nomeProfissionalSaude}"></span>
+                                                                    ás
+                                                                    <span th:text="${mensagem.dataEnvio}"></span>
+                                                                    <br/><br/>
+                                                                    Assunto: <span th:text="${mensagem.assunto}"></span> <br/>
+                                                                    Mensagem: <span  th:text="${mensagem.mensagem}"></span>
                                                                     </p> 				                       
                                                             </tr>
                                                         </table>
@@ -33,8 +37,8 @@
                                     <table border="0" cellpadding="0" cellspacing="0"> 
                                       <tr> 
                                         <td class="content-block"> 
-                                          <span class="apple-link">Unigranrio<br/> Rua Professor José de Souza Herdy, 1160 - <br/>Jardim Vinte e Cinco de Agosto, Duque de Caxias - RJ, 25071-202</span> 
-                                          <br/> (21) 3219-4040. 
+                                          <span class="apple-link">Atenciosamente, Equipe Info Saúde</span>
+                                          
                                         </td> 
                                       </tr> 
                                     </table> 
