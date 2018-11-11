@@ -133,7 +133,8 @@ public class MensagemService {
 		} else {
 			Integer numberPage = 0;
 			PageRequest pageRequest = new PageRequest(numberPage, 50);
-			Page<Paciente> pacientes = pacienteRepository.findByAllByLinhaCuidadoId(obj.getLinhaCuidado().getId(), pageRequest);
+			Page<Paciente> pacientes = pacienteRepository.findByAllByLinhaCuidadoId(obj.getLinhaCuidado().getId(),
+					pageRequest);
 			while (pacientes.getTotalPages() > numberPage) {
 				emails.delete(0, emails.length());
 				for (Paciente paciente : pacientes.getContent()) {
@@ -146,14 +147,14 @@ public class MensagemService {
 						"email/nova-mensagem/nova-mensagem-geral", "mensagem");
 				try {
 					abstractEmailService.sendEmail(emailTemplateDto, objDto);
+
 				} catch (MessagingException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 				++numberPage;
 				pageRequest = new PageRequest(numberPage, 50);
-				pacientes = pacienteRepository.findAll(pageRequest);
+				pacientes = pacienteRepository.findByAllByLinhaCuidadoId(obj.getLinhaCuidado().getId(), pageRequest);
 
 			}
 		}
