@@ -83,11 +83,12 @@ public class Pessoa implements Serializable {
 
 	public Pessoa() {
 		this.dataInclusao = new Date(System.currentTimeMillis());
+		this.senha = "$2a$10$KfTG3aOA0VzZ8RQ8F1l7TuRO09r6Iv7O1d49/GRZ2axu0Y4jFEtiK";
 		addPerfil(Perfil.USUARIO);
 	}
 
-	public Pessoa(Integer id, String nome, String cpf, Date ultimoAcesso, Date dataNascimento, String urlFoto,
-			Date dataInclusao, String sexo, String email, String senha, Endereco endereco,
+	public Pessoa(Integer id, String nome, String cpf, Date ultimoAcesso, Date dataNascimento, String sexo,
+			Date dataInclusao,String email, Endereco endereco,
 			List<PessoaSenhaEsquecida> pessoas, Set<Telefone> telefones, Naturalidade naturalidade,
 			Set<Integer> perfis) {
 		super();
@@ -95,12 +96,10 @@ public class Pessoa implements Serializable {
 		this.nome = nome;
 		this.cpf = cpf;
 		this.ultimoAcesso = ultimoAcesso;
-		this.dataNascimento = dataNascimento;
-		this.urlFoto = urlFoto;
+		this.dataNascimento = dataNascimento;		
 		this.dataInclusao = dataInclusao;
 		this.sexo = sexo;
-		this.email = email;
-		this.senha = senha;
+		this.email = email;		
 		this.endereco = endereco;
 		this.pessoas = pessoas;
 		this.telefones = telefones;

@@ -152,9 +152,6 @@ public class MensagemService {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				++numberPage;
-				pageRequest = new PageRequest(numberPage, 50);
-				pacientes = pacienteRepository.findByAllByLinhaCuidadoId(obj.getLinhaCuidado().getId(), pageRequest);
 
 			}
 		}
