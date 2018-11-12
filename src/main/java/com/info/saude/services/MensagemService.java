@@ -78,6 +78,32 @@ public class MensagemService {
 		return mensagemDtoPage;
 	}
 
+	public Page<MensagemDTO> findByAnyField(Integer page, Integer linesPerPage, String campoPesquisa,
+			Integer linhaCuidadoId) {
+		PageRequest pageRequest = new PageRequest(page, linesPerPage);
+		if (repo.findByAssuntoAndLinhaCuidado(campoPesquisa, pageRequest, linhaCuidadoId).hasContent()) {
+			final Page<Mensagem> pageMensagem = repo.findByAssuntoAndLinhaCuidado(campoPesquisa, pageRequest,
+					linhaCuidadoId);
+			return fillListDto(pageMensagem);
+			
+		} else if (repo.findByMensagemAndLinhaCuidado(campoPesquisa, pageRequest, linhaCuidadoId).hasContent()) {
+			final Page<Mensagem> pageMensagem = repo.findByMensagemAndLinhaCuidado(campoPesquisa, pageRequest, linhaCuidadoId);
+			return fillListDto(pageMensagem);
+		}else {
+			final Page<Mensagem> pageMensagem = repo.findByProfissionalSaudeAndLinhaCuidado(campoPesquisa, pageRequest, linhaCuidadoId);
+			return fillListDto(pageMensagem);
+		}
+
+	}
+	
+	private Page<MensagemDTO> fillListDto(Page<Mensagem> pageMensagem) {		
+		final Page<MensagemDTO> mensagemDtoPage = pageMensagem.map(el -> {
+			MensagemDTO mensagemDto = new MensagemDTO(el);			
+			return mensagemDto;
+		});
+		return mensagemDtoPage;
+		}
+
 	public Integer showNumberNotReadMessageByPaciente(Integer idPaciente) {
 		Integer numberNotMessageByPaciente = repo.showNumberNotReadMessageByPacienteLinhaCuidado(idPaciente);
 		numberNotMessageByPaciente += repo.showNumberNotReadMessageByPacienteGeral(idPaciente);

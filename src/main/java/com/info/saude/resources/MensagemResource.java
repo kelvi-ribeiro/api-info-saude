@@ -38,6 +38,16 @@ public class MensagemResource {
 			@RequestParam(value = "linesPerPage", defaultValue = "60") Integer linesPerPage) {
 		Page<MensagemDTO> objDtoPage = service.findAllByPacientePageable(page, linesPerPage, idPaciente);
 		return ResponseEntity.ok().body(objDtoPage);
+	}	
+
+	@RequestMapping(value = "/page/any-field", method = RequestMethod.GET)
+	public ResponseEntity<Page<MensagemDTO>> findByAnyField(
+			@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "linesPerPage", defaultValue = "32") Integer linesPerPage,
+			@RequestParam(value = "campoPesquisa", defaultValue = "") String campoPesquisa,
+			@RequestParam(value = "linhaCuidadoId", defaultValue = "0") Integer linhaCuidadoId) {
+		Page<MensagemDTO> objDto = service.findByAnyField(page, linesPerPage, campoPesquisa, linhaCuidadoId);
+		return ResponseEntity.ok().body(objDto);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)

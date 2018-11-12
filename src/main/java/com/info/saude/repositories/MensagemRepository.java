@@ -26,6 +26,39 @@ public interface MensagemRepository extends JpaRepository<Mensagem, Integer> {
 			@Param("pageRequest") Pageable pageRequest);
 	
 	@Transactional(readOnly = true)
+	@Query(value = "SELECT DISTINCT m FROM Mensagem  m "			
+			+ "WHERE m.assunto LIKE CONCAT('%',:campoPesquisa,'%')"			
+			+ "AND (m.linhaCuidado.id = :linhaCuidadoId  or :linhaCuidadoId = 0) ")
+	Page<Mensagem> findByAssuntoAndLinhaCuidado(
+			 @Param("campoPesquisa") String campoPesquisa,
+			 @Param("pageRequest") Pageable pageRequest,
+			 @Param("linhaCuidadoId") Integer linhaCuidadoId);
+	
+	
+	@Transactional(readOnly = true)
+	@Query(value = "SELECT DISTINCT m FROM Mensagem  m "			
+			+ "WHERE m.mensagem LIKE CONCAT('%',:campoPesquisa,'%')"			
+			+ "AND (m.linhaCuidado.id = :linhaCuidadoId  or :linhaCuidadoId = 0) ")
+	Page<Mensagem> findByMensagemAndLinhaCuidado(
+			 @Param("campoPesquisa") String campoPesquisa,
+			 @Param("pageRequest") Pageable pageRequest,
+			 @Param("linhaCuidadoId") Integer linhaCuidadoId);
+	
+	@Transactional(readOnly = true)
+	@Query(value = "SELECT DISTINCT m FROM Mensagem  m, "
+			+ "ProfissionalSaude ps, "
+			+ "Pessoa p "
+			+ "WHERE m.profissionalSaude.id = ps.id "
+			+ "AND ps.pessoa.id = p.id "
+			+ "AND p.nome LIKE CONCAT('%',:campoPesquisa,'%')"			
+			+ "AND (m.linhaCuidado.id = :linhaCuidadoId  or :linhaCuidadoId = 0) ")
+	Page<Mensagem> findByProfissionalSaudeAndLinhaCuidado(
+			 @Param("campoPesquisa") String campoPesquisa,
+			 @Param("pageRequest") Pageable pageRequest,
+			 @Param("linhaCuidadoId") Integer linhaCuidadoId);
+	
+	
+	@Transactional(readOnly = true)
 	@Query("SELECT COUNT(*) FROM "
 			+ "Mensagem m,"
 			+ "PacienteLinhaCuidado plc "
