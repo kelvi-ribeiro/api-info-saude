@@ -43,7 +43,7 @@ public class MensagemResource {
 	@RequestMapping(value = "/page/any-field", method = RequestMethod.GET)
 	public ResponseEntity<Page<MensagemDTO>> findByAnyField(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
-			@RequestParam(value = "linesPerPage", defaultValue = "32") Integer linesPerPage,
+			@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
 			@RequestParam(value = "campoPesquisa", defaultValue = "") String campoPesquisa,
 			@RequestParam(value = "linhaCuidadoId", defaultValue = "0") Integer linhaCuidadoId) {
 		Page<MensagemDTO> objDto = service.findByAnyField(page, linesPerPage, campoPesquisa, linhaCuidadoId);
