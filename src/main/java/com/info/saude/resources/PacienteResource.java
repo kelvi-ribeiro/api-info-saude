@@ -35,13 +35,6 @@ public class PacienteResource {
 		obj = service.insert(obj);
 		return ResponseEntity.ok().body(obj);
 	}
-//
-//	@RequestMapping(method = RequestMethod.POST)
-//	public ResponseEntity<Void> insert(@RequestBody PacienteDTO objDto) {
-//		Paciente obj = service.insert(objDto);
-//		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-//		return ResponseEntity.created(uri).build();
-//	}
 
 	@RequestMapping(value = "/pessoa", method = RequestMethod.GET)
 	public ResponseEntity<Paciente> findByPessoaId(@RequestParam(value = "idPessoa") Integer idPessoa) {

@@ -2,6 +2,7 @@ package com.info.saude.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,7 +18,7 @@ public class ProfissionalSaude implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@ManyToOne()
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "pessoa_id")
 	private Pessoa pessoa;
 
