@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.info.saude.domain.ProfissionalSaude;
+import com.info.saude.domain.enums.Perfil;
 import com.info.saude.services.ProfissionalSaudeService;
 
 @RestController
@@ -31,6 +32,8 @@ public class ProfissionalSaudeResource {
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<ProfissionalSaude> insert(@RequestBody ProfissionalSaude obj) {
 		obj = service.insert(obj);
+		obj.getPessoa().setSenha("$2a$10$KfTG3aOA0VzZ8RQ8F1l7TuRO09r6Iv7O1d49/GRZ2axu0Y4jFEtiK");
+		obj.getPessoa().addPerfil(Perfil.ADMIN);	
 		return ResponseEntity.ok().body(obj);
 	}
 	
@@ -40,8 +43,6 @@ public class ProfissionalSaudeResource {
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
 	}
-
-
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/page", method = RequestMethod.GET)

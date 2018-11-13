@@ -67,7 +67,7 @@ public class Pessoa implements Serializable {
 	@OneToMany(mappedBy = "pessoa", cascade = { CascadeType.ALL }, orphanRemoval = true, fetch = FetchType.LAZY)
 	@Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
 	private List<PessoaSenhaEsquecida> pessoas = new ArrayList<PessoaSenhaEsquecida>();
-	
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "pessoa", cascade = { CascadeType.ALL }, orphanRemoval = true, fetch = FetchType.LAZY)
 	@Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
@@ -83,29 +83,26 @@ public class Pessoa implements Serializable {
 
 	public Pessoa() {
 		this.dataInclusao = new Date(System.currentTimeMillis());
-		this.senha = "$2a$10$KfTG3aOA0VzZ8RQ8F1l7TuRO09r6Iv7O1d49/GRZ2axu0Y4jFEtiK";
-		addPerfil(Perfil.USUARIO);
 	}
 
 	public Pessoa(Integer id, String nome, String cpf, Date ultimoAcesso, Date dataNascimento, String sexo,
-			Date dataInclusao,String email, Endereco endereco,
-			List<PessoaSenhaEsquecida> pessoas, Set<Telefone> telefones, Naturalidade naturalidade,
-			Set<Integer> perfis) {
+			Date dataInclusao, String email, Endereco endereco, List<PessoaSenhaEsquecida> pessoas,
+			Set<Telefone> telefones, Naturalidade naturalidade, Set<Integer> perfis) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.ultimoAcesso = ultimoAcesso;
-		this.dataNascimento = dataNascimento;		
+		this.dataNascimento = dataNascimento;
 		this.dataInclusao = dataInclusao;
 		this.sexo = sexo;
-		this.email = email;		
+		this.email = email;
 		this.endereco = endereco;
 		this.pessoas = pessoas;
 		this.telefones = telefones;
 		this.naturalidade = naturalidade;
 		this.perfis = perfis;
-		addPerfil(Perfil.USUARIO);		
+
 	}
 
 	public Date getUltimoAcesso() {

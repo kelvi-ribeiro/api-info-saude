@@ -18,7 +18,7 @@ public class ProfissionalSaude implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "pessoa_id")
 	private Pessoa pessoa;
 

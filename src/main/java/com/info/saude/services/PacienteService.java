@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.info.saude.domain.Paciente;
 import com.info.saude.domain.Pessoa;
+import com.info.saude.domain.enums.Perfil;
 import com.info.saude.repositories.PacienteRepository;
 import com.info.saude.repositories.PessoaRepository;
 import com.info.saude.services.exceptions.ObjectNotFoundException;
@@ -33,12 +34,18 @@ public class PacienteService {
 
 	public Paciente insert(Paciente obj) {
 		obj.getPessoa().setSenha("$2a$10$KfTG3aOA0VzZ8RQ8F1l7TuRO09r6Iv7O1d49/GRZ2axu0Y4jFEtiK");
+		obj.getPessoa().addPerfil(Perfil.USUARIO);		
 		return repo.save(obj);
 
 	}
 
-	public Paciente update(Paciente obj) {
-		obj.setPessoa(pessoaRepository.save(obj.getPessoa()));
+	public Paciente update(Paciente obj) {			
+		Paciente objectFound = find(obj.getId());
+		obj.getPessoa().setSenha(objectFound.getPessoa().getSenha());
+		objectFound.getPessoa().getPerfis().forEach(el ->{
+		obj.getPessoa().addPerfil(el);			
+		});
+		obj.setPessoa(pessoaRepository.save(obj.getPessoa()));		
 		return repo.save(obj);
 	}
 
