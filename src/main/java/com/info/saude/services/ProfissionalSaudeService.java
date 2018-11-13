@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.info.saude.domain.ProfissionalSaude;
 import com.info.saude.domain.enums.Perfil;
+import com.info.saude.repositories.PessoaRepository;
 import com.info.saude.repositories.ProfissionalSaudeRepository;
 import com.info.saude.services.exceptions.ObjectNotFoundException;
 
@@ -16,6 +17,9 @@ public class ProfissionalSaudeService {
 
 	@Autowired
 	private ProfissionalSaudeRepository repo;
+	
+	@Autowired
+	private PessoaRepository pessoaRepository;
 
 	public ProfissionalSaude find(Integer id) {
 		ProfissionalSaude obj = repo.findOne(id);
@@ -44,7 +48,7 @@ public class ProfissionalSaudeService {
 
 	public ProfissionalSaude insert(ProfissionalSaude obj) {
 		obj.getPessoa().setSenha("$2a$10$KfTG3aOA0VzZ8RQ8F1l7TuRO09r6Iv7O1d49/GRZ2axu0Y4jFEtiK");
-		obj.getPessoa().addPerfil(Perfil.ADMIN);
+		obj.getPessoa().addPerfil(Perfil.ADMIN);		
 		return repo.save(obj);
 
 	}
@@ -55,6 +59,7 @@ public class ProfissionalSaudeService {
 		objectFound.getPessoa().getPerfis().forEach(el -> {
 			obj.getPessoa().addPerfil(el);
 		});
+		obj.setPessoa(pessoaRepository.save(obj.getPessoa()));
 		return repo.save(obj);
 	}
 
