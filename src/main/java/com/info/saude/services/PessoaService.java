@@ -119,7 +119,7 @@ public class PessoaService {
 		return repo.findAll(pageRequest);
 	}
 
-	public URI uploadProfilePicture(MultipartFile multipartFile) {
+	public URI uploadProfilePicture(MultipartFile multipartFile,Integer idPessoa) {
 
 		UserSS user = UserService.authenticated();
 		if (user == null) {
@@ -128,7 +128,7 @@ public class PessoaService {
 
 		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
 
-		Pessoa pessoa = repo.findOne(user.getId());
+		Pessoa pessoa = repo.findOne(idPessoa);
 		String fileName = pessoa.getUrlFoto() != null ? pessoa.getUrlFoto()
 				: "id=" + user.getId() + "&rand=" + Utils.newStringRandom() + ".jpg";
 		pessoa.setUrlFoto(fileName);

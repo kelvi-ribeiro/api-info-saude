@@ -54,8 +54,8 @@ public class PessoaResource {
 	}
 
 	@RequestMapping(value = "/picture", method = RequestMethod.POST)
-	public ResponseEntity<Void> uploadProfilePicture(@RequestParam(name = "file") MultipartFile file) {
-		URI uri = service.uploadProfilePicture(file);
+	public ResponseEntity<Void> uploadProfilePicture(@RequestParam(name = "file") MultipartFile file,@RequestParam(value = "idPessoa") Integer idPessoa) {
+		URI uri = service.uploadProfilePicture(file,idPessoa);
 		return ResponseEntity.created(uri).build();
 	}
 
