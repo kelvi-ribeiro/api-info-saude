@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.info.saude.domain.Pessoa;
+import com.info.saude.domain.enums.Perfil;
 import com.info.saude.dto.NovaSenhaDTO;
 import com.info.saude.dto.PessoaDTO;
 import com.info.saude.repositories.EnderecoRepository;
@@ -92,6 +93,18 @@ public class PessoaService {
 	public void setUserOnline(Integer pessoaId) {
 		Pessoa pessoa = repo.findOne(pessoaId);
 		pessoa.setUltimoAcesso(new Date());
+		repo.save(pessoa);
+	}
+	
+	public void addPerfil(Integer idPessoa,Integer idPerfil) {
+		Pessoa pessoa = find(idPessoa);
+		pessoa.addPerfil(Perfil.toEnum(idPerfil));
+		repo.save(pessoa);
+	}
+	
+	public void deletePerfil(Integer idPessoa,Integer idPerfil) {
+		Pessoa pessoa = find(idPessoa);
+		pessoa.deletePerfil(idPerfil);
 		repo.save(pessoa);
 	}
 

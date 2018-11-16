@@ -69,7 +69,7 @@ public class Pessoa implements Serializable {
 	private List<PessoaSenhaEsquecida> pessoas = new ArrayList<PessoaSenhaEsquecida>();
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "pessoa",orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "pessoa", orphanRemoval = true, fetch = FetchType.LAZY)
 	@Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
 	private Set<Telefone> telefones = new HashSet<Telefone>();
 
@@ -211,6 +211,10 @@ public class Pessoa implements Serializable {
 
 	public void addPerfil(Perfil perfil) {
 		perfis.add(perfil.getCod());
+	}
+
+	public void deletePerfil(Integer idPerfil) {
+		perfis.removeIf(x -> x == idPerfil);
 	}
 
 	public void setDataInclusao(Date dataInclusao) {

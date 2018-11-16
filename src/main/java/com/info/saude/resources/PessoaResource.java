@@ -58,6 +58,16 @@ public class PessoaResource {
 		URI uri = service.uploadProfilePicture(file,idPessoa);
 		return ResponseEntity.created(uri).build();
 	}
+	
+	@RequestMapping(value = "/delete-perfil/{idPessoa}/{idPerfil}", method = RequestMethod.DELETE)
+	public void deletePerfil(@PathVariable Integer idPessoa,@PathVariable Integer idPerfil) {		
+		service.deletePerfil(idPessoa, idPerfil);		
+	}
+	
+	@RequestMapping(value = "/add-perfil/{idPessoa}/{idPerfil}", method = RequestMethod.POST)
+	public void addPerfil(@PathVariable Integer idPessoa,@PathVariable Integer idPerfil) {		
+		service.addPerfil(idPessoa, idPerfil);		
+	}
 
 	@RequestMapping(value = "/alterarSenha", method = RequestMethod.PUT)
 	public ResponseEntity<Void> alterarSenha(@RequestBody NovaSenhaDTO novaSenha) {
