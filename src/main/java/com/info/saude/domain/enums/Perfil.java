@@ -3,7 +3,8 @@ package com.info.saude.domain.enums;
 public enum Perfil {
 	
 	ADMIN(1, "ROLE_ADMIN"),
-	USUARIO(2, "ROLE_USUARIO");
+	GERENTE(2, "ROLE_GERENTE"),
+	USUARIO(3, "ROLE_USUARIO");
 	
 	private int cod;
 	private String descricao;

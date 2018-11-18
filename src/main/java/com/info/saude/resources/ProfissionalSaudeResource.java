@@ -33,7 +33,7 @@ public class ProfissionalSaudeResource {
 	public ResponseEntity<ProfissionalSaude> insert(@RequestBody ProfissionalSaude obj) {
 		obj = service.insert(obj);
 		obj.getPessoa().setSenha("$2a$10$KfTG3aOA0VzZ8RQ8F1l7TuRO09r6Iv7O1d49/GRZ2axu0Y4jFEtiK");
-		obj.getPessoa().addPerfil(Perfil.ADMIN);	
+		obj.getPessoa().addPerfil(Perfil.GERENTE);	
 		return ResponseEntity.ok().body(obj);
 	}
 	
