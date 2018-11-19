@@ -28,8 +28,6 @@ public class PessoaDTO implements Serializable {
 
 	private String cpf;
 
-	private String rg;
-
 	@NotEmpty(message = "Preenchimento obrigatório")
 	@Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres")
 	private String nome;
@@ -37,8 +35,6 @@ public class PessoaDTO implements Serializable {
 	private String dataNascimento;
 
 	private String dataInclusao;
-
-	private String raca;
 
 	private Integer sexo;
 
@@ -56,7 +52,7 @@ public class PessoaDTO implements Serializable {
 
 	private int numeroEndereco;
 
-	private String logradouro;
+	private String rua;
 
 	private String bairro;
 
@@ -70,21 +66,9 @@ public class PessoaDTO implements Serializable {
 
 	private Set<Telefone> telefones = new HashSet<Telefone>();
 
-	private Integer codigoArea1;
-
-	private String tipo1;
-
 	private String numero1;
 
-	private Integer codigoArea2;
-
-	private String tipo2;
-
 	private String numero2;
-
-	private Integer codigoArea3;
-
-	private String tipo3;
 
 	private String numero3;
 
@@ -96,12 +80,10 @@ public class PessoaDTO implements Serializable {
 		super();
 		this.id = pessoa.getId();
 		this.cpf = pessoa.getCpf();
-		this.rg = pessoa.getRg();
 		this.nome = pessoa.getNome();
 		this.dataNascimento = pessoa.getDataNascimento() != null ? Utils.dateToString(pessoa.getDataNascimento())
 				: null;
 		this.dataInclusao = pessoa.getDataInclusao() != null ? Utils.dateTimeToString(pessoa.getDataInclusao()) : null;
-		this.raca = pessoa.getRaca();
 		this.sexo = Sexo.descricaoToEnum((pessoa.getSexo())).getCod();
 		this.email = pessoa.getEmail();
 		this.senha = pessoa.getSenha();
@@ -133,10 +115,8 @@ public class PessoaDTO implements Serializable {
 		Pessoa pessoa = new Pessoa();
 		pessoa.setId(this.id);
 		pessoa.setCpf(this.cpf);
-		pessoa.setRg(this.rg);
 		pessoa.setNome(this.nome);
 		pessoa.setDataNascimento(Utils.brazilianDateToDate(this.dataNascimento));
-		pessoa.setRaca(this.raca);
 		pessoa.setSexo(Sexo.toEnum(this.sexo).getDescricao());
 		pessoa.setEmail(this.email);
 		pessoa.setSenha(this.senha);
@@ -148,34 +128,28 @@ public class PessoaDTO implements Serializable {
 		Endereco endereco = new Endereco();
 		endereco.setBairro(this.bairro);
 		endereco.setCep(this.cep);
-		endereco.setLogradouro(this.logradouro);
+		endereco.setRua(this.rua);
 		endereco.setNumero(this.numeroEndereco);
 		endereco.setCidade(cidade);
 		endereco.setPessoa(pessoa);
 
 		pessoa.setEndereco(endereco);
-		if (this.codigoArea1 != null && this.tipo1 != null && this.numero1 != null) {
+		if (this.numero1 != null) {
 			Telefone telefone = new Telefone();
 			telefone.setPessoa(pessoa);
-			telefone.setCodigoArea(this.codigoArea1);
 			telefone.setNumero(this.numero1);
-			telefone.setTipo(this.tipo1);
 			pessoa.getTelefones().add(telefone);
 		}
-		if (this.codigoArea2 != null && this.tipo2 != null && this.numero2 != null) {
+		if (this.numero2 != null) {
 			Telefone telefone = new Telefone();
 			telefone.setPessoa(pessoa);
-			telefone.setCodigoArea(this.codigoArea2);
 			telefone.setNumero(this.numero2);
-			telefone.setTipo(this.tipo2);
 			pessoa.getTelefones().add(telefone);
 		}
-		if (this.codigoArea3 != null && this.tipo3 != null && this.numero3 != null) {
+		if (this.numero3 != null) {
 			Telefone telefone = new Telefone();
 			telefone.setPessoa(pessoa);
-			telefone.setCodigoArea(this.codigoArea3);
 			telefone.setNumero(this.numero3);
-			telefone.setTipo(this.tipo3);
 			pessoa.getTelefones().add(telefone);
 		}
 		return pessoa;
@@ -195,14 +169,6 @@ public class PessoaDTO implements Serializable {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
-	}
-
-	public String getRg() {
-		return rg;
-	}
-
-	public void setRg(String rg) {
-		this.rg = rg;
 	}
 
 	public String getNome() {
@@ -225,16 +191,16 @@ public class PessoaDTO implements Serializable {
 		return dataInclusao;
 	}
 
-	public String getRaca() {
-		return raca;
+	public void setDataInclusao(String dataInclusao) {
+		this.dataInclusao = dataInclusao;
 	}
 
-	public Sexo getSexo() {
-		return Sexo.toEnum(sexo);
+	public Integer getSexo() {
+		return sexo;
 	}
 
-	public void setSexo(Sexo sexo) {
-		this.sexo = sexo.getCod();
+	public void setSexo(Integer sexo) {
+		this.sexo = sexo;
 	}
 
 	public String getEmail() {
@@ -253,20 +219,20 @@ public class PessoaDTO implements Serializable {
 		this.senha = senha;
 	}
 
-	public int getEnderecoId() {
-		return enderecoId;
-	}
-
-	public void setEnderecoId(int enderecoId) {
-		this.enderecoId = enderecoId;
-	}
-
 	public int getNaturalidadeId() {
 		return naturalidadeId;
 	}
 
 	public void setNaturalidadeId(int naturalidadeId) {
 		this.naturalidadeId = naturalidadeId;
+	}
+
+	public int getEnderecoId() {
+		return enderecoId;
+	}
+
+	public void setEnderecoId(int enderecoId) {
+		this.enderecoId = enderecoId;
 	}
 
 	public int getNumeroEndereco() {
@@ -277,12 +243,12 @@ public class PessoaDTO implements Serializable {
 		this.numeroEndereco = numeroEndereco;
 	}
 
-	public String getLogradouro() {
-		return logradouro;
+	public String getRua() {
+		return rua;
 	}
 
-	public void setLogradouro(String logradouro) {
-		this.logradouro = logradouro;
+	public void setRua(String rua) {
+		this.rua = rua;
 	}
 
 	public String getBairro() {
@@ -325,36 +291,24 @@ public class PessoaDTO implements Serializable {
 		this.telefones = telefones;
 	}
 
-	public void setCodigoArea1(Integer codigoArea1) {
-		this.codigoArea1 = codigoArea1;
-	}
-
-	public void setTipo1(String tipo1) {
-		this.tipo1 = tipo1;
+	public String getNumero1() {
+		return numero1;
 	}
 
 	public void setNumero1(String numero1) {
 		this.numero1 = numero1;
 	}
 
-	public void setCodigoArea2(Integer codigoArea2) {
-		this.codigoArea2 = codigoArea2;
-	}
-
-	public void setTipo2(String tipo2) {
-		this.tipo2 = tipo2;
+	public String getNumero2() {
+		return numero2;
 	}
 
 	public void setNumero2(String numero2) {
 		this.numero2 = numero2;
 	}
 
-	public void setCodigoArea3(Integer codigoArea3) {
-		this.codigoArea3 = codigoArea3;
-	}
-
-	public void setTipo3(String tipo3) {
-		this.tipo3 = tipo3;
+	public String getNumero3() {
+		return numero3;
 	}
 
 	public void setNumero3(String numero3) {

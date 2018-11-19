@@ -19,7 +19,7 @@ public class CidadeResource {
 	private CidadeService service;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<Cidade>> findAllAtivos() {
+	public ResponseEntity<List<Cidade>> findAll() {
 		List<Cidade> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}

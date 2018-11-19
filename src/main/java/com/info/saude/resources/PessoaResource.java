@@ -33,8 +33,15 @@ public class PessoaResource {
 	}
 
 	@RequestMapping(value = "/email", method = RequestMethod.GET)
-	public ResponseEntity<PessoaDTO> find(@RequestParam(value = "value") String email) {
+	public ResponseEntity<PessoaDTO> findByEmail(@RequestParam(value = "value") String email) {
 		Pessoa pessoa = service.findByEmail(email);
+		PessoaDTO pessoaDto = new PessoaDTO(pessoa);
+		return ResponseEntity.ok().body(pessoaDto);
+	}
+	
+	@RequestMapping(value = "/cpf", method = RequestMethod.GET)
+	public ResponseEntity<PessoaDTO> findByCpf(@RequestParam(value = "value") String cpf) {
+		Pessoa pessoa = service.findByCpf(cpf);
 		PessoaDTO pessoaDto = new PessoaDTO(pessoa);
 		return ResponseEntity.ok().body(pessoaDto);
 	}
@@ -47,14 +54,30 @@ public class PessoaResource {
 	}
 
 	@RequestMapping(value = "/picture", method = RequestMethod.POST)
-	public ResponseEntity<Void> uploadProfilePicture(@RequestParam(name = "file") MultipartFile file) {
-		URI uri = service.uploadProfilePicture(file);
+	public ResponseEntity<Void> uploadProfilePicture(@RequestParam(name = "file") MultipartFile file,@RequestParam(value = "idPessoa") Integer idPessoa) {
+		URI uri = service.uploadProfilePicture(file,idPessoa);
 		return ResponseEntity.created(uri).build();
+	}
+	
+	@RequestMapping(value = "/delete-perfil/{idPessoa}/{idPerfil}", method = RequestMethod.DELETE)
+	public void deletePerfil(@PathVariable Integer idPessoa,@PathVariable Integer idPerfil) {		
+		service.deletePerfil(idPessoa, idPerfil);		
+	}
+	
+	@RequestMapping(value = "/add-perfil/{idPessoa}/{idPerfil}", method = RequestMethod.POST)
+	public void addPerfil(@PathVariable Integer idPessoa,@PathVariable Integer idPerfil) {		
+		service.addPerfil(idPessoa, idPerfil);		
 	}
 
 	@RequestMapping(value = "/alterarSenha", method = RequestMethod.PUT)
 	public ResponseEntity<Void> alterarSenha(@RequestBody NovaSenhaDTO novaSenha) {
 		service.alterarSenha(novaSenha);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(value = "/setUserOnline", method = RequestMethod.PUT)
+	public ResponseEntity<Void> alterarSenha(@RequestParam(value = "pessoaId") Integer pessoaId) {
+		service.setUserOnline(pessoaId);
 		return ResponseEntity.noContent().build();
 	}
 

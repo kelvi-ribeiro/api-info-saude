@@ -2,7 +2,6 @@ package com.info.saude.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,13 +19,8 @@ public class Telefone implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "codigo_area")
-	private int codigoArea;
-
-	private String tipo;
-
 	private String numero;
-	
+
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "pessoa_id")
@@ -36,11 +30,9 @@ public class Telefone implements Serializable {
 		super();
 	}
 
-	public Telefone(Integer id, int codigoArea, String tipo, String numero, Pessoa pessoa) {
+	public Telefone(Integer id, String numero, Pessoa pessoa) {
 		super();
 		this.id = id;
-		this.codigoArea = codigoArea;
-		this.tipo = tipo;
 		this.numero = numero;
 		this.pessoa = pessoa;
 	}
@@ -51,22 +43,6 @@ public class Telefone implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public int getCodigoArea() {
-		return codigoArea;
-	}
-
-	public void setCodigoArea(int codigoArea) {
-		this.codigoArea = codigoArea;
-	}
-
-	public String getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
 	}
 
 	public String getNumero() {
@@ -84,8 +60,5 @@ public class Telefone implements Serializable {
 	public void setPessoa(Pessoa pessoa) {
 		this.pessoa = pessoa;
 	}
-
-	
-	
 
 }

@@ -2,6 +2,7 @@ package com.info.saude.services;
 
 import java.awt.image.BufferedImage;
 import java.net.URI;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.info.saude.domain.Pessoa;
+import com.info.saude.domain.enums.Perfil;
 import com.info.saude.dto.NovaSenhaDTO;
 import com.info.saude.dto.PessoaDTO;
 import com.info.saude.repositories.EnderecoRepository;
@@ -88,12 +90,39 @@ public class PessoaService {
 
 	}
 
-	public Pessoa findByEmail(String email) {
+	public void setUserOnline(Integer pessoaId) {
+		Pessoa pessoa = repo.findOne(pessoaId);
+		pessoa.setUltimoAcesso(new Date());
+		repo.save(pessoa);
+	}
+	
+	public void addPerfil(Integer idPessoa,Integer idPerfil) {
+		Pessoa pessoa = find(idPessoa);
+		pessoa.addPerfil(Perfil.toEnum(idPerfil));
+		repo.save(pessoa);
+	}
+	
+	public void deletePerfil(Integer idPessoa,Integer idPerfil) {
+		Pessoa pessoa = find(idPessoa);
+		pessoa.deletePerfil(idPerfil);
+		repo.save(pessoa);
+	}
 
+	public Pessoa findByEmail(String email) {
 		Pessoa obj = repo.findByEmail(email);
 		if (obj == null) {
 			throw new ObjectNotFoundException(
 					"Nenhuma Pessoa Encontrada com esse email: " + email + ", Tipo: " + Pessoa.class.getName());
+		}		
+		return obj;
+	}
+	
+	public Pessoa findByCpf(String cpf) {
+
+		Pessoa obj = repo.findByCpf(cpf);
+		if (obj == null) {
+			throw new ObjectNotFoundException(
+					"Nenhuma Pessoa Encontrada com esse cpf: " + cpf + ", Tipo: " + Pessoa.class.getName());
 		}
 		return obj;
 	}
@@ -103,7 +132,7 @@ public class PessoaService {
 		return repo.findAll(pageRequest);
 	}
 
-	public URI uploadProfilePicture(MultipartFile multipartFile) {
+	public URI uploadProfilePicture(MultipartFile multipartFile,Integer idPessoa) {
 
 		UserSS user = UserService.authenticated();
 		if (user == null) {
@@ -112,7 +141,7 @@ public class PessoaService {
 
 		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
 
-		Pessoa pessoa = repo.findOne(user.getId());
+		Pessoa pessoa = repo.findOne(idPessoa);
 		String fileName = pessoa.getUrlFoto() != null ? pessoa.getUrlFoto()
 				: "id=" + user.getId() + "&rand=" + Utils.newStringRandom() + ".jpg";
 		pessoa.setUrlFoto(fileName);

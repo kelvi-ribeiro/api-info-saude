@@ -40,8 +40,8 @@ public class Pessoa implements Serializable {
 	@Column(unique = true)
 	private String cpf;
 
-	@Column(unique = true)
-	private String rg;
+	@Column(name = "ultimo_acesso")
+	private Date ultimoAcesso;
 
 	@Column(name = "data_nascimento")
 	private Date dataNascimento;
@@ -52,8 +52,6 @@ public class Pessoa implements Serializable {
 	@Column(name = "data_inclusao")
 	private Date dataInclusao;
 
-	private String raca;
-
 	private String sexo;
 
 	@Column(unique = true)
@@ -62,19 +60,20 @@ public class Pessoa implements Serializable {
 	@JsonIgnore
 	private String senha;
 
-	@OneToOne
-	@JoinColumn(name = "endereco_id")
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "endereco_id", unique = true)
 	private Endereco endereco;
-	
+
 	@OneToMany(mappedBy = "pessoa", cascade = { CascadeType.ALL }, orphanRemoval = true, fetch = FetchType.LAZY)
 	@Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
 	private List<PessoaSenhaEsquecida> pessoas = new ArrayList<PessoaSenhaEsquecida>();
 
-	@OneToMany(mappedBy = "pessoa", cascade = { CascadeType.ALL }, orphanRemoval = true, fetch = FetchType.LAZY)
+	@JsonIgnore
+	@OneToMany(mappedBy = "pessoa", orphanRemoval = true, fetch = FetchType.LAZY)
 	@Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
 	private Set<Telefone> telefones = new HashSet<Telefone>();
 
-	@ManyToOne
+	@ManyToOne()
 	@JoinColumn(name = "naturalidade_id")
 	private Naturalidade naturalidade;
 
@@ -84,28 +83,34 @@ public class Pessoa implements Serializable {
 
 	public Pessoa() {
 		this.dataInclusao = new Date(System.currentTimeMillis());
-		addPerfil(Perfil.USUARIO);
 	}
 
-	public Pessoa(Integer id, String nome, String cpf, String rg, Date dataNascimento, String urlFoto, String raca,
-			String sexo, String email, String senha, Endereco endereco, Set<Telefone> telefones,
-			Naturalidade naturalidade) {
+	public Pessoa(Integer id, String nome, String cpf, Date ultimoAcesso, Date dataNascimento, String sexo,
+			Date dataInclusao, String email, Endereco endereco, List<PessoaSenhaEsquecida> pessoas,
+			Set<Telefone> telefones, Naturalidade naturalidade, Set<Integer> perfis) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
-		this.rg = rg;
+		this.ultimoAcesso = ultimoAcesso;
 		this.dataNascimento = dataNascimento;
-		this.urlFoto = urlFoto;
-		this.dataInclusao = new Date(System.currentTimeMillis());
-		this.raca = raca;
+		this.dataInclusao = dataInclusao;
 		this.sexo = sexo;
 		this.email = email;
-		this.senha = senha;
 		this.endereco = endereco;
+		this.pessoas = pessoas;
 		this.telefones = telefones;
 		this.naturalidade = naturalidade;
-		addPerfil(Perfil.USUARIO);
+		this.perfis = perfis;
+
+	}
+
+	public Date getUltimoAcesso() {
+		return ultimoAcesso;
+	}
+
+	public void setUltimoAcesso(Date ultimoAcesso) {
+		this.ultimoAcesso = ultimoAcesso;
 	}
 
 	public Integer getId() {
@@ -132,14 +137,6 @@ public class Pessoa implements Serializable {
 		this.cpf = cpf;
 	}
 
-	public String getRg() {
-		return rg;
-	}
-
-	public void setRg(String rg) {
-		this.rg = rg;
-	}
-
 	public Date getDataNascimento() {
 		return dataNascimento;
 	}
@@ -158,14 +155,6 @@ public class Pessoa implements Serializable {
 
 	public Date getDataInclusao() {
 		return dataInclusao;
-	}
-
-	public String getRaca() {
-		return raca;
-	}
-
-	public void setRaca(String raca) {
-		this.raca = raca;
 	}
 
 	public String getSexo() {
@@ -222,6 +211,10 @@ public class Pessoa implements Serializable {
 
 	public void addPerfil(Perfil perfil) {
 		perfis.add(perfil.getCod());
+	}
+
+	public void deletePerfil(Integer idPerfil) {
+		perfis.removeIf(x -> x == idPerfil);
 	}
 
 	public void setDataInclusao(Date dataInclusao) {

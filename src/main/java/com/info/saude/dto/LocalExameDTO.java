@@ -22,7 +22,7 @@ public class LocalExameDTO implements Serializable {
 
 	private int enderecoNumero;
 
-	private String enderecoLogradouro;
+	private String enderecoRua;
 
 	private String enderecoBairro;
 
@@ -49,7 +49,7 @@ public class LocalExameDTO implements Serializable {
 		this.nome = localExame.getNome();
 		this.enderecoId = localExame.getEndereco().getId();
 		this.enderecoNumero = localExame.getEndereco().getNumero();
-		this.enderecoLogradouro = localExame.getEndereco().getLogradouro();
+		this.enderecoRua = localExame.getEndereco().getRua();
 		this.enderecoCep = localExame.getEndereco().getCep();
 		this.enderecoLongitude = localExame.getEndereco().getLongitude();
 		this.enderecoLatitude = localExame.getEndereco().getLatitude();
@@ -80,7 +80,7 @@ public class LocalExameDTO implements Serializable {
 		endereco.setLatitude(this.enderecoLatitude);
 		endereco.setLongitude(this.enderecoLongitude);
 		endereco.setNumero(this.enderecoNumero);
-		endereco.setLogradouro(this.enderecoLogradouro);
+		endereco.setRua(this.enderecoRua);
 		endereco.setCidade(cidade);
 
 		Paciente paciente = new Paciente();
@@ -126,12 +126,12 @@ public class LocalExameDTO implements Serializable {
 		this.enderecoNumero = enderecoNumero;
 	}
 
-	public String getEnderecoLogradouro() {
-		return enderecoLogradouro;
+	public String getEnderecoRua() {
+		return enderecoRua;
 	}
 
-	public void setEnderecoLogradouro(String enderecoLogradouro) {
-		this.enderecoLogradouro = enderecoLogradouro;
+	public void setEnderecoRua(String enderecoRua) {
+		this.enderecoRua = enderecoRua;
 	}
 
 	public String getEnderecoBairro() {

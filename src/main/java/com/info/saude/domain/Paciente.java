@@ -23,9 +23,13 @@ public class Paciente implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@ManyToOne()
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "pessoa_id")
 	private Pessoa pessoa;
+
+	@ManyToOne()
+	@JoinColumn(name = "tipo_sanguineo_id")
+	private TipoSanguineo tipoSanguineo;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)
@@ -39,18 +43,19 @@ public class Paciente implements Serializable {
 	@OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)
 	private List<Medicamento> medicamentos = new ArrayList<>();
 
+	@JsonIgnore
+	@OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)
+	private List<PacienteLinhaCuidado> pacienteLinhaCuidados = new ArrayList<>();
+
 	public Paciente() {
 		super();
 	}
 
-	public Paciente(Integer id, Pessoa pessoa, List<Exame> exames, List<LocalExame> locaisExame,
-			List<Medicamento> medicamentos) {
+	public Paciente(Integer id, Pessoa pessoa, TipoSanguineo tipoSanguineo) {
 		super();
 		this.id = id;
 		this.pessoa = pessoa;
-		this.exames = exames;
-		this.locaisExame = locaisExame;
-		this.medicamentos = medicamentos;
+		this.tipoSanguineo = tipoSanguineo;
 	}
 
 	public Integer getId() {
@@ -69,28 +74,12 @@ public class Paciente implements Serializable {
 		this.pessoa = pessoa;
 	}
 
-	public List<Exame> getExames() {
-		return exames;
+	public TipoSanguineo getTipoSanguineo() {
+		return tipoSanguineo;
 	}
 
-	public void setExames(List<Exame> exames) {
-		this.exames = exames;
-	}
-
-	public List<LocalExame> getLocaisExame() {
-		return locaisExame;
-	}
-
-	public void setLocaisExame(List<LocalExame> locaisExame) {
-		this.locaisExame = locaisExame;
-	}
-
-	public List<Medicamento> getMedicamentos() {
-		return medicamentos;
-	}
-
-	public void setMedicamentos(List<Medicamento> medicamentos) {
-		this.medicamentos = medicamentos;
+	public void setTipoSanguineo(TipoSanguineo tipoSanguineo) {
+		this.tipoSanguineo = tipoSanguineo;
 	}
 
 }
