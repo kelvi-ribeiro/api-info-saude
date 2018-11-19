@@ -36,7 +36,7 @@ public class ProfissionalSaudeResource {
 		obj.getPessoa().addPerfil(Perfil.GERENTE);	
 		return ResponseEntity.ok().body(obj);
 	}
-	
+	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@RequestBody ProfissionalSaude obj, @PathVariable Integer id) {
 		obj.setId(id);
@@ -44,7 +44,7 @@ public class ProfissionalSaudeResource {
 		return ResponseEntity.noContent().build();
 	}
 
-	@PreAuthorize("hasAnyRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity<Page<ProfissionalSaude>> findPage(
 			@RequestParam(value = "nomePessoa", defaultValue = "") String nomePessoa,

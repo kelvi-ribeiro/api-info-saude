@@ -5,6 +5,7 @@ import java.net.URI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,8 @@ public class MensagemResource {
 
 	@Autowired
 	private MensagemService service;
-
+	
+	
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity<Page<MensagemDTO>> findAllPageable(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -31,7 +33,8 @@ public class MensagemResource {
 		Page<MensagemDTO> objDto = service.findAllPageable(page, linesPerPage);
 		return ResponseEntity.ok().body(objDto);
 	}
-
+	
+	
 	@RequestMapping(value = "/paciente/page", method = RequestMethod.GET)
 	public ResponseEntity<Page<MensagemDTO>> findAllByPaciente(@RequestParam(value = "idPaciente") Integer idPaciente,
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -49,14 +52,16 @@ public class MensagemResource {
 		Page<MensagemDTO> objDto = service.findByAnyField(page, linesPerPage, campoPesquisa, linhaCuidadoId);
 		return ResponseEntity.ok().body(objDto);
 	}
-
+	
+	@PreAuthorize("hasRole('ADMIN') or hasRole('GERENTE')")
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@RequestBody MensagemDTO objDto) throws InterruptedException {
 		Mensagem obj = service.insert(objDto.returnEntity());
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-
+	
+	@PreAuthorize("hasRole('ADMIN') or hasRole('GERENTE')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@RequestBody MensagemDTO objDto, @PathVariable Integer id) {
 		Mensagem obj = objDto.returnEntity();

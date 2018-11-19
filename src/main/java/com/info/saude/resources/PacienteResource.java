@@ -23,13 +23,13 @@ public class PacienteResource {
 
 	@Autowired
 	private PacienteService service;
-
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Paciente> find(@PathVariable Integer id) {
 		Paciente paciente = service.find(id);
 		return ResponseEntity.ok().body(paciente);
 	}
-
+	@PreAuthorize("hasRole('ADMIN') or hasRole('GERENTE')")
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Paciente> insert(@RequestBody Paciente obj) {
 		obj = service.insert(obj);
@@ -71,7 +71,7 @@ public class PacienteResource {
 //		return ResponseEntity.noContent().build();
 //	}
 //	
-	@PreAuthorize("hasAnyRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN') or hasRole('GERENTE')")
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<PacienteDTO>> findAll() {
 		List<Paciente> list = service.findAll();
@@ -79,7 +79,7 @@ public class PacienteResource {
 		return ResponseEntity.ok().body(listDto);
 	}
 
-	@PreAuthorize("hasAnyRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('GERENTE')")
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity<Page<Paciente>> findPacinteByPessoaNomeOrPessoaEmailOrPessoaCPfOrLinhaCuidadoId(
 			@RequestParam(value = "linhaCuidadoId", defaultValue = "0") Integer linhaCuidadoId,
@@ -92,13 +92,13 @@ public class PacienteResource {
 		return ResponseEntity.ok().body(list);
 	}
 
-	@PreAuthorize("hasAnyRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('GERENTE')")
 	@RequestMapping(value = "/number-online-users", method = RequestMethod.GET)
 	public ResponseEntity<Integer> showNumberOnlineUsers() {
 		return ResponseEntity.ok().body(service.showNumberOnlineUsers());
 	}
 
-	@PreAuthorize("hasAnyRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('GERENTE')")
 	@RequestMapping(value = "/numbers-paciente-by-linha-cuidado", method = RequestMethod.GET)
 	public ResponseEntity<Integer> showNumbersPacienteByLinhaCuidado(
 			@RequestParam(value = "linhaCuidadoId", defaultValue = "0") Integer linhaCuidadoId) {
