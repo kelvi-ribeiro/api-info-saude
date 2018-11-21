@@ -28,7 +28,8 @@ public interface MensagemRepository extends JpaRepository<Mensagem, Integer> {
 	@Transactional(readOnly = true)
 	@Query(value = "SELECT DISTINCT m FROM Mensagem  m "			
 			+ "WHERE m.assunto LIKE CONCAT('%',:campoPesquisa,'%')"			
-			+ "AND (m.linhaCuidado.id = :linhaCuidadoId  or :linhaCuidadoId = 0) ")
+			+ "AND (m.linhaCuidado.id = :linhaCuidadoId  or :linhaCuidadoId = 0) "
+			+ "ORDER BY m.id DESC")
 	Page<Mensagem> findByAssuntoAndLinhaCuidado(
 			 @Param("campoPesquisa") String campoPesquisa,
 			 @Param("pageRequest") Pageable pageRequest,
@@ -38,7 +39,8 @@ public interface MensagemRepository extends JpaRepository<Mensagem, Integer> {
 	@Transactional(readOnly = true)
 	@Query(value = "SELECT DISTINCT m FROM Mensagem  m "			
 			+ "WHERE m.mensagem LIKE CONCAT('%',:campoPesquisa,'%')"			
-			+ "AND (m.linhaCuidado.id = :linhaCuidadoId  or :linhaCuidadoId = 0) ")
+			+ "AND (m.linhaCuidado.id = :linhaCuidadoId  or :linhaCuidadoId = 0) "
+			+ "ORDER BY m.id DESC")
 	Page<Mensagem> findByMensagemAndLinhaCuidado(
 			 @Param("campoPesquisa") String campoPesquisa,
 			 @Param("pageRequest") Pageable pageRequest,
@@ -51,7 +53,8 @@ public interface MensagemRepository extends JpaRepository<Mensagem, Integer> {
 			+ "WHERE m.profissionalSaude.id = ps.id "
 			+ "AND ps.pessoa.id = p.id "
 			+ "AND p.nome LIKE CONCAT('%',:campoPesquisa,'%')"			
-			+ "AND (m.linhaCuidado.id = :linhaCuidadoId  or :linhaCuidadoId = 0) ")
+			+ "AND (m.linhaCuidado.id = :linhaCuidadoId  or :linhaCuidadoId = 0) "
+			+ "ORDER BY m.id DESC")
 	Page<Mensagem> findByProfissionalSaudeAndLinhaCuidado(
 			 @Param("campoPesquisa") String campoPesquisa,
 			 @Param("pageRequest") Pageable pageRequest,
