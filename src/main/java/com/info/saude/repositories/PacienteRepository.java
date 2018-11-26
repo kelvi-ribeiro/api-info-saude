@@ -1,5 +1,7 @@
 package com.info.saude.repositories;
 
+import java.util.Date;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -45,8 +47,8 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
 
 	@Transactional(readOnly = true)
 	@Query(value = "SELECT count(*)\n" + "FROM paciente\n" + "   ,pessoa\n" + "WHERE paciente.pessoa_id = pessoa.id\n"
-			+ "AND pessoa.ultimo_acesso between NOW() - INTERVAL '80' second AND NOW()", nativeQuery = true)
-	Integer showNumberOnlineUsers();
+			+ "AND pessoa.ultimo_acesso between :horaAntiga AND :horaAtual", nativeQuery = true)
+	Integer showNumberOnlineUsers(@Param("horaAtual") Date horaAtual,@Param("horaAntiga") Date horaAntiga);
 
 	
 

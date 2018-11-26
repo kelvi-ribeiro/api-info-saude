@@ -1,5 +1,7 @@
 package com.info.saude.services;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +86,12 @@ public class PacienteService {
 	}
 
 	public Integer showNumberOnlineUsers() {
-		return repo.showNumberOnlineUsers();
+		Calendar cal = Calendar.getInstance();
+        Date horaAtual = cal.getTime();
+
+        cal.add(Calendar.SECOND, -80);
+        Date horaAntiga = cal.getTime();
+		return repo.showNumberOnlineUsers(horaAtual,horaAntiga);
 	}
 
 //	public Page<Paciente> findByNamePage(
