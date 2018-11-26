@@ -2,7 +2,6 @@ package com.info.saude.services;
 
 import java.awt.image.BufferedImage;
 import java.net.URI;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -90,10 +89,9 @@ public class PessoaService {
 
 	}
 
-	public void setUserOnline(Integer pessoaId) {
-		Pessoa pessoa = repo.findOne(pessoaId);
-		pessoa.setUltimoAcesso(new Date());
-		repo.save(pessoa);
+	public void setUserOnline(Integer pessoaId) {		
+		repo.setUserOnline(pessoaId);
+		
 	}
 	
 	public void addPerfil(Integer idPessoa,Integer idPerfil) {
