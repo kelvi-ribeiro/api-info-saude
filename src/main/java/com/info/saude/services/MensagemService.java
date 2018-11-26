@@ -98,7 +98,14 @@ public class MensagemService {
 	
 	private Page<MensagemDTO> fillListDto(Page<Mensagem> pageMensagem) {		
 		final Page<MensagemDTO> mensagemDtoPage = pageMensagem.map(el -> {
-			MensagemDTO mensagemDto = new MensagemDTO(el);			
+			MensagemDTO mensagemDto = new MensagemDTO(el);		
+			mensagemDto.setNumberOfMessageRead(interacaoRepository.showNumberOfMessageRead(el.getId()));
+			if (mensagemDto.getPacienteId() != null) {
+				mensagemDto.setTotalPacienteMensagemEnviado(1);
+			} else {
+				mensagemDto.setTotalPacienteMensagemEnviado(pacienteRepository.showNumbersPacienteByLinhaCuidado(
+						mensagemDto.getLinhaCuidadoId() != null ? mensagemDto.getLinhaCuidadoId() : 0));
+			}
 			return mensagemDto;
 		});
 		return mensagemDtoPage;
