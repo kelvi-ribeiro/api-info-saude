@@ -1,5 +1,7 @@
 package com.info.saude.repositories;
 
+import java.util.Date;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -18,9 +20,9 @@ public interface PessoaRepository extends JpaRepository<Pessoa, Integer> {
 	@Transactional
 	@Modifying
 	@Query(value ="UPDATE Pessoa p\n " + 
-			"SET p.ultimoAcesso = NOW()\n " + 
+			"SET p.ultimoAcesso = :horaAtual\n " + 
 			"where p.id = :pessoaId")
-	void setUserOnline(@Param("pessoaId")  Integer pessoaId);
+	void setUserOnline(@Param("pessoaId")  Integer pessoaId,@Param("horaAtual")  Date horaAtual);
 	
 	
 	@Transactional(readOnly=true)
